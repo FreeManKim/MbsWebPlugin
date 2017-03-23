@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mobisoft.mbswebplugin">
+
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="scott.permission.MY_BROADCAST_PERMISSION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 读 写sdcard，storage等等 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="com.android.browser.permission.READ_HISTORY_BOOKMARKS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
+    <!-- 用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- 用于访问网络，网络定位需要上网 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 用于读取手机当前的状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <application
+        android:name=".base.BaseApp"
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:supportsRtl="true">
+
+        <!-- <activity android:name=".GDMap.AMapLocationAcitvity" -->
+        <!-- android:label="地图定位界面" -->
+        <!-- android:screenOrientation="portrait"></activity> -->
+
+        <activity
+            android:name=".MbsWeb.WebAppActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".Voide.EduMediaPlayer"
+            android:label="播放视频"
+            android:screenOrientation="landscape" />
+        <activity android:name=".view.ImageBrowserActivty.ImageBrowserActivty" />
+
+        <service
+            android:name=".proxy.server.ProxyService"
+            android:exported="true" />
+        <service
+            android:name=".proxy.Cache.CacheService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver android:name=".proxy.Cache.CacheBroadcast">
+            <intent-filter android:priority="100">
+                <action android:name="com.mobisoft.loachtml.Cache.CacheBroadcast" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".MvpMbsWeb.MbsWebActivity"></activity>
+    </application>
+
+</manifest>

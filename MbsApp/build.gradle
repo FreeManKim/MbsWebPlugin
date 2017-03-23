@@ -1,0 +1,49 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion '25.0.0'
+    defaultConfig {
+        applicationId "com.mobisoft.mbsDemo"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:design:25.0.0'
+    testCompile 'junit:junit:4.12'
+    //    compile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    //    compile 'com.google.code.gson:gson:2.7'
+    // 相册相关
+    // 二维码相关
+    // 加解密相关
+    //    compile files('libs/bcprov-jdk14-1.50.jar')
+    //rxgalleryfinal依赖appcompat-v7和recyclerview-v7扩展卡库
+    /*录音相关*/
+    //    compile 'com.github.CarGuo:RecordWave:v1.1.0'
+    compile project(':amaplibrary')
+    compile project(':commonlibrary')
+    compile project(':BGARefreshlibrary')
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+}
+repositories{
+    flatDir{
+        dirs 'libs'
+    }
+}

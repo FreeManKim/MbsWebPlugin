@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_edumedia_group"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="@color/actionsheet_red"
+    android:fitsSystemWindows="true"
+    android:layout_centerVertical="true"
+    android:foregroundGravity="clip_horizontal|clip_vertical"
+ >
+
+
+
+        <FrameLayout
+            android:background="@android:color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:fitsSystemWindows="false"
+            android:foregroundGravity="clip_horizontal|clip_vertical" >
+
+            <SurfaceView
+                android:id="@+id/acivity_edumedia_surface"
+                android:layout_width="1dp"
+                android:layout_height="1dp" />
+        </FrameLayout>
+        <!-- </FrameLayout> -->
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:fitsSystemWindows="true"
+            >
+            <!-- 标题栏 -->
+
+            <RelativeLayout
+                android:id="@+id/activity_edumedia_titlecontroller"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="top"
+                android:background="@color/grid_state_focused"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:text="关闭"
+                    android:textColor="@color/white"
+                    android:drawableLeft="@drawable/back"
+                    android:id="@+id/play_back" />
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="@color/white"
+                    android:text="标题标题标题" />
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/activity_edumedia_img_lock"
+                    android:layout_width="40dp"
+                    android:layout_height="fill_parent"
+                    android:scaleType="fitXY"
+                    android:layout_marginRight="44dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:src="@drawable/lock"
+                    />
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/activity_edumedia_img_check"
+                    android:layout_width="40dp"
+                    android:layout_height="fill_parent"
+                    android:scaleType="fitXY"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/set"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    />
+            </RelativeLayout>
+
+            <!-- 底部控制栏 -->
+            <RelativeLayout
+                android:id="@+id/activity_edumedia_controller"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="top"
+                android:background="@color/grid_state_focused"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp" >
+
+                <ImageView
+                    android:id="@+id/activity_edumedia_imgbtn_paly"
+                    android:layout_width="30dp"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="center"
+                    android:layout_marginRight="5dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:src="@drawable/btn_pause"/>
+
+                <TextView
+                    android:id="@+id/activity_edumedia_text_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="2dp"
+                    android:layout_toRightOf="@+id/activity_edumedia_imgbtn_paly"
+                    android:clickable="true"
+                    android:text="00:00"
+                    android:textColor="#ffffff"
+                    android:textSize="15sp" />
+
+                <SeekBar
+                    android:visibility="visible"
+                    android:id="@+id/activity_edumedia_seekbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/activity_edumedia_text_time"
+                    android:layout_toLeftOf="@+id/activity_edumedia_text_length"
+                    android:max="100"
+                    android:maxHeight="2dip"
+                    android:minHeight="2dip"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:progressDrawable="@drawable/po_seekbar"
+                    android:thumb="@drawable/seekbar_thumb"
+                    android:indeterminate="false" />
+
+                <TextView
+                    android:id="@+id/activity_edumedia_text_length"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="2dp"
+                    android:clickable="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="35dp"
+                    android:text="00:00"
+                    android:textColor="#ffffff"
+                    android:textSize="15sp" />
+                
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/activity_edumedia_location"
+                    android:layout_width="30dp"
+                    android:layout_height="fill_parent"
+                    android:layout_centerVertical="true"
+                    android:scaleType="center"
+                    android:layout_alignParentRight="true"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:src="@drawable/hsp"/>
+            </RelativeLayout>
+            
+            <LinearLayout
+                android:id="@+id/activity_edumedia_layout_right"
+                android:layout_width="200dp"
+                android:layout_height="fill_parent"
+                android:background="@color/grid_state_focused"
+                android:layout_alignParentRight="true"
+                android:orientation="vertical"
+                android:visibility="gone">
+                <TextView
+                    android:visibility="gone"
+		            android:layout_width="fill_parent"
+		            android:layout_height="fill_parent"
+		            android:gravity="center"
+		            android:text="qiiiiii" />
+                
+            </LinearLayout>
+            
+            <!-- Tips -->
+            <TextView
+                android:id="@+id/activity_edumedia_text_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:background="@drawable/video_list_length_bg"
+                android:padding="5dp"
+                android:text="快进"
+                android:textColor="#ffffff"
+                android:textSize="36sp"
+                android:visibility="gone" />
+            <ProgressBar 
+                android:id="@+id/activity_edumedia_progressbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+ </RelativeLayout>

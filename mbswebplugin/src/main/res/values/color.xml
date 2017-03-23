@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources >
+    <color name="color_black">#000000</color>
+    <color name="color_white">#FFFFFF</color>
+    <color name="color_gray">#c6c4c2</color>
+    <color name="login_bule">#31a5f7</color>
+    <color name="light_blue">#6593cb</color>
+    <color name="gray">#aaaaaa</color>
+    <color name="color_light_orange">#FF9434</color>
+    <!--<color name="color_light_orange">#f75db3f4</color>-->
+    <color name="color_light_green">#FF9434</color>
+<!--
+    <color name="color_light_green">#f738f9ec</color>
+-->
+
+    <!-- 仿ios对话框 -->
+    <color name="trans">#00000000</color>
+    <color name="black">#000000</color>
+    <color name="alertdialog_line">#c6c6c6</color>
+    <color name="actionsheet_blue">#037BFF</color>
+    <color name="actionsheet_red">#FD4A2E</color>
+    <color name="actionsheet_gray">#8F8F8F</color>
+
+    <color name="j_wheel_timebtn_nor">#54a3fa</color>
+    <color name="j_wheel_timebtn_pre">#CCCCCC</color>
+    <!-- 无色 -->
+    <color name="color_no">#00000000</color>
+    <color name="color_main_bg">#ffffff</color>
+
+    <color name="grayLine">#C3C3C3</color> <!--  线-->
+    <color name="WhiteSmoke">#F5F5F5</color>
+    <color name="white">#FFFFFF</color>
+    <color name="main_bg_color">#EFF3F8</color>
+    <color name="item_bg">#EFF3F8</color>
+    <color name="gray_status_bar">#c6c3c3c3</color> <!--  线-->
+    <color name="white_status_bar">#70e4e4e4</color>
+
+    <!--沉浸状态栏主题色-->
+    <color name="main_system_status_bar">#0089F6</color>
+    <!--半透明-->
+    <color name="grid_state_focused">#80000000</color>
+    <!--升级-->
+    <color name="up_date_bg">#0e3676</color>
+ <!--升级-->
+    <color name="up_date_bg_pass">#184997</color>
+
+    <!--头部颜色-->
+    <color name="bg_head">#252525</color>
+    <!--耐克 白色-->
+    <color name="white60">#30FFFFFF</color>
+
+</resources>

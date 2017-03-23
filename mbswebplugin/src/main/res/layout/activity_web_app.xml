@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    tools:context="com.mobisoft.mbswebplugin.MbsWeb.WebAppActivity">
+
+    <LinearLayout
+        android:id="@+id/ll_head"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignLeft="@+id/webViewExten"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/webViewExten"
+        android:orientation="horizontal">
+
+        <!-- 左 -->
+
+        <LinearLayout
+            android:id="@+id/ll_back"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_head_left"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="center|left"
+                android:paddingLeft="14dp"
+                android:paddingRight="5dp"
+                android:layout_centerVertical="true"
+                android:scaleType="center"
+                android:src="@drawable/back" />
+            <TextView
+                android:id="@+id/tv_head_left"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25"
+                android:gravity="left|center_vertical"
+                android:textColor="@color/white"
+                android:text=""
+                android:paddingRight="10dp"
+                android:paddingLeft="6dp" />
+        </LinearLayout>
+        <!-- 中 -->
+        <LinearLayout
+            android:id="@+id/ll_head_title"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <FrameLayout
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:id="@+id/ll_center_normal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/tv_head_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="#E2ff1E"
+                        android:textSize="17sp"
+                        android:singleLine="true"
+                        android:ellipsize = "end"
+                        android:text="正在加载..."/>
+                    <ImageView
+                        android:id="@+id/iv_head_title_menu"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:scaleType="center"
+                        android:visibility="gone"
+                        android:src="@drawable/ic_gf_triangle_arrow" />
+                </LinearLayout>
+                <RadioGroup
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:id="@+id/rg_all"
+                    android:layout_width="141dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_radiogroup"
+                    android:orientation="horizontal" ></RadioGroup>
+
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <!-- 右 -->
+        <LinearLayout
+            android:id="@+id/ll_right"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:gravity="center_vertical|right"
+            >
+
+            <TextView
+                android:id="@+id/tv_head_right"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25"
+                android:gravity="right|center_vertical"
+                android:textColor="@color/white"
+                android:text=""
+                android:paddingRight="10dp" />
+
+            <ImageView
+                android:id="@+id/img_right"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:layout_marginRight="10dp"
+                android:visibility="gone"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.mobisoft.mbswebplugin.refresh.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <com.mobisoft.mbswebplugin.MbsWeb.HybridWebView
+            android:id="@+id/webViewExten"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:scrollbarSize="1dp"
+            android:scrollbars="horizontal"
+            android:layerType="software"
+            android:anyDensity="true"
+            android:largeScreens="true"
+            android:normalScreens="true"
+            android:resizeable="true"
+            android:smallScreens="true"
+            />
+
+    </com.mobisoft.mbswebplugin.refresh.SwipeRefreshLayout>
+
+    <include
+        layout="@layout/search_title2"
+        />
+    <include
+        layout="@layout/setting_title"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_gray"
+        />
+
+</LinearLayout>

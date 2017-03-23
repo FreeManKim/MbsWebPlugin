@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="160dp"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:padding="5dp"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:textColor="@color/color_black"
+            android:visibility="gone"
+            android:text="请选择" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_white"
+            ></View>
+
+        <ListView
+            android:id="@+id/lv_basic_pop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cacheColorHint="@color/color_no"
+            android:divider="@color/color_main_bg"
+            android:dividerHeight="1dp"
+            android:listSelector="@color/color_no"
+            android:scrollbars="none"
+            android:background="@color/actionsheet_blue"
+            >
+        </ListView>
+
+    </LinearLayout>
+
+</RelativeLayout>

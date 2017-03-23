@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:id="@+id/setting_ll"
+    android:background="#1E1E1E"
+    android:visibility="gone"
+    >
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+        <TextView
+            android:id="@+id/setting_back"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/back"
+            />
+        <LinearLayout
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="30dp">
+            <RadioGroup
+                android:id="@+id/rg_all"
+                android:layout_width="141dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_radiogroup"
+                android:orientation="horizontal" >
+        <!--        <RadioButton
+                    android:id="@+id/rb_geren"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_radiobuton_left"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:text="个人"
+                    android:textSize="18sp"
+                    android:checked="false"
+                    android:textColor="@color/black"
+                    />
+
+                <RadioButton
+                    android:id="@+id/rb_mendian"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_radiobuton_right"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:textSize="18sp"
+                    android:text="门店"
+                    android:textColor="@color/black"
+                     />-->
+
+            </RadioGroup>
+
+
+
+        </LinearLayout>
+        <TextView
+            android:visibility="invisible"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/back"
+            />
+
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

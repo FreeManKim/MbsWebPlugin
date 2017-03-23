@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+
+    <LinearLayout
+        android:paddingTop="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:id="@+id/ll_root"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+    <RelativeLayout
+    android:layout_weight="1"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+        android:id="@+id/rl_top">
+        <!--<TextView-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@drawable/ico_close_list"-->
+            <!--android:id="@+id/cancel"-->
+            <!--/>-->
+</RelativeLayout>
+
+    <LinearLayout
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:layout_weight="4"
+        android:background="@drawable/bg_dialog_activity_listview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/ll_task"
+            android:layout_width="match_parent"
+            android:layout_height="350dp">
+            <!--任务标题-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp">
+            <TextView
+                android:gravity="center"
+                android:textSize="17sp"
+                android:textColor="#e2ff1e"
+                android:text="任务"
+                android:layout_width="match_parent"
+                android:layout_height="35dp" />
+                <TextView
+                    android:gravity="center_horizontal"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ico_close_list"
+                    android:id="@+id/cancel"
+                    />
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#10FFFFFF"
+                />
+
+        <ListView
+            android:cacheColorHint="#00000000"
+            android:divider="#00000000"
+            android:id="@+id/dialog_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </ListView>
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_weight="1.5"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/ll_bottom"
+        android:orientation="vertical">
+    <!--    <ImageView
+            android:layout_marginTop="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ico_close_list"
+            android:id="@+id/cancel" />-->
+
+    </LinearLayout>
+
+
+
+
+    </LinearLayout>
+    </RelativeLayout>
+    </FrameLayout>
+
+</RelativeLayout>

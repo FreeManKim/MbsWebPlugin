@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_image_browser"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/black">
+
+    <!-- 用于一般的标题，例如登录，找回密码，忘记密码等等 -->
+    <LinearLayout
+        android:id="@+id/ll_head_layout"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/actionsheet_blue"
+        android:orientation="horizontal" >
+
+        <!-- 左 -->
+
+        <LinearLayout
+            android:id="@+id/ll_back"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:src="@drawable/back" />
+        </LinearLayout>
+        <!-- 中 -->
+
+        <TextView
+            android:id="@+id/tv_head_title"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+        <!-- 右 -->
+
+        <TextView
+            android:id="@+id/tv_head_right"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:textColor="@color/white"
+            android:gravity="right|center_vertical"
+            android:paddingRight="10dp" />
+        -
+
+        <LinearLayout
+            android:id="@+id/ll_right"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:gravity="center_vertical|right"
+            android:visibility="gone" >
+
+            <ImageView
+                android:id="@+id/img_right"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="10dp"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_image_browser"
+        android:layout_below="@id/ll_head_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="center"
+        />
+    <!--android:src="@drawable/ic_gf_default_photo" -->
+
+</RelativeLayout>

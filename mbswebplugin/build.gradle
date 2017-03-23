@@ -1,0 +1,165 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion '25.0.0'
+    useLibrary 'org.apache.http.legacy'
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+
+}
+task clearJar(type: Delete) {
+    delete 'build/libs/mbswbplugin_0.0.9.jar'////这行表示如果你已经打过一次包了，再进行打包则把原来的包删掉
+}
+
+task makeJar(type: proguard.gradle.ProGuardTask, dependsOn: "build") {
+// 未混淆的jar
+    injars 'build/intermediates/bundles/release/classes.jar'
+// 混淆后的jar路径
+    outjars 'build/libs/mbswbplugin_0.0.9.jar'
+// 具体需要keep住的类
+    configuration 'proguard-rules.pro'
+}
+makeJar.dependsOn(clearJar, build)
+
+
+dependencies {
+
+    //    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    //        exclude group: 'c    compile fileTree(include: ['*.jar'], dir: 'libs')om.android.support', module: 'support-annotations'
+    //    })
+    //    compile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    //    compile 'com.google.code.gson:gson:2.7'
+    // 相册相关
+    //    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    //    compile 'cn.finalteam:galleryfinal:1.4.8.7'
+    // 二维码相关
+    //    compile 'com.google.zxing:core:3.2.1'
+    //    compile 'cn.bingoogolapple:bga-qrcodecore:1.1.3@aar'
+    //    compile 'cn.bingoogolapple:bga-zxing:1.1.3@aar'
+    // 加解密相关
+    //rxgalleryfinal依赖appcompat-v7和recyclerview-v7扩展卡库
+    //    compile 'com.readystatesoftware.systembartint:systembartint:1.0.4'
+    /*录音相关*/
+    //    compile 'com.github.CarGuo:RecordWave:v1.1.0'
+    // okGo 引用自https://github.com/jeasonlzy/okhttp-OkGo
+    //版本号使用 + 可以自动引用最新版
+    //    compile 'com.lzy.net:okserver:1.1.3'
+    compile files('libs/picasso-2.5.2.jar')
+    compile files('libs/fastjson-1.2.23.jar')
+    compile 'com.android.support:appcompat-v7:25.3.0'
+    compile 'com.android.support:support-v4:25.3.0'
+}
+
+if (project.hasProperty("android")) { // Android libraries
+    task sourcesJar(type: Jar) {
+        classifier = 'sources'
+        from android.sourceSets.main.java.srcDirs
+    }
+
+    task javadoc(type: Javadoc) {
+        source = android.sourceSets.main.java.srcDirs
+        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    }
+} else { // Java libraries
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+// 你只需要把这里的参数修改为自己的库名称即可
+ext {
+    siteUrl = 'https://github.com/gongmingqm10/BottomTabAndroid'
+    gitUrl = 'https://github.com/gongmingqm10/BottomTabAndroid.git'
+    currentVersion = '0.2.0'
+    groupId = 'net.gongmingqm10.uikit'
+    artifactId = 'bottom-tab'
+    desc = 'Android bottom tab'
+}
+
+
+group = groupId
+version = currentVersion
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                name artifactId
+                description desc
+                url siteUrl
+
+                packaging 'aar'
+                groupId groupId
+                artifactId artifactId
+                version currentVersion
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'gongmingqm10'
+                        name 'Ming Gong'
+                        email 'gongmingqm10@foxmail.com'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    configurations = ['archives']
+    pkg {
+        repo = "maven"
+        name = artifactId
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+        publicDownloadNumbers = true
+    }
+}

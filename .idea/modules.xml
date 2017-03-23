@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/BGARefreshlibrary/BGARefreshlibrary.iml" filepath="$PROJECT_DIR$/BGARefreshlibrary/BGARefreshlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MbsApp/MbsApp.iml" filepath="$PROJECT_DIR$/MbsApp/MbsApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MbsWebPlugin.iml" filepath="$PROJECT_DIR$/MbsWebPlugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/amaplibrary/amaplibrary.iml" filepath="$PROJECT_DIR$/amaplibrary/amaplibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/commonlibrary/commonlibrary.iml" filepath="$PROJECT_DIR$/commonlibrary/commonlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mbswebplugin/mbswebplugin.iml" filepath="$PROJECT_DIR$/mbswebplugin/mbswebplugin.iml" />
+    </modules>
+  </component>
+</project>

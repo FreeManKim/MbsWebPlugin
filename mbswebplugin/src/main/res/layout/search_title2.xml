@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:id="@+id/search_ll"
+    android:background="#1E1E1E"
+    android:layout_height="45dp"
+    android:gravity="center_vertical"
+    android:visibility="gone"
+    >
+    <TextView
+        android:id="@+id/search_back"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/back"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:id="@+id/search_content"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        >
+        <LinearLayout
+            android:id="@+id/search_view"
+            android:layout_marginRight="7dp"
+            android:gravity="center"
+            android:background="@drawable/shape"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="30dp">
+
+            <ImageView
+                android:layout_marginLeft="4dp"
+                android:id="@+id/search_sousuo"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:background="@drawable/ico_sousuo_w"
+                />
+            <EditText
+                android:maxLines="1"
+                android:id="@+id/search_editext"
+                android:layout_marginLeft="5dp"
+                android:background="@null"
+                android:textSize="14sp"
+                android:textColorHint="@color/white"
+                android:hint="请输入栏目或关键字.."
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                />
+
+        </LinearLayout>
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/search_cancel"
+            android:layout_marginRight="5dp"
+            android:gravity="center_vertical"
+            android:textColor="#E2FF1E"
+            android:text="取消"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"/>
+
+
+
+    </LinearLayout>
+
+</LinearLayout>
