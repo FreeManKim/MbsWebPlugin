@@ -99,8 +99,8 @@ artifacts {
 
 // 你只需要把这里的参数修改为自己的库名称即可
 ext {
-    siteUrl = 'https://github.com/gongmingqm10/BottomTabAndroid'
-    gitUrl = 'https://github.com/gongmingqm10/BottomTabAndroid.git'
+    siteUrl = 'https://github.com/FreeManKim/MbsWebPlugin'
+    gitUrl = 'https://github.com/FreeManKim/MbsWebPlugin.git'
     currentVersion = '0.2.0'
     groupId = 'net.gongmingqm10.uikit'
     artifactId = 'bottom-tab'
