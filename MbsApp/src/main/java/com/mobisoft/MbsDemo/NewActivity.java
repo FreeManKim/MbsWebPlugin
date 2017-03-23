@@ -28,6 +28,7 @@ public class NewActivity extends AppCompatActivity {
     private Button btn_refresh;
     private Button btn_catch;
     private Button join_us;
+    private Button btn_nwe;
 
 
     @Override
@@ -39,6 +40,13 @@ public class NewActivity extends AppCompatActivity {
         btn_location = (Button) findViewById(R.id.btn_location);
         btn_catch = (Button) findViewById(R.id.btn_down);
         join_us = (Button) findViewById(R.id.btn_join_us);
+        btn_nwe = (Button) findViewById(R.id.btn_new);
+        btn_nwe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         btn_catch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
