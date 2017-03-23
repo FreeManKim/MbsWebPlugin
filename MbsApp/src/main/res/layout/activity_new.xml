@@ -41,5 +41,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/btn_down"/>
 
-
+    <Button
+        android:id="@+id/btn_new"
+        android:text="加入QQ讨论群！"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_join_us"/>
 </RelativeLayout>
