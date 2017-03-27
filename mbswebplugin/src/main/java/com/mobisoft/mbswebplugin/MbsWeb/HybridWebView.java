@@ -4,6 +4,7 @@ package com.mobisoft.mbswebplugin.MbsWeb;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.http.SslError;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -18,8 +19,11 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.mobisoft.mbswebplugin.Cmd.CMD;
+import com.mobisoft.mbswebplugin.R;
 import com.mobisoft.mbswebplugin.utils.Utils;
 
 import org.json.JSONArray;
@@ -41,6 +45,7 @@ import static com.mobisoft.mbswebplugin.utils.UrlUtil.parseUrl;
  */
 public class HybridWebView extends WebView {
 
+    private ProgressBar mProgressBar;
     /**
      *
      */
@@ -89,6 +94,16 @@ public class HybridWebView extends WebView {
 
     public HybridWebView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mProgressBar = new ProgressBar(context, null,
+                android.R.attr.progressBarStyleHorizontal);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, 8);
+        mProgressBar.setLayoutParams(layoutParams);
+
+        Drawable drawable = context.getResources().getDrawable(
+                R.drawable.web_progress_bar_states);
+        mProgressBar.setProgressDrawable(drawable);
+        addView(mProgressBar);
         init();
     }
 
@@ -427,17 +442,19 @@ public class HybridWebView extends WebView {
             return true;
         }
 
-        //         // 扩充缓存的容量(网络)
-//        @Override
-//        public void onReachedMaxAppCacheSize(long spaceNeeded,long totalUsedQuota, WebStorage.QuotaUpdater quotaUpdater){
-//            quotaUpdater.updateQuota(spaceNeeded * 2);
-//        }
-//
-//        @Override
-//        public void onExceededDatabaseQuota(String url, String databaseIdentifier, long quota, long estimatedDatabaseSize, long totalQuota, WebStorage.QuotaUpdater quotaUpdater) {
-////            super.onExceededDatabaseQuota(url, databaseIdentifier, quota, estimatedDatabaseSize, totalQuota, quotaUpdater);
-//            quotaUpdater.updateQuota(estimatedDatabaseSize * 2);
-//        }
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+            if (newProgress == 100) {
+                mProgressBar.setVisibility(GONE);
+            } else {
+                if (mProgressBar.getVisibility() == GONE)
+                    mProgressBar.setVisibility(VISIBLE);
+                mProgressBar.setProgress(newProgress);
+            }
+            super.onProgressChanged(view, newProgress);
+        }
+
+
         @Override
         public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
             String message = consoleMessage.message();
@@ -460,6 +477,15 @@ public class HybridWebView extends WebView {
             return super.onConsoleMessage(consoleMessage);
         }
 
+    }
+
+    @Override
+    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
+        LayoutParams lp = (LayoutParams) mProgressBar.getLayoutParams();
+        lp.x = l;
+        lp.y = t;
+        mProgressBar.setLayoutParams(lp);
+        super.onScrollChanged(l, t, oldl, oldt);
     }
 
     /**

@@ -117,6 +117,18 @@ public interface MbsWebPluginContract {
          * @param json js返回的Menu数据
          */
         void setTopAndRightMenu(String json);
+
+        /**
+         *  显示进度条
+         * @param action
+         * @param message
+         */
+        void showHud(String action,String message);
+
+        /**
+         * 隐藏进度条
+         */
+        void hideHud();
     }
 
     interface Presenter extends BasePresenter {

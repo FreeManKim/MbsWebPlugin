@@ -26,19 +26,24 @@ public class ShowHudMethod extends DoCmdMethod {
             final String content = object.optString("content");
             final String action = object.optString("action");
             if (TextUtils.equals("hide", action)) {
-                ((WebAppActivity) context).colseProgressDialog();
+                view.hideHud();
             }
 
             if (TextUtils.isEmpty(content)) {
-                ((WebAppActivity) context).mProgressDialog.setMessage("正在加载...");
+                view.showHud(action, "正在加载...");
 
             } else {
-                if (content.contains("完成"))
-                    ((WebAppActivity) context).handler.sendEmptyMessage(1);
-                ((WebAppActivity) context).mProgressDialog.setMessage(content);
+                if (content.contains("完成")) {
+                    view.showHud(action, content);
+                }
+//                    ((WebAppActivity) context).handler.sendEmptyMessage(1);
+//                ((WebAppActivity) context).mProgressDialog.setMessage(content);
             }
 
-            if ("show".equals(action)) ((WebAppActivity) context).mProgressDialog.show();
+            if ("show".equals(action)) {
+                view.showHud(action, "正在加载...");
+            }
+            ((WebAppActivity) context).mProgressDialog.show();
 
         } catch (JSONException e) {
             e.printStackTrace();

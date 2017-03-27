@@ -549,10 +549,10 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
         rg_all = (RadioGroup) inflate.findViewById(R.id.rg_all);
         ll_center_normal = (LinearLayout) inflate.findViewById(R.id.ll_center_normal);
 
-        mProgressDialog = new ProgressDialog(mContext, ProgressDialog.STYLE_SPINNER);
-        mProgressDialog.setCanceledOnTouchOutside(false);
-        mProgressDialog.setMessage("正在加载...");
-        mProgressDialog.show(); // 本地不show，拦截url响应事件
+//        mProgressDialog = new ProgressDialog(mContext, ProgressDialog.STYLE_SPINNER);
+//        mProgressDialog.setCanceledOnTouchOutside(false);
+//        mProgressDialog.setMessage("正在加载...");
+//        mProgressDialog.show(); // 本地不show，拦截url响应事件
         presenter.setProxy();
     }
 
@@ -815,6 +815,27 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
 
     }
 
+    @Override
+    public void showHud(String action, String message) {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(mContext, ProgressDialog.STYLE_SPINNER);
+            mProgressDialog.setCanceledOnTouchOutside(false);
+        }
+        mProgressDialog.setMessage(message);
+
+        if (!mProgressDialog.isShowing()) {
+            mProgressDialog.show();
+        }
+//        mProgressDialog.show(); // 本地不show，拦截url响应事件
+    }
+
+    @Override
+    public void hideHud() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }
+
     /**
      * 关闭页面之前调用 关闭检测方法
      * 是否关闭当前页面
@@ -972,7 +993,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
                 openNextWebActivity(url, action);
                 break;
             case CMD.action_homepage:
-                presenter.onHomePage(url,action);
+                presenter.onHomePage(url, action);
                 break;
             case CMD.action_exit:
                 ActivityCollector.finishAll(); // 销毁所有的webactivity
@@ -1025,7 +1046,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
         String json2 = String.format("javascript:initPage(" + "'%s')", "");
         Log.e(ContentValues.TAG, json2);
         loadUrl(json2);
-        mProgressDialog.dismiss();
+//        mProgressDialog.dismiss();
         handler.sendEmptyMessageDelayed(0, DELAY_MILLIS);
     }
 
