@@ -972,6 +972,8 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
                 openNextWebActivity(url, action);
                 break;
             case CMD.action_homepage:
+                presenter.onHomePage(url,action);
+                break;
             case CMD.action_exit:
                 ActivityCollector.finishAll(); // 销毁所有的webactivity
                 break;

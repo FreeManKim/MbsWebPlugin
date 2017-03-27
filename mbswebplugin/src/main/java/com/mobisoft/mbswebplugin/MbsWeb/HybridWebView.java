@@ -224,8 +224,9 @@ public class HybridWebView extends WebView {
             if (url.startsWith("http")) {
                 Map<String, String> param = parseUrl(url);
                 if (param.containsKey("action")) {
-                    String value = param.get("action");
-                    if (value != null) {
+                    String action = param.get("action");
+                    if (action != null) {
+                        String value = action.toLowerCase();
                         if (listener != null) {
                             if (value.equals(CMD.action_closePage)) {
                                 return listener.onClosePage(url, value);
@@ -249,7 +250,7 @@ public class HybridWebView extends WebView {
             }
             // 页面的功能函数
             if (url.startsWith("kitapps")) {
-                listener.onCommand(view,url);
+                listener.onCommand(view, url);
                 return true;
 //                Map<String, String> param = parseUrl(url);
 //                String parameter = param.get("para");
@@ -286,8 +287,9 @@ public class HybridWebView extends WebView {
             if (url.startsWith("http")) {
                 Map<String, String> param = parseUrl(url);
                 if (param.containsKey("action")) {
-                    String value = param.get("action");
-                    if (value != null) {
+                    String action = param.get("action");
+                    if (action != null) {
+                        String value = action.toLowerCase();
                         if (listener != null) {
                             if (value.equals(CMD.action_closePage)) {
                                 listener.onClosePage(url, value);
@@ -328,7 +330,7 @@ public class HybridWebView extends WebView {
             }
             // 页面的功能函数
             if (url.startsWith("kitapps")) {
-                listener.onCommand(view,url);
+                listener.onCommand(view, url);
                 return null;
 //                Map<String, String> param = parseUrl(url);
 //                String parameter = param.get("para");
@@ -387,6 +389,7 @@ public class HybridWebView extends WebView {
         }
 
     }
+
     /**
      * WebChromeClient
      * 重写 onReceivedTitle，onJsAlert方法
@@ -608,7 +611,6 @@ public class HybridWebView extends WebView {
     public Boolean needGoback() {
         return islocaPage;
     }
-
 
 
 }

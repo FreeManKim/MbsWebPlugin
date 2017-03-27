@@ -14,6 +14,7 @@ import java.io.InputStream;
 
 public interface CheckFile {
     boolean check(File file,WebviewCaheDao dao,String... args);
+    boolean check(File file,File fileTemp) throws IOException;
 
     boolean check(File file, InputStream inputStream) throws IOException;
 }

@@ -3,6 +3,7 @@ package com.mobisoft.mbswebplugin.proxy.Cache;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.mobisoft.mbswebplugin.base.ActivityManager;
 import com.mobisoft.mbswebplugin.base.Recycler;
@@ -70,10 +71,12 @@ public class CacheManifest extends Thread implements Recycler.Recycleable {
 
             int code = connection.getResponseCode();
             if (code == 200) {
+                InputStream inCheck = connection.getInputStream();
                 InputStream in = connection.getInputStream();
                 File file1 = FileCache.getInstance().creatCacheFile(url, path, mContext);
-                if (DefaultCheck.getInstance().check(file1, in)) return;
-                FileOutputStream out = new FileOutputStream(file1);
+                File fileTemp = FileCache.getInstance().creatCacheFile(url + "temp", path, mContext);
+
+                FileOutputStream out = new FileOutputStream(fileTemp);
                 byte[] buffer = new byte[1024];
                 while (true) {
                     int n = in.read(buffer);
@@ -86,6 +89,25 @@ public class CacheManifest extends Thread implements Recycler.Recycleable {
                 out.flush();
                 out.close();
                 in.close();
+                if (DefaultCheck.getInstance().check(file1, fileTemp)) {
+                    mContext.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(ActivityManager.get().topActivity(), "服务端与本地文件一致无需缓存", Toast.LENGTH_LONG).show();
+
+                        }
+                    });
+                    return;
+                } else {
+                    mContext.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(ActivityManager.get().topActivity(), "开始更新Manifest文件！", Toast.LENGTH_LONG).show();
+
+                        }
+                    });
+
+                }
                 Intent broadcast = new Intent();
                 broadcast.setAction("com.mobisoft.loachtml.Cache.CacheBroadcast");
                 broadcast.putExtra("path", file1.getAbsolutePath());

@@ -21,14 +21,16 @@ public class MyApp extends Application {
 
     @Override
     public void onCreate() {
+        //http://elearning.mobisoft.com.cn/mobile/cache.manifest
+        //http://ainewdev.cttq.com/tianxin/app_AddressBook/cache.manifest
         super.onCreate();
         ProxyConfig.getConfig()
                 .setCachePath(Environment.getExternalStorageDirectory().getAbsolutePath()+ File.separator
                 +"AAA_1")
-                .setCacheUrl("http://ainewdev.cttq.com/tianxin/app_AddressBook/cache.manifest")
+                .setCacheUrl("http://elearning.mobisoft.com.cn/mobile/cache.manifest")
                 .setPORT(8183)
                 .setShowDialog(true);
-        ActivityManager.get().registerSelf(this);
+        ActivityManager.get().registerSelf(this.getApplicationContext());
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.

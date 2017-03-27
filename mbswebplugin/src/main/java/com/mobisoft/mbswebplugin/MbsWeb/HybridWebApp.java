@@ -104,6 +104,71 @@ public class HybridWebApp {
 
         context.startActivity(intent);
     }
+    public void startHomeActivity(Context context, Class mclass) {
+
+
+        Intent intent = new Intent(context, mclass);
+        intent.putExtra(WebAppActivity.URL, mCoreConfig.getUrl());
+        intent.putExtra(WebAppActivity.ACCOUNT, mCoreConfig.getAccount());
+        intent.putExtra(WebAppActivity.ANIMRES, mCoreConfig.getAnimRes());
+        intent.putExtra(WebAppActivity.IS_HIDENAVIGATION, mCoreConfig.getHideNavigation());
+
+
+        intent.putExtra(WebAppActivity.TITLECOLOR, mThemeConfig.getTitleBgColor());
+        intent.putExtra(WebAppActivity.SYSTEM_BAR_COLOR, mThemeConfig.getSystemBarColor());
+
+
+        intent.putExtra(WebAppActivity.ICON_BACK, mThemeConfig.getIconBack());
+        intent.putExtra(WebAppActivity.ICON_TITLE_RIGHT, mThemeConfig.getIconTitleRight());
+        intent.putExtra(WebAppActivity.ICON_TITLE_CENTER, mThemeConfig.getIconTitleCenter());
+        intent.putExtra(WebAppActivity.TITLE_LEFT_TEXT_COLOR, mThemeConfig.getTitleLeftTextColor());
+        intent.putExtra(WebAppActivity.TITLE_RIGHT_TEXT_COLOR, mThemeConfig.getTitleRightTextColor());
+        intent.putExtra(WebAppActivity.TITLE_CENTER_TEXT_COLOR, mThemeConfig.getTitleCenterTextColor());
+
+        intent.putExtra(WebAppActivity.SHOWMOUDLE, mFunctionConfig.getIsLeftAndRightMenu());
+        intent.putExtra(WebAppActivity.SHOWMOUDLESEARCHPAGE, mFunctionConfig.getIsNoTilte());
+        intent.putExtra(WebAppActivity.IS_LEFT_ICON_SHOW, mFunctionConfig.getIsLeftIconShow());
+        intent.putExtra(WebAppActivity.IS_LEFT_TEXT_SHOW, mFunctionConfig.getIsLeftTextShow());
+        intent.putExtra(WebAppActivity.IS_SYSTEM_BAR_SHOW, mFunctionConfig.getIsSystemBarShow());
+        intent.putExtra(WebAppActivity.IS_REFRESH_ENABLE, mFunctionConfig.getIsRefreshEnable());
+        intent.putExtra(WebAppActivity.IS_TRANSITION_MODE_ENABLE, mFunctionConfig.getIsTransitionModeEnable());
+        intent.putExtra(WebAppActivity.IS_TRANSITION_MODE, mFunctionConfig.getIsTransitionMode().name());
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        /**
+         * mvp模式下的改进方法
+         */
+        Bundle bundle = new Bundle();
+        bundle.putString(WebAppActivity.URL, mCoreConfig.getUrl());
+        bundle.putString(WebAppActivity.ACCOUNT, mCoreConfig.getAccount());
+        bundle.putInt(WebAppActivity.ANIMRES, mCoreConfig.getAnimRes());
+        bundle.putBoolean(WebAppActivity.IS_HIDENAVIGATION, mCoreConfig.getHideNavigation());
+
+        bundle.putInt(WebAppActivity.TITLECOLOR, mThemeConfig.getTitleBgColor());
+        bundle.putInt(WebAppActivity.SYSTEM_BAR_COLOR, mThemeConfig.getSystemBarColor());
+
+        bundle.putInt(WebAppActivity.ICON_BACK, mThemeConfig.getIconBack());
+        bundle.putInt(WebAppActivity.ICON_TITLE_RIGHT, mThemeConfig.getIconTitleRight());
+        bundle.putInt(WebAppActivity.ICON_TITLE_CENTER, mThemeConfig.getIconTitleCenter());
+        bundle.putInt(WebAppActivity.TITLE_LEFT_TEXT_COLOR, mThemeConfig.getTitleLeftTextColor());
+        bundle.putInt(WebAppActivity.TITLE_RIGHT_TEXT_COLOR, mThemeConfig.getTitleRightTextColor());
+        bundle.putInt(WebAppActivity.TITLE_CENTER_TEXT_COLOR, mThemeConfig.getTitleCenterTextColor());
+
+        bundle.putBoolean(WebAppActivity.SHOWMOUDLE, mFunctionConfig.getIsLeftAndRightMenu());
+        bundle.putBoolean(WebAppActivity.SHOWMOUDLESEARCHPAGE, mFunctionConfig.getIsNoTilte());
+        bundle.putBoolean(WebAppActivity.IS_LEFT_ICON_SHOW, mFunctionConfig.getIsLeftIconShow());
+        bundle.putBoolean(WebAppActivity.IS_LEFT_TEXT_SHOW, mFunctionConfig.getIsLeftTextShow());
+        bundle.putBoolean(WebAppActivity.IS_SYSTEM_BAR_SHOW, mFunctionConfig.getIsSystemBarShow());
+        bundle.putBoolean(WebAppActivity.IS_REFRESH_ENABLE, mFunctionConfig.getIsRefreshEnable());
+        bundle.putBoolean(WebAppActivity.IS_TRANSITION_MODE_ENABLE, mFunctionConfig.getIsTransitionModeEnable());
+        bundle.putString(WebAppActivity.IS_TRANSITION_MODE, mFunctionConfig.getIsTransitionMode().name());
+
+
+        intent.putExtras(bundle);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
+    }
 
     /**
      * 目前还没有完善，请勿使用

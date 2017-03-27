@@ -98,7 +98,7 @@ public class CmdrBuilder {
      * @return CmdrBuilder
      */
     public CmdrBuilder setCmd(String cmd) {
-        this.mCmd = cmd;
+        this.mCmd = cmd.toLowerCase();
         return this;
     }
 

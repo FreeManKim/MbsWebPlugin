@@ -5,11 +5,13 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.mobisoft.mbswebplugin.base.ActivityManager;
 import com.mobisoft.mbswebplugin.base.Recycler;
 import com.mobisoft.mbswebplugin.proxy.DB.WebviewCaheDao;
 import com.mobisoft.mbswebplugin.proxy.server.ProxyConfig;
+import com.mobisoft.mbswebplugin.utils.ToastUtil;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -76,6 +78,7 @@ public class DownloadTask extends AsyncTask<String, Integer, String> implements 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        ToastUtil.showShortToast(mContext,"准备下载！Manifest");
         if (ProxyConfig.getConfig().isShowDialog()) {
             progressDialog = new ProgressDialog(mContext);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -205,8 +208,16 @@ public class DownloadTask extends AsyncTask<String, Integer, String> implements 
                 } else
                     break;
             }
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
+            mContext.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ToastUtil.showLongToast(mContext,"IOException！"+e.getMessage());
+
+                }
+            });
+
             Recycler.release(this);
         }
         return null;
@@ -222,6 +233,8 @@ public class DownloadTask extends AsyncTask<String, Integer, String> implements 
     @Override
     protected void onPostExecute(String s) {
         Recycler.release(this);
+        Toast.makeText(ActivityManager.get().topActivity(), "onPostExecute！+下载完成",Toast.LENGTH_LONG).show();
+
     }
 
     /**

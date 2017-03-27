@@ -20,6 +20,7 @@ import android.view.KeyEvent;
 
 import com.alibaba.fastjson.JSON;
 import com.mobisoft.mbswebplugin.Cmd.CMD;
+import com.mobisoft.mbswebplugin.Cmd.ProxyCmd;
 import com.mobisoft.mbswebplugin.Entity.BottomItem;
 import com.mobisoft.mbswebplugin.IProxyCallback;
 import com.mobisoft.mbswebplugin.IProxyPortListener;
@@ -115,6 +116,9 @@ public class WebPluginPresenter implements MbsWebPluginContract.Presenter, Recyc
                     mBsWebView.openNextWebActivity(url, action);
                     return true;
                 case CMD.action_homepage:
+                    onHomePage(url, action);
+                    return true;
+
                 case CMD.action_exit:
                     ActivityCollector.finishAll(); // 销毁所有的webactivity
                     return true;
@@ -295,6 +299,12 @@ public class WebPluginPresenter implements MbsWebPluginContract.Presenter, Recyc
                         .build();
         HybridWebApp.init(coreConfig).startWebActivity(mActivity, cls);
         return false;
+    }
+
+
+    @Override
+    public void onHomePage(String url, String action) {
+        ProxyCmd.getInstance().getHomePage().goHomePage(mActivity, null, url, action);
     }
 
     @Override

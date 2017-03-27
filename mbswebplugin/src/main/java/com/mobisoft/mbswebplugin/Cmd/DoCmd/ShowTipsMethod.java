@@ -65,8 +65,9 @@ public class ShowTipsMethod extends DoCmdMethod {
                         if (confirm.startsWith("http")) { // URL请求
                             Map<String, String> param = parseUrl(confirm);
                             if (param.containsKey("action")) {
-                                String value = param.get("action");
-                                if (value != null) {
+                                String action = param.get("action");
+                                if (action != null) {
+                                    String value = action.toLowerCase();
                                     switch (value.toLowerCase()) {
                                         case CMD.action_nextPage:
                                             presenter.nextPage(confirm, value);

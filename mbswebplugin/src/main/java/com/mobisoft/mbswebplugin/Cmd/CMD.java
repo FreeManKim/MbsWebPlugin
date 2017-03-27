@@ -11,49 +11,49 @@ public class CMD {
      * 弹出时间框  1日期
      * 标准格式
      */
-    public final static String cmd_setDate = "setDate";// 弹出时间框  1日期
+    public final static String cmd_setDate = "setdate";// 弹出时间框  1日期
 
     /**
      * 开始转圈showhud ---showHud
      * 标准格式
      */
-    public final static String cmd_showHud = "showHud";//开始转圈
+    public final static String cmd_showHud = "showhud";//开始转圈
 
     /***
      * 弹出时间框 0时间
      * 标准格式
      */
-    public final static String cmd_setTime = "setTime";// 弹出时间框 0时间
+    public final static String cmd_setTime = "settime";// 弹出时间框 0时间
 
 
     /**
      * 设置右上角菜单
      * 标准格式
      **/
-    public final static String cmd_setRightMenu = "setRightMenu"; // 设置右上角菜单
+    public final static String cmd_setRightMenu = "setrightmenu"; // 设置右上角菜单
 
     /**
      * 发送消息
      */
-    public final static String cmd_sendMessage = "sendMessage";// 发送消息
+    public final static String cmd_sendMessage = "sendmessage";// 发送消息
     /**
      * 接受消息
      */
-    public final static String cmd_recvMessage = "recvMessage";// 接受消息
+    public final static String cmd_recvMessage = "recvmessage";// 接受消息
 
     /***
      * 确认的提示框
      * pagetips -- 显示showTips
      **/
-    public final static String cmd_pagetips = "showTips"; // 确认的提示框
+    public final static String cmd_pagetips = "showtips"; // 确认的提示框
     /**
      * 禁止刷新
      */
-    public final static String cmd_forbidRefresh = "forbidRefresh"; // 不刷新
+    public final static String cmd_forbidRefresh = "forbidrefresh"; // 不刷新
     /**
      * 上传文件
      */
-    public final static String cmd_uploadFile = "uploadFile";//上传文件
+    public final static String cmd_uploadFile = "uploadfile";//上传文件
     /**
      * 退出登录
      */
@@ -61,91 +61,87 @@ public class CMD {
     /**
      * 获取网络状态
      */
-    public final static String cmd_getNetworkStatus = "getNetworkStatus";// 获取网络状态
+    public final static String cmd_getNetworkStatus = "getnetworkstatus";// 获取网络状态
     /**
      * 设置导航栏标题
      */
-    public final static String cmd_setTitle = "setTitle";// 设置导航栏标题
+    public final static String cmd_setTitle = "settitle";// 设置导航栏标题
     /**
      * 显示toast弹窗
      */
-    public final static String cmd_showToast = "showToast";// 显示toast弹窗
+    public final static String cmd_showToast = "showtoast";// 显示toast弹窗
     /**
      * 设置导航栏背景色
      * setTitleBarBg --->setNavigationBgColor
-     *
      */
-    public final static String cmd_setNavigationBgColor = "setNavigationBgColor";// 设置导航栏背景色
+    public final static String cmd_setNavigationBgColor = "setnavigationbgcolor";// 设置导航栏背景色
     /**
      * 存储数据库Key
      */
-    public final static String cmd_setDatabase = "setDatabase"; // 存储数据Key
+    public final static String cmd_setDatabase = "setdatabase"; // 存储数据Key
 
     /**
      * 读取数据Key
      */
-    public final static String cmd_getDatabase = "getDatabase"; // 读取数据Key
+    public final static String cmd_getDatabase = "getdatabase"; // 读取数据Key
     /**
      * 打开原生通讯录
      */
-    public final static String cmd_openContacts = "openContacts"; //打开原生通讯录
+    public final static String cmd_openContacts = "opencontacts"; //打开原生通讯录
     /**
      * 打开视频
      */
-    public final static String cmd_playVideo = "playVideo"; //打开视频
+    public final static String cmd_playVideo = "playvideo"; //打开视频
     /**
      * 获取app版本code
      */
-    public final static String cmd_getVersion = "getVersion"; // 获取app版本code
+    public final static String cmd_getVersion = "getversion"; // 获取app版本code
 
     /**
      * 检查并app版本是否需要更新
      */
-    public final static String cmd_checkForUpdate = "checkForUpdate"; // 检查并app版本是否需要更新
+    public final static String cmd_checkForUpdate = "checkforupdate"; // 检查并app版本是否需要更新
     /**
      * 关闭 指定 activity栈
      */
-    public final static String cmd_clearTask = "clearTask";// 关闭 指定 activity栈
+    public final static String cmd_clearTask = "cleartask";// 关闭 指定 activity栈
     /**
      * 下载视频
      */
-    public final static String cmd_downloadFile= "downloadFile"; //下载
+    public final static String cmd_downloadFile = "downloadfile"; //下载
 
     /**
      * 获取视频绝对路径
      */
-    public final static String cmd_getLocalFile = "getLocalFile";// 获取视频绝对路径
+    public final static String cmd_getLocalFile = "getlocalfile";// 获取视频绝对路径
 
     /**
      * 获取位置
      */
-    public final static String cmd_initLocation = "initLocation";// 获取位置
+    public final static String cmd_initLocation = "initlocation";// 获取位置
     /*
      *  * cmd_db_get
      */
-    public final static String cmd_db_get= "db_get";// db_get
+    public final static String cmd_db_get = "db_get";// db_get
     /*
      *  * 获取位置
      */
-    public final static String cmd_db_set= "db_set";// 获取db_get位置
+    public final static String cmd_db_set = "db_set";// 获取db_get位置
     /**
      * 发送邮件
      */
     public final static String cmd_email = "e-mail";//邮件
+    /**
+     * 设置底部菜单
+     */
+    public final static String cmd_setBottomMenu = "setbottommenu"; // 设置底部菜单
     /*************************分割线***************************/
-
-
-
-
-
-
-
 
 
     /**
      * 下一页
      */
-    public final static String action_nextPage = "nextPage";//下一页
+    public final static String action_nextPage = "nextpage";//下一页
     /**
      * 返回首页
      **/
@@ -157,23 +153,23 @@ public class CMD {
     /**
      * 返回上一页
      **/
-    public final static String action_closePage = "closePage";// 返回上一页
+    public final static String action_closePage = "closepage";// 返回上一页
     /**
      * 关闭本页并且刷新之前的页面
      **/
-    public final static String action_closePageAndRefresh = "closePageAndRefresh";// 关闭本页并且刷新之前的页面
+    public final static String action_closePageAndRefresh = "closepageandrefresh";// 关闭本页并且刷新之前的页面
     /****
      * 显示模式窗口(隐藏导航栏)
      */
-    public final static String action_showModelPage = "showModelPage";// 显示模式窗口(隐藏导航栏)
+    public final static String action_showModelPage = "showmodelpage";// 显示模式窗口(隐藏导航栏)
     /**
      * 显示模式化窗口进行搜索操作
      */
-    public final static String action_showModelSearchPage = "showModelSearchPage";// 显示模式化窗口进行搜索操作
+    public final static String action_showModelSearchPage = "showmodelsearchpage";// 显示模式化窗口进行搜索操作
     /***
      * 关闭模式化页面
      */
-    public final static String action_closeModelPage = "closeModelPage";// 关闭模式化页面
+    public final static String action_closeModelPage = "closemodelpage";// 关闭模式化页面
 
     /**
      * 限制照片张数的命令
@@ -187,19 +183,19 @@ public class CMD {
     /***
      * closePageAndRefreshAndPop
      */
-    public final static String action_closePageAndRefreshAndPop = "closePageAndRefreshAndPop"; //
+    public final static String action_closePageAndRefreshAndPop = "closepageandrefreshandpop"; //
     /***
      * closePageAndPop
      */
-    public final static String action_closePageAndPop = "closePageAndPop"; //
+    public final static String action_closePageAndPop = "closepageandpop"; //
     /**
      * 在当前页面加载 新的url localPage
      */
-    public final static String action_localPage = "localPage";// 在当前页面加载 新的url localPage
+    public final static String action_localPage = "localpage";// 在当前页面加载 新的url localPage
     /**
      * 加载轻量级webView
      */
-    public final static String action_hideNavigation = "hideNavigation";// 加载轻量级webView
+    public final static String action_hideNavigation = "hidenavigation";// 加载轻量级webView
 
 
     //	public final static String cmd_getCamara = "getCamara";//打开相机相册 imageSourceType
@@ -268,10 +264,6 @@ public class CMD {
      */
     public final static String cmd_setCenterMenu = "setCenterMenu"; // 设置title菜单
     /**
-     * 设置底部菜单
-     */
-    public final static String cmd_setBottomMenu = "setBottomMenu"; // 设置底部菜单
-    /**
      * 显示选择器，需要用户选择内容
      **/
     public final static String cmd_showSelect = "showSelect"; // 显示选择器，需要用户选择内容
@@ -339,9 +331,7 @@ public class CMD {
     public final static String cmd_stopOrResumePush = "stopOrResumePush";// 极光推送  open关闭 或 close开启
 
 
-
-
-     /**
+    /**
      * 关闭页面
      */
     public final static String action_close = "close";// 关闭页面
@@ -354,11 +344,6 @@ public class CMD {
      * 薪资查询解密
      */
     public final static String cmd_salary_dec = "setjiemi"; // 薪资查询解密
-
-
-
-
-
 
 
     /**
@@ -461,7 +446,7 @@ public class CMD {
      * 跳转缓存界面
      */
     public final static String cmd_notice_native = "notice_native";// 跳转缓存界面
-     /**
+    /**
      * 自定义页面
      */
     public final static String cmd_setSegment = "setSegment";//自定义页面

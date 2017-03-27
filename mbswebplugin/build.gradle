@@ -114,7 +114,7 @@ javadoc {
 ext {
     siteUrl = 'https://github.com/FreeManKim/MbsWebPlugin'
     gitUrl = 'https://github.com/FreeManKim/MbsWebPlugin.git'
-    currentVersion = '0.0.8'
+    currentVersion = '0.1.1'
     groupId = 'com.mobisoft.web'
     artifactId = 'webproxy'
     desc = 'Android web proxy'

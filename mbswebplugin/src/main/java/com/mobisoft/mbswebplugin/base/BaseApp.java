@@ -18,7 +18,7 @@ public class BaseApp extends Application {
 		super.onCreate();
 		mInstance = this;
 		mLockPatternUtils = new LockPatternUtils(this);
-		ActivityManager.get().registerSelf(getApplicationContext());
+//		ActivityManager.get().registerSelf(getApplicationContext());
 	}
 
 	public LockPatternUtils getLockPatternUtils() {
