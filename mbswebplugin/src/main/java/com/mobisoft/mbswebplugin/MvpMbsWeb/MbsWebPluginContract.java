@@ -34,7 +34,7 @@ public interface MbsWebPluginContract {
 
         /**
          * 加载地址
-         * @param url
+         * @param url 加载地址
          */
         void loadUrl(String url);
 
@@ -45,21 +45,21 @@ public interface MbsWebPluginContract {
 
         /**
          * 获取主页地址
-         * @return
+         * @return getUrl
          */
         String getUrl();
 
         /**
          * 下一页
-         * @param url
-         * @param action
+         * @param url  url
+         * @param action  action
          */
         void  openNextWebActivity(String url, String action);
 
         /**
          * 返回键
-         * @param keyCode
-         * @param event
+         * @param keyCode 返回键
+         * @param event 返回键
          * @return
          */
         boolean onKeyDown(int keyCode, KeyEvent event);
@@ -92,13 +92,13 @@ public interface MbsWebPluginContract {
 
         /**
          * 获取 是否清除过任务栈
-         * @return
+         * @return  getIsClearTask true：已经清理过
          */
         boolean getIsClearTask();
 
         /**
          * 设置是否清除过任务站
-         * @param b
+         * @param b true ：清理过一次
          * @return
          */
         void setIsClearTask(boolean b);
@@ -117,8 +117,8 @@ public interface MbsWebPluginContract {
         void onResume();
         /**
          * 下一页
-         * @param url
-         * @param action
+         * @param url 地址
+         * @param action  action命令
          * @return
          */
         boolean nextPage(String url, String action);
@@ -142,31 +142,31 @@ public interface MbsWebPluginContract {
 
         /**
          * 申请权限 回掉
-         * @param requestCode
-         * @param permissions
-         * @param grantResults
+         * @param requestCode  requestCode
+         * @param permissions  permissions
+         * @param grantResults  grantResults
          */
         void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults);
 
         /**
-         *  onActivityResult 见名思意不多早
-         * @param requestCode
-         * @param resultCode
+         *  onActivityResult 见名思意不多讲
+         * @param requestCode  requestCode
+         * @param resultCode  resultCode
          * @param data
          */
         void onActivityResult(int requestCode, int resultCode, Intent data);
         /**
          * 返回键
-         * @param keyCode
-         * @param event
+         * @param keyCode keyCode
+         * @param event  event
          * @return
          */
         boolean onKeyDown(int keyCode, KeyEvent event);
 
         /**
          * 启动页面
-         * @param intent
-         * @param requestCode
+         * @param intent  intent
+         * @param requestCode  requestCode
          */
         void startActivityForResult(Intent intent,int requestCode);
         /**
@@ -211,16 +211,16 @@ public interface MbsWebPluginContract {
 
         /**
          *  关闭页面并且返回主页
-         * @param url
-         * @param action
+         * @param url  url
+         * @param action  action
          * @return
          */
          boolean onClosePageReturnMain(String url, String action);
 
         /**
          *  隐藏头部导航栏
-         * @param url
-         * @param action
+         * @param url 地址
+         * @param action action命令
          */
         boolean onLightweightPage(String url, String action);
     }

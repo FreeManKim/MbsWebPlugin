@@ -14,7 +14,7 @@ public class CMD {
     public final static String cmd_setDate = "setDate";// 弹出时间框  1日期
 
     /**
-     * 开始转圈showhud ---> showHud
+     * 开始转圈showhud ---showHud
      * 标准格式
      */
     public final static String cmd_showHud = "showHud";//开始转圈
@@ -43,7 +43,7 @@ public class CMD {
 
     /***
      * 确认的提示框
-     * pagetips --> 显示showTips
+     * pagetips -- 显示showTips
      **/
     public final static String cmd_pagetips = "showTips"; // 确认的提示框
     /**
@@ -120,8 +120,19 @@ public class CMD {
      * 获取位置
      */
     public final static String cmd_initLocation = "initLocation";// 获取位置
-
-
+    /*
+     *  * cmd_db_get
+     */
+    public final static String cmd_db_get= "db_get";// db_get
+    /*
+     *  * 获取位置
+     */
+    public final static String cmd_db_set= "db_set";// 获取db_get位置
+    /**
+     * 发送邮件
+     */
+    public final static String cmd_email = "e-mail";//邮件
+    /*************************分割线***************************/
 
 
 
@@ -440,10 +451,7 @@ public class CMD {
      * 获取缓存大小
      */
     public final static String cmd_getCache = "getCache";//获取缓存大小
-    /**
-     * 发送邮件
-     */
-    public final static String cmd_email = "e-mail";//邮件
+
     /**
      * 显示任务窗
      */

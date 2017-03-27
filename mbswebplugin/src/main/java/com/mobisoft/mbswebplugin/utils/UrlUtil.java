@@ -17,7 +17,7 @@ public class UrlUtil {
 	 *  利用正则表达式来解析url
 	 *  取得 param 参数 action 命令 cmd命令
 	 * @param url 地址
-	 * @return  Map<key , value>
+	 * @return  Map
 	 */
 	public static Map<String, String> parseUrl(String url) {
 		String param = url.substring(url.indexOf("?") + 1);
@@ -84,5 +84,16 @@ public class UrlUtil {
 	 */
 	public static String getFormatJavascript(String function, String paramter) {
 		return String.format("javascript:" + function + "('%s')", paramter);
+	}/**
+	 * 格式化 javascript
+	 *
+	 * @param callBack 回掉方法
+	 * @param json 参数
+	 * @return javascript方法
+	 */
+	public static String getFormatJs(String callBack, String json) {
+		String function = callBack.replace("#result#", json);
+		String json1 = String.format("javascript:%s",function );
+		return json1;
 	}
 }

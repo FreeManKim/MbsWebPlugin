@@ -39,7 +39,8 @@ public class NetworkUtils {
 
     /**
      * 获取当前网络类型
-     * @return 0：没有网络   1：WIFI网络   2：WAP网络    3：NET网络
+     *
+     * 没有网络   1：WIFI网络   2：WAP网络    3：NET网络
      */
 
     public static final int NETTYPE_WIFI = 0x01;

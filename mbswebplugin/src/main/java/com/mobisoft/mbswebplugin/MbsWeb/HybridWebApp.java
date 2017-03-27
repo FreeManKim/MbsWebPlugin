@@ -1,6 +1,5 @@
 package com.mobisoft.mbswebplugin.MbsWeb;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -108,8 +107,6 @@ public class HybridWebApp {
 
     /**
      * 目前还没有完善，请勿使用
-     *
-     * @param requestCode
      */
 //    public void startWebActivityForResult(int requestCode) {
 //        Intent intent = new Intent(mCoreConfig.getContext(), WebAppActivity.class);

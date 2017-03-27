@@ -5,7 +5,7 @@ apply plugin: 'com.jfrog.bintray'
 android {
     compileSdkVersion 25
     buildToolsVersion '25.0.0'
-    useLibrary 'org.apache.http.legacy'
+//    useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
         minSdkVersion 15
@@ -75,8 +75,8 @@ if (project.hasProperty("android")) { // Android libraries
         classifier = 'sources'
         from android.sourceSets.main.java.srcDirs
     }
-
     task javadoc(type: Javadoc) {
+
         source = android.sourceSets.main.java.srcDirs
         classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
     }
@@ -97,14 +97,27 @@ artifacts {
     archives sourcesJar
 }
 
+////添加UTF-8编码否则注释可能JAVADOC文档可能生成不了
+javadoc {
+    options {
+        encoding "UTF-8"
+        charSet 'UTF-8'
+        author true
+        version true
+        links "http://docs.oracle.com/javase/7/docs/api"
+        title "swipeJavaDoc"
+    }
+    exclude '**/BuildConfig.java'
+    exclude '**/R.java'
+}
 // 你只需要把这里的参数修改为自己的库名称即可
 ext {
     siteUrl = 'https://github.com/FreeManKim/MbsWebPlugin'
     gitUrl = 'https://github.com/FreeManKim/MbsWebPlugin.git'
-    currentVersion = '0.2.0'
-    groupId = 'net.gongmingqm10.uikit'
-    artifactId = 'bottom-tab'
-    desc = 'Android bottom tab'
+    currentVersion = '0.0.8'
+    groupId = 'com.mobisoft.web'
+    artifactId = 'webproxy'
+    desc = 'Android web proxy'
 }
 
 
@@ -132,9 +145,9 @@ install {
                 }
                 developers {
                     developer {
-                        id 'gongmingqm10'
-                        name 'Ming Gong'
-                        email 'gongmingqm10@foxmail.com'
+                        id 'gala'
+                        name 'La Ga'
+                        email 'fxd0827@gmail.com'
                     }
                 }
                 scm {
@@ -149,6 +162,15 @@ install {
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
+allprojects {
+    repositories {
+        maven {
+            url properties.getProperty("sdk.dir") + "/extras/android/m2repository"
+        }
+        mavenLocal()
+        jcenter()
+    }
+}
 bintray {
     user = properties.getProperty("bintray.user")
     key = properties.getProperty("bintray.apikey")
@@ -162,4 +184,22 @@ bintray {
         publish = true
         publicDownloadNumbers = true
     }
+
+    task writeNewPom {
+        pom {
+            project {
+                packaging 'msbweb_plugin'
+                name 'gala'
+                url 'https://github.com/FreeManKim/MbsWebPlugin'
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+            }
+        }.writeTo("$buildDir/poms/pom-default.xml")
+    }
+
 }

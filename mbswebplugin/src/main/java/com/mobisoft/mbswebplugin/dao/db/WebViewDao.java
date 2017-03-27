@@ -59,5 +59,12 @@ public class WebViewDao {
      */
 	public String getWebviewValuejson(String account, String key) {
 	   return DemoDBManager.getInstance().getWebviewJson(account,key);
+	}	/**
+	 *
+	 * @param key
+     * @return
+     */
+	public String getWebviewValuejson(String key) {
+	   return DemoDBManager.getInstance().getWebviewJson(key);
 	}
 }

@@ -14,7 +14,6 @@ import android.widget.WrapperListAdapter;
 /**
  * 
  * @author baoyz
- * @date 2014-8-24
  * 
  */
 public class SwipeMenuAdapter implements WrapperListAdapter,

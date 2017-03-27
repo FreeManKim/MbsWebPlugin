@@ -8,7 +8,6 @@ import java.util.List;
 /**
  * 
  * @author baoyz
- * @date 2014-8-23
  * 下拉刷item新相关
  */
 public class SwipeMenu {

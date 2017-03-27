@@ -16,7 +16,7 @@ import java.io.FileOutputStream;
 
 public class Base64Util {
     /**
-     * decoderBase64File:(将base64字符解码保存文件). <br/>
+     * decoderBase64File:(将base64字符解码保存文件)
      * @param base64Code 编码后的字串
      * @param savePath  文件保存路径
      * @throws Exception
@@ -29,7 +29,7 @@ public class Base64Util {
         out.close();
     }
     /**
-     * encodeBase64File:(将文件转成base64 字符串). <br/>
+     * encodeBase64File:(将文件转成base64 字符串)
      * @param path 文件路径
      * @return
      * @throws Exception

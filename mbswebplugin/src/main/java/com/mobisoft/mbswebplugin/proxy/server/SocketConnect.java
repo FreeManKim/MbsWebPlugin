@@ -18,7 +18,7 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 
 /**
- * @hide
+ *
  */
 public class SocketConnect extends Thread {
     private static final String TAG = "SocketConnect";

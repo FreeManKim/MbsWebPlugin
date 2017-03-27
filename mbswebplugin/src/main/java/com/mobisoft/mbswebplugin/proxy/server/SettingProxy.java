@@ -9,8 +9,6 @@ import android.util.ArrayMap;
 import android.util.Log;
 import android.webkit.WebView;
 
-import org.apache.http.HttpHost;
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Constructor;
@@ -34,7 +32,8 @@ public class SettingProxy {
     public static boolean setProxy(WebView webview, String host, int port, String applicationClassName) {
         // 3.2 (HC) or lower
         if (Build.VERSION.SDK_INT <= 13) {
-            return setProxyUpToHC(webview, host, port);
+//            return setProxyUpToHC(webview, host, port);
+            return false;
         }
         // ICS: 4.0
         else if (Build.VERSION.SDK_INT <= 15) {
@@ -72,69 +71,69 @@ public class SettingProxy {
     /**
      * Set Proxy for Android 3.2 and below.
      */
-    @SuppressWarnings("all")
-    private static boolean setProxyUpToHC(WebView webview, String host, int port) {
-        Log.d(LOG_TAG, "Setting proxy with <= 3.2 API.");
-
-        HttpHost proxyServer = new HttpHost(host, port);
-        // Getting network
-        Class networkClass = null;
-        Object network = null;
-        try {
-            networkClass = Class.forName("android.webkit.Network");
-            if (networkClass == null) {
-                Log.e(LOG_TAG, "failed to get class for android.webkit.Network");
-                return false;
-            }
-            Method getInstanceMethod = networkClass.getMethod("getInstance", Context.class);
-            if (getInstanceMethod == null) {
-                Log.e(LOG_TAG, "failed to get getInstance method");
-            }
-            network = getInstanceMethod.invoke(networkClass, new Object[]{webview.getContext()});
-        } catch (Exception ex) {
-            Log.e(LOG_TAG, "error getting network: " + ex);
-            return false;
-        }
-        if (network == null) {
-            Log.e(LOG_TAG, "error getting network: network is null");
-            return false;
-        }
-        Object requestQueue = null;
-        try {
-            Field requestQueueField = networkClass
-                    .getDeclaredField("mRequestQueue");
-            requestQueue = getFieldValueSafely(requestQueueField, network);
-        } catch (Exception ex) {
-            Log.e(LOG_TAG, "error getting field value");
-            return false;
-        }
-        if (requestQueue == null) {
-            Log.e(LOG_TAG, "Request queue is null");
-            return false;
-        }
-        Field proxyHostField = null;
-        try {
-            Class requestQueueClass = Class.forName("android.net.http.RequestQueue");
-            proxyHostField = requestQueueClass
-                    .getDeclaredField("mProxyHost");
-        } catch (Exception ex) {
-            Log.e(LOG_TAG, "error getting proxy host field");
-            return false;
-        }
-
-        boolean temp = proxyHostField.isAccessible();
-        try {
-            proxyHostField.setAccessible(true);
-            proxyHostField.set(requestQueue, proxyServer);
-        } catch (Exception ex) {
-            Log.e(LOG_TAG, "error setting proxy host");
-        } finally {
-            proxyHostField.setAccessible(temp);
-        }
-
-        Log.d(LOG_TAG, "Setting proxy with <= 3.2 API successful!");
-        return true;
-    }
+//    @SuppressWarnings("all")
+//    private static boolean setProxyUpToHC(WebView webview, String host, int port) {
+//        Log.d(LOG_TAG, "Setting proxy with <= 3.2 API.");
+//
+//        HttpHost proxyServer = new HttpHost(host, port);
+//        // Getting network
+//        Class networkClass = null;
+//        Object network = null;
+//        try {
+//            networkClass = Class.forName("android.webkit.Network");
+//            if (networkClass == null) {
+//                Log.e(LOG_TAG, "failed to get class for android.webkit.Network");
+//                return false;
+//            }
+//            Method getInstanceMethod = networkClass.getMethod("getInstance", Context.class);
+//            if (getInstanceMethod == null) {
+//                Log.e(LOG_TAG, "failed to get getInstance method");
+//            }
+//            network = getInstanceMethod.invoke(networkClass, new Object[]{webview.getContext()});
+//        } catch (Exception ex) {
+//            Log.e(LOG_TAG, "error getting network: " + ex);
+//            return false;
+//        }
+//        if (network == null) {
+//            Log.e(LOG_TAG, "error getting network: network is null");
+//            return false;
+//        }
+//        Object requestQueue = null;
+//        try {
+//            Field requestQueueField = networkClass
+//                    .getDeclaredField("mRequestQueue");
+//            requestQueue = getFieldValueSafely(requestQueueField, network);
+//        } catch (Exception ex) {
+//            Log.e(LOG_TAG, "error getting field value");
+//            return false;
+//        }
+//        if (requestQueue == null) {
+//            Log.e(LOG_TAG, "Request queue is null");
+//            return false;
+//        }
+//        Field proxyHostField = null;
+//        try {
+//            Class requestQueueClass = Class.forName("android.net.http.RequestQueue");
+//            proxyHostField = requestQueueClass
+//                    .getDeclaredField("mProxyHost");
+//        } catch (Exception ex) {
+//            Log.e(LOG_TAG, "error getting proxy host field");
+//            return false;
+//        }
+//
+//        boolean temp = proxyHostField.isAccessible();
+//        try {
+//            proxyHostField.setAccessible(true);
+//            proxyHostField.set(requestQueue, proxyServer);
+//        } catch (Exception ex) {
+//            Log.e(LOG_TAG, "error setting proxy host");
+//        } finally {
+//            proxyHostField.setAccessible(temp);
+//        }
+//
+//        Log.d(LOG_TAG, "Setting proxy with <= 3.2 API successful!");
+//        return true;
+//    }
 
     @SuppressWarnings("all")
     private static boolean setProxyICS(WebView webview, String host, int port) {

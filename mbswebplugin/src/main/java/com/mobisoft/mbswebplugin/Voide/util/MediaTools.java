@@ -65,18 +65,7 @@ public class MediaTools {
 		String a2 = dateformat.format(new Date(str));
 		return a2;
 	}
-	
-	/**
-	 * 
-	 * @param
-	 * @param
-	 * @return
-	 */
-	public static String Jindu2Timestr(long jindu, long maxTime){
-		String str = "";
-		return str;
-	}
-	
+
 	
 
 	/**

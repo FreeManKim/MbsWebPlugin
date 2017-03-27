@@ -51,7 +51,22 @@ public class DemoDBManager {
         }
         return json;
     }
-
+    /**
+     * 获取Webview的json
+     * @param key  id
+     */
+    synchronized public String getWebviewJson(String key) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String json=null;
+        if (db.isOpen()) {
+            Cursor cursor = db.rawQuery("select * from " + WebViewDao.TABLE_NAME+" where "+ WebViewDao.COLUMN_KEY+" = ?", new String[]{key});
+            while (cursor.moveToNext()) {
+                json = cursor.getString(cursor.getColumnIndex(WebViewDao.COLUMN_JSON));
+            }
+            cursor.close();
+        }
+        return json;
+    }
     /**
      * 删除Webview的数据库
      * @param key  id

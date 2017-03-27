@@ -556,7 +556,6 @@ public class Utils {
      *
      * @param context
      * @param fileUrl 文件名字
-     * @throws IOException
      */
     public static String copyPhotoToTemp(Context context, Uri fileUrl) {
         String isSuccess = "";

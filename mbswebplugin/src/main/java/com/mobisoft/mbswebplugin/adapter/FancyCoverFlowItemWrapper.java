@@ -20,13 +20,10 @@ import android.view.ViewGroup;
 
 /**
  * This class has only internal use (package scope).
- * <p/>
  * It is responsible for applying additional effects to each coverflow item, that can only be applied at view level
  * (e.g. color saturation).
- * <p/>
  * This is a ViewGroup by intention to enable child views in layouts to stay interactive (like buttons) though
  * transformed.
- * <p/>
  * Since this class is only used within the FancyCoverFlowAdapter it doesn't need to check if there are multiple
  * children or not (there can only be one at all times).
  */

@@ -23,10 +23,10 @@ import static android.content.Context.TELEPHONY_SERVICE;
  * Author：Created by fan.xd on 2017/1/5.
  * Email：fang.xd@mobisoft.com.cn
  * 所需权限
- *     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
- <uses-permission android:name="android.permission.INTERNET"/>
- <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
- <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+ * android.permission.ACCESS_WIFI_STATE
+ * INTERNET
+ * READ_PHONE_STATE
+ * CHANGE_WIFI_STATE
  * Description：
  */
 

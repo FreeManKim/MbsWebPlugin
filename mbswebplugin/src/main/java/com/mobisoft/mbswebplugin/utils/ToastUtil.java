@@ -9,9 +9,9 @@ import android.widget.Toast;
 /**
  *全局的Taost
  * @author Fan xuedong
- * @date 2016年5月12日 下午9:15:03 
+ * 2016年5月12日 下午9:15:03
  * @version V1.0
- * @Description: TODO
+ *  弹窗操作
  */
 public class ToastUtil {
 	private static final String TAG = "ToastUtil";

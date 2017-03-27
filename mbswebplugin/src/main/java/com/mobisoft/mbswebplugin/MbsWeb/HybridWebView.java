@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.webkit.ConsoleMessage;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
@@ -161,6 +162,44 @@ public class HybridWebView extends WebView {
         }
         Log.i(TAG, "url_ROOT:" + url_ROOT + "  loadUrl:" + url);
         super.loadUrl(url);
+    }
+
+
+    /***
+     * webview与swiperefreshlayout滑动冲突 重写webview每次按下的时候，
+     * 如果在0,0坐标，让它滚动到0,1，这样就会告诉SwipeRefreshLayout他还在滑动，
+     * 就不会触发刷新事件了
+     *
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        Log.i("weizhi", "===" + event.getY() + ",getScrollY==" + getScrollY());
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if (this.getScrollY() <= 0)
+                    this.scrollTo(0, 1);
+                break;
+            case MotionEvent.ACTION_UP:
+//                if(this.getScrollY() > 1)
+//                this.scrollTo(0,-1);
+                break;
+        }
+        return super.onTouchEvent(event);
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+        Log.i("weizhi", "===" + event.getY() + ",getScrollY==" + getScrollY());
+        return super.onInterceptTouchEvent(event);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        Log.i("weizhi", "===" + event.getY() + ",getScrollY==" + getScrollY());
+
+        return super.dispatchTouchEvent(event);
     }
 
     /**
@@ -348,44 +387,6 @@ public class HybridWebView extends WebView {
         }
 
     }
-
-    /***
-     * webview与swiperefreshlayout滑动冲突 重写webview每次按下的时候，
-     * 如果在0,0坐标，让它滚动到0,1，这样就会告诉SwipeRefreshLayout他还在滑动，
-     * 就不会触发刷新事件了
-     *
-     * @param event
-     * @return
-     */
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        Log.i("weizhi", "===" + event.getY() + ",getScrollY==" + getScrollY());
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                if (this.getScrollY() <= 0)
-                    this.scrollTo(0, 1);
-                break;
-            case MotionEvent.ACTION_UP:
-//                if(this.getScrollY() > 1)
-//                this.scrollTo(0,-1);
-                break;
-        }
-        return super.onTouchEvent(event);
-    }
-
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent event) {
-        Log.i("weizhi", "===" + event.getY() + ",getScrollY==" + getScrollY());
-        return super.onInterceptTouchEvent(event);
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        Log.i("weizhi", "===" + event.getY() + ",getScrollY==" + getScrollY());
-
-        return super.dispatchTouchEvent(event);
-    }
-
     /**
      * WebChromeClient
      * 重写 onReceivedTitle，onJsAlert方法
@@ -434,6 +435,27 @@ public class HybridWebView extends WebView {
 ////            super.onExceededDatabaseQuota(url, databaseIdentifier, quota, estimatedDatabaseSize, totalQuota, quotaUpdater);
 //            quotaUpdater.updateQuota(estimatedDatabaseSize * 2);
 //        }
+        @Override
+        public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+            String message = consoleMessage.message();
+            Log.i(TAG, "consoleMessage:" + message);
+            if (message.contains("ReferenceError")) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(HybridWebView.this.getContext());
+                builder.setTitle("ReferenceError").setMessage(message)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                //禁止响应按back键的事件
+                builder.setCancelable(false);
+                dialog = builder.create();
+                dialog.show();
+            }
+            return super.onConsoleMessage(consoleMessage);
+        }
 
     }
 

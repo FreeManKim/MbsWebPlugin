@@ -7,8 +7,6 @@ import android.graphics.drawable.Drawable;
 /**
  * 
  * @author baoyz
- * @date 2014-8-23
- * 
  */
 public class SwipeMenuItem {
 

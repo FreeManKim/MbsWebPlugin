@@ -1,25 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_pull_web"
+<cn.bingoogolapple.refreshlayout.BGARefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/refreshLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.mobisoft.MbsDemo.Pull.PullWebActivity">
-    <cn.bingoogolapple.refreshlayout.BGARefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/rl_modulename_refresh"
+    android:layout_height="match_parent">
+    <com.mobisoft.mbswebplugin.MbsWeb.HybridWebView
+        android:id="@+id/webViewExten_01"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent" />
+<!--    <cn.bingoogolapple.refreshlayout.BGAStickyNavLayout
+        style="@style/MatchAuto">
+        <TextView
+            style="@style/MatchWrap"
+            android:background="@color/test_spacing3"
+            android:gravity="center"
+            android:paddingBottom="50dp"
+            android:paddingTop="50dp"
+            android:text="顶部视图"
+            android:textColor="@android:color/white"
+            android:textSize="30sp" />
+        <LinearLayout
+            style="@style/MatchWrap.Horizontal"
+            android:background="@color/colorPrimary"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
 
-        <!-- BGARefreshLayout 的直接子控件 -->
+            <TextView
+                android:id="@+id/retweet"
+                style="@style/AutoWrap"
+                android:gravity="center"
+                android:text="转发"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/comment"
+                style="@style/AutoWrap"
+                android:gravity="center"
+                android:text="评论"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/praise"
+                style="@style/AutoWrap"
+                android:gravity="center"
+                android:text="赞"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
+        &lt;!&ndash; BGARefreshLayout 的直接子控件 &ndash;&gt;
         <com.mobisoft.mbswebplugin.MbsWeb.HybridWebView
             android:id="@+id/webViewExten_01"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-    </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
-</RelativeLayout>
+            android:layout_height="match_parent" />
+    </cn.bingoogolapple.refreshlayout.BGAStickyNavLayout>-->
+</cn.bingoogolapple.refreshlayout.BGARefreshLayout>

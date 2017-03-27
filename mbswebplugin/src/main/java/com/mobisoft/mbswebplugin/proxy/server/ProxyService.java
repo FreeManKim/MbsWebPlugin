@@ -29,7 +29,7 @@ import java.io.File;
 
 
 /**
- * @hide
+ *
  */
 public class ProxyService extends Service {
 

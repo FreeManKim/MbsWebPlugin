@@ -45,8 +45,8 @@ import javax.net.ssl.X509TrustManager;
  *
  * @author Fan xuedong
  * @version V1.0
- * @date 2016年3月3日 下午12:39:21
- * @Description: TODO
+ *  2016年3月3日 下午12:39:21
+ * UpLoadUtile上传文件
  */
 public class UpLoadUtile {
 

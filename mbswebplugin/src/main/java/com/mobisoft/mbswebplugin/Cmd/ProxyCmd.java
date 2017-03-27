@@ -26,6 +26,8 @@ import com.mobisoft.mbswebplugin.Cmd.DoCmd.ShowHudMethod;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.ShowTipsMethod;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.ShowToast;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.UploadFile;
+import com.mobisoft.mbswebplugin.Cmd.DoCmd.dbGet;
+import com.mobisoft.mbswebplugin.Cmd.DoCmd.dbSet;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -82,6 +84,8 @@ public class ProxyCmd {
         hashmap.put(CMD.cmd_downloadFile, DownloadFile.class.getName());
         hashmap.put(CMD.cmd_getLocalFile, GetLocalFile.class.getName());
         hashmap.put(CMD.cmd_email, SendEmail.class.getName());
+        hashmap.put(CMD.cmd_db_get, dbGet.class.getName());
+        hashmap.put(CMD.cmd_db_set, dbSet.class.getName());
     }
 
     /**

@@ -9,9 +9,9 @@ import java.util.List;
 /**
  * activity 集合
  * @author Li Yong
- * @date 2016年6月16日 上午22:15:03
+ * 2016年6月16日 上午22:15:03
  * @version V1.0
- * @Description: TODO
+ * activity控制器
  */
 public class ActivityCollector {
 

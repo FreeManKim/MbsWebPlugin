@@ -6,9 +6,9 @@ import android.content.SharedPreferences;
 /**
  * sharedpreferences
  * @author Li Yong
- * @date 2016年6月6日 上午9:15:03
+ *  2016年6月6日 上午9:15:03
  * @version V1.0
- * @Description: TODO
+ * 缓存操作
  */
 public class SharedPreferUtil {
 
