@@ -26,6 +26,10 @@ android {
         abortOnError false
     }
 
+    dataBinding {
+        enabled = true
+    }
+
 }
 task clearJar(type: Delete) {
     delete 'build/libs/mbswbplugin_0.0.9.jar'////这行表示如果你已经打过一次包了，再进行打包则把原来的包删掉
@@ -68,6 +72,7 @@ dependencies {
     compile files('libs/fastjson-1.2.23.jar')
     compile 'com.android.support:appcompat-v7:25.3.0'
     compile 'com.android.support:support-v4:25.3.0'
+    provided 'com.android.support:recyclerview-v7:25.3.0'
 }
 
 if (project.hasProperty("android")) { // Android libraries
@@ -114,7 +119,7 @@ javadoc {
 ext {
     siteUrl = 'https://github.com/FreeManKim/MbsWebPlugin'
     gitUrl = 'https://github.com/FreeManKim/MbsWebPlugin.git'
-    currentVersion = '0.1.1'
+    currentVersion = '0.1.3'
     groupId = 'com.mobisoft.web'
     artifactId = 'webproxy'
     desc = 'Android web proxy'

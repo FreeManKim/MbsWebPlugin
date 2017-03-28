@@ -26,6 +26,7 @@ public class PullWebActivity extends AppCompatActivity implements BGARefreshLayo
         BGAMoocStyleRefreshViewHolder moocStyleRefreshViewHolder = new BGAMoocStyleRefreshViewHolder(getApplicationContext(), false);
         moocStyleRefreshViewHolder.setOriginalImage(R.mipmap.hua);
         moocStyleRefreshViewHolder.setUltimateColor(R.color.actionsheet_blue);
+        moocStyleRefreshViewHolder.setSpringDistanceScale(200);
         mRefreshLayout.setRefreshViewHolder(moocStyleRefreshViewHolder);
         webView.setListener(this);
     }

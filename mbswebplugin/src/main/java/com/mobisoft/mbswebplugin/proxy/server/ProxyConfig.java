@@ -1,5 +1,6 @@
 package com.mobisoft.mbswebplugin.proxy.server;
 
+import com.mobisoft.mbswebplugin.R;
 import com.mobisoft.mbswebplugin.proxy.Cache.CacheManifest;
 
 /**
@@ -25,8 +26,43 @@ public class ProxyConfig {
      * 缓存地址
      */
     private String cacheUrl;
+    /**
+     * 下拉刷新图标
+     */
+    private int loadingIc;
+    /**
+     * 下拉刷新背景色
+     */
+    private int loadingBg;
 
 
+
+
+    public static void setConfig(ProxyConfig config) {
+        ProxyConfig.config = config;
+    }
+
+
+    public int getLoadingIc() {
+        return loadingIc==0? R.drawable.ic_launcher:loadingIc;
+    }
+
+    /**
+     * 设置加载图标
+     * @param loadingIc 图标ID
+     */
+    public ProxyConfig setLoadingIc(int loadingIc) {
+        this.loadingIc = loadingIc;
+        return this;
+    }
+    /**
+     * 设置背景颜色
+     * @return 背景色ID
+     */
+    public ProxyConfig setLoadingBg(int loadingBg) {
+        this.loadingBg = loadingBg;
+        return this;
+    }
     /**
      * 设置cacheManifest地址
      *
@@ -77,6 +113,9 @@ public class ProxyConfig {
 
     public boolean isShowDialog() {
         return isShowDialog;
+    }
+    public int getLoadingBg() {
+        return loadingBg==0? R.color.gray:loadingBg;
     }
 
 

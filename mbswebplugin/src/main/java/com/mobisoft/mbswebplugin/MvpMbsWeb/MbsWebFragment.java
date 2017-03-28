@@ -38,7 +38,9 @@ import com.mobisoft.mbswebplugin.MvpMbsWeb.Base.Preconditions;
 import com.mobisoft.mbswebplugin.R;
 import com.mobisoft.mbswebplugin.base.AppConfing;
 import com.mobisoft.mbswebplugin.base.Recycler;
-import com.mobisoft.mbswebplugin.refresh.SwipeRefreshLayout;
+import com.mobisoft.mbswebplugin.proxy.server.ProxyConfig;
+import com.mobisoft.mbswebplugin.refresh.BGAMoocStyleRefreshViewHolder;
+import com.mobisoft.mbswebplugin.refresh.BGARefreshLayout;
 import com.mobisoft.mbswebplugin.utils.ActivityCollector;
 import com.mobisoft.mbswebplugin.utils.ToastUtil;
 import com.mobisoft.mbswebplugin.utils.Utils;
@@ -66,13 +68,13 @@ import static java.lang.System.in;
  *
  */
 public class MbsWebFragment extends Fragment implements MbsWebPluginContract.View, View.OnClickListener, WebAppInterface,
-        HybridWebviewListener, SwipeRefreshLayout.OnRefreshListener, Recycler.Recycleable {
+        HybridWebviewListener, Recycler.Recycleable, BGARefreshLayout.BGARefreshLayoutDelegate {
     public static final String TAG = "MBS_WEBFRG";
     private WebPluginPresenter presenter;
     /**
      * 下拉刷新控件
      */
-    private SwipeRefreshLayout swipeRefreshLayout;
+    private BGARefreshLayout bgaRefreshLayout;
     /**
      * 核心组件 webView
      */
@@ -372,12 +374,16 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
             switch (msg.what) {
                 case 0:
                 case 2: // 停止刷新
-                    swipeRefreshLayout.setRefreshing(false);// 停止刷新
-                    swipeRefreshLayout.setLoading(false);// 停止加载
+                    bgaRefreshLayout.endRefreshing();
+                    bgaRefreshLayout.endLoadingMore();
+
+//                    bgaRefreshLayout.setRefreshing(false);// 停止刷新
+//                    bgaRefreshLayout.setLoading(false);// 停止加载
                     break;
                 case 1: //  开始刷新
                     firstComeIn = true;
-                    swipeRefreshLayout.setRefreshing(true);// 刷新
+                    bgaRefreshLayout.beginRefreshing();
+//                    bgaRefreshLayout.setRefreshing(true);// 刷新
                     urlTitle = mWebViewExten.getTitle();
                     mWebViewExten.reload();
                     break;
@@ -459,7 +465,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
                              Bundle savedInstanceState) {
         Log.e(TAG, "onCreateView");
         // Inflate the layout for this fragment
-        View inflate = inflater.inflate(R.layout.activity_web_app, container, false);
+        View inflate = inflater.inflate(R.layout.fragment_mbs_web, container, false);
         initViews(inflate);
         if (getArguments() != null)
             initData(getArguments());
@@ -508,7 +514,9 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
      * 设置事件
      */
     private void setEvents() {
-        swipeRefreshLayout.setOnRefreshListener(this);
+        bgaRefreshLayout.setDelegate(this);
+
+//        bgaRefreshLayout.setOnRefreshListener(this);
         iv_head_left.setOnClickListener(this);
         tv_head_left.setOnClickListener(this);
         tv_head_left.setClickable(false);
@@ -516,6 +524,11 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
         ll_right.setOnClickListener(this);
         ll_head_title.setClickable(false);
         ll_right.setClickable(false);
+        BGAMoocStyleRefreshViewHolder moocStyleRefreshViewHolder = new BGAMoocStyleRefreshViewHolder(mContext.getApplicationContext(), false);
+        moocStyleRefreshViewHolder.setOriginalImage(ProxyConfig.getConfig().getLoadingIc());
+        moocStyleRefreshViewHolder.setUltimateColor(ProxyConfig.getConfig().getLoadingBg());
+        moocStyleRefreshViewHolder.setSpringDistanceScale(200);
+        bgaRefreshLayout.setRefreshViewHolder(moocStyleRefreshViewHolder);
     }
 
     /***
@@ -524,7 +537,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
      * @param inflate 视图
      */
     protected void initViews(View inflate) {
-        swipeRefreshLayout = (SwipeRefreshLayout) inflate.findViewById(R.id.swipeRefreshLayout);
+        bgaRefreshLayout = (BGARefreshLayout) inflate.findViewById(R.id.swipeRefreshLayout);
         mWebViewExten = (HybridWebView) inflate.findViewById(R.id.webViewExten);
         mWebViewExten.setListener(this);
         this.loadUrl(urlStr);
@@ -620,7 +633,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
      */
     @Override
     public void forbiddenRefresh() {
-        swipeRefreshLayout.setEnabled(false);
+        bgaRefreshLayout.setEnabled(false);
     }
 
     /**
@@ -1076,13 +1089,13 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
 //        mWebViewExten.reload();
     }
 
-    /**
-     * 下拉刷新
-     */
-    @Override
-    public void onRefresh() {
-        handler.sendEmptyMessage(1);
-    }
+//    /**
+//     * 下拉刷新
+//     */
+//    @Override
+//    public void onRefresh() {
+//        handler.sendEmptyMessage(1);
+//    }
 
     @Override
     public void onResume() {
@@ -1109,5 +1122,15 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
         mTitleMenuPopWin = null;
         mSingleSeletPopupWindow = null;
         mProgressDialog = null;
+    }
+
+    @Override
+    public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
+        handler.sendEmptyMessage(1);
+    }
+
+    @Override
+    public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
+        return false;
     }
 }

@@ -1,6 +1,7 @@
 package com.mobisoft.MbsDemo;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.Environment;
 
 import com.mobisoft.mbswebplugin.base.ActivityManager;
@@ -17,7 +18,13 @@ import java.io.File;
  */
 
 public class MyApp extends Application {
-    private RefWatcher mRefWatcher;
+    public static RefWatcher getRefWatcher(Context context) {
+        MyApp application = (MyApp) context.getApplicationContext();
+        return application.refWatcher;
+    }
+
+    private RefWatcher refWatcher;
+
 
     @Override
     public void onCreate() {
@@ -25,8 +32,8 @@ public class MyApp extends Application {
         //http://ainewdev.cttq.com/tianxin/app_AddressBook/cache.manifest
         super.onCreate();
         ProxyConfig.getConfig()
-                .setCachePath(Environment.getExternalStorageDirectory().getAbsolutePath()+ File.separator
-                +"AAA_1")
+                .setCachePath(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator
+                        + "AAA_1")
                 .setCacheUrl("http://elearning.mobisoft.com.cn/mobile/cache.manifest")
                 .setPORT(8183)
                 .setShowDialog(true);
@@ -36,7 +43,7 @@ public class MyApp extends Application {
             // You should not init your app in this process.
             return;
         }
-        mRefWatcher = LeakCanary.install(this);
+        refWatcher = LeakCanary.install(this);
 
     }
 }
