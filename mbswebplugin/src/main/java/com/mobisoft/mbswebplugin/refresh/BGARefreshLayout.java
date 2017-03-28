@@ -908,4 +908,5 @@ public class BGARefreshLayout extends LinearLayout {
     public static int dp2px(Context context, int dpValue) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue, context.getResources().getDisplayMetrics());
     }
+
 }

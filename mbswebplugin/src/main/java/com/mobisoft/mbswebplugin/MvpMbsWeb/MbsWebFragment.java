@@ -58,6 +58,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 import static com.mobisoft.mbswebplugin.MbsWeb.WebAppActivity.TYPE_ACTIVITY;
 import static com.mobisoft.mbswebplugin.MbsWeb.WebAppFragment.INTENT_REQUEST_CODE;
 import static com.mobisoft.mbswebplugin.MbsWeb.WebAppFragment.TITLECOLOR;
@@ -537,8 +538,14 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
      * @param inflate 视图
      */
     protected void initViews(View inflate) {
+        LinearLayout ll_web_content = (LinearLayout) inflate.findViewById(R.id.ll_web_content);
+
         bgaRefreshLayout = (BGARefreshLayout) inflate.findViewById(R.id.swipeRefreshLayout);
-        mWebViewExten = (HybridWebView) inflate.findViewById(R.id.webViewExten);
+        mWebViewExten = new HybridWebView(mContext);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        mWebViewExten.setLayoutParams(params);
+        ll_web_content.addView(mWebViewExten);
+//        mWebViewExten = (HybridWebView) inflate.findViewById(R.id.webViewExten);
         mWebViewExten.setListener(this);
         this.loadUrl(urlStr);
 
@@ -548,7 +555,6 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
         mTv_head_title = (TextView) inflate.findViewById(R.id.tv_head_title);
         tv_head_left = (TextView) inflate.findViewById(R.id.tv_head_left);
         tv_head_right = (TextView) inflate.findViewById(R.id.tv_head_right);
-        mWebViewExten = (HybridWebView) inflate.findViewById(R.id.webViewExten);
         ll_right = (LinearLayout) inflate.findViewById(R.id.ll_right);
         ll_head = (LinearLayout) inflate.findViewById(R.id.ll_head);
         iv_head_left = (ImageView) inflate.findViewById(R.id.iv_head_left);
@@ -889,6 +895,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         //魅族和三星Galaxy 5.0webView 问题Android Crash Report - Native crash at /system/lib/libc.so caused by webvi
 //        mWebViewExten.clearCache(true);
         if (mWebViewExten != null) {
@@ -919,7 +926,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
         }
 
         // cleanCacheAndCookie();
-        super.onDestroy();
+
 
     }
 
@@ -1122,6 +1129,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
         mTitleMenuPopWin = null;
         mSingleSeletPopupWindow = null;
         mProgressDialog = null;
+        bgaRefreshLayout=null;
     }
 
     @Override

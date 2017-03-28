@@ -88,23 +88,13 @@ public class HybridWebView extends WebView {
      * @param context
      */
     public HybridWebView(Context context) {
-        super(context);
-        init();
+        super(context,null);
+        init(context);
     }
 
     public HybridWebView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mProgressBar = new ProgressBar(context, null,
-                android.R.attr.progressBarStyleHorizontal);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, 8);
-        mProgressBar.setLayoutParams(layoutParams);
-
-        Drawable drawable = context.getResources().getDrawable(
-                R.drawable.web_progress_bar_states);
-        mProgressBar.setProgressDrawable(drawable);
-        addView(mProgressBar);
-        init();
+        init(context);
     }
 
     /**
@@ -116,7 +106,17 @@ public class HybridWebView extends WebView {
         this.listener = listener;
     }
 
-    private void init() {
+    private void init(Context context) {
+        mProgressBar = new ProgressBar(context, null,
+                android.R.attr.progressBarStyleHorizontal);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, 8);
+        mProgressBar.setLayoutParams(layoutParams);
+
+        Drawable drawable = context.getResources().getDrawable(
+                R.drawable.web_progress_bar_states);
+        mProgressBar.setProgressDrawable(drawable);
+        addView(mProgressBar);
         // ws.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);// 排版适应屏幕
         this.isHardwareAccelerated();
         this.getSettings().setUseWideViewPort(true);// 可任意比例缩放

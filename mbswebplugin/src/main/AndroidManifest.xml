@@ -65,7 +65,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".MvpMbsWeb.MbsWebActivity"></activity>
+        <activity android:name=".MvpMbsWeb.MbsWebActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>
