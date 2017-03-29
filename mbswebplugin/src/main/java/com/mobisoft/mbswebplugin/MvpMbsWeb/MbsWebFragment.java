@@ -41,6 +41,7 @@ import com.mobisoft.mbswebplugin.base.Recycler;
 import com.mobisoft.mbswebplugin.proxy.server.ProxyConfig;
 import com.mobisoft.mbswebplugin.refresh.BGAMoocStyleRefreshViewHolder;
 import com.mobisoft.mbswebplugin.refresh.BGARefreshLayout;
+import com.mobisoft.mbswebplugin.refresh.BGAStickyNavLayout;
 import com.mobisoft.mbswebplugin.utils.ActivityCollector;
 import com.mobisoft.mbswebplugin.utils.ToastUtil;
 import com.mobisoft.mbswebplugin.utils.Utils;
@@ -58,7 +59,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 import static com.mobisoft.mbswebplugin.MbsWeb.WebAppActivity.TYPE_ACTIVITY;
 import static com.mobisoft.mbswebplugin.MbsWeb.WebAppFragment.INTENT_REQUEST_CODE;
 import static com.mobisoft.mbswebplugin.MbsWeb.WebAppFragment.TITLECOLOR;
@@ -538,13 +538,14 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
      * @param inflate 视图
      */
     protected void initViews(View inflate) {
-        LinearLayout ll_web_content = (LinearLayout) inflate.findViewById(R.id.ll_web_content);
-
         bgaRefreshLayout = (BGARefreshLayout) inflate.findViewById(R.id.swipeRefreshLayout);
+        LinearLayout web_center = (LinearLayout) inflate.findViewById(R.id.web_center);
         mWebViewExten = new HybridWebView(mContext);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        mWebViewExten.setLayoutParams(params);
-        ll_web_content.addView(mWebViewExten);
+
+//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//        mWebViewExten.setLayoutParams(params);
+        bgaRefreshLayout.removeView(web_center);
+        bgaRefreshLayout.addWebView(mWebViewExten);
 //        mWebViewExten = (HybridWebView) inflate.findViewById(R.id.webViewExten);
         mWebViewExten.setListener(this);
         this.loadUrl(urlStr);
@@ -1129,7 +1130,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
         mTitleMenuPopWin = null;
         mSingleSeletPopupWindow = null;
         mProgressDialog = null;
-        bgaRefreshLayout=null;
+        bgaRefreshLayout = null;
     }
 
     @Override

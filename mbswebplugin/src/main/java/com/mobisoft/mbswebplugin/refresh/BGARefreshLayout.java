@@ -21,6 +21,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -160,6 +161,30 @@ public class BGARefreshLayout extends LinearLayout {
         addView(mWholeHeaderView);
     }
 
+    public void addWebView(View view) {
+        addView(view, 1);
+        mNormalView =null;
+        mContentView = getChildAt(1);
+//        String str = (mContentView instanceof WebView) ? " mContentView is webView" : "mContentView is mNormalView ";
+//        Log.i("oye", getChildCount() + "个" + str);
+        if (mContentView instanceof AbsListView) {
+            mAbsListView = (AbsListView) mContentView;
+        } else if (mContentView instanceof RecyclerView) {
+            mRecyclerView = (RecyclerView) mContentView;
+        } else if (mContentView instanceof ScrollView) {
+            mScrollView = (ScrollView) mContentView;
+        } else if (mContentView instanceof WebView) {
+            mWebView = (WebView) mContentView;
+        } else if (mContentView instanceof BGAStickyNavLayout) {
+            mStickyNavLayout = (BGAStickyNavLayout) mContentView;
+            mStickyNavLayout.setRefreshLayout(this);
+        } else {
+            mNormalView = mContentView;
+            // 设置为可点击，否则在空白区域无法拖动
+            mNormalView.setClickable(true);
+        }
+    }
+
     @Override
     public void onFinishInflate() {
         super.onFinishInflate();
@@ -169,6 +194,8 @@ public class BGARefreshLayout extends LinearLayout {
         }
 
         mContentView = getChildAt(1);
+//        String str = (mContentView instanceof WebView) ? " mContentView is webView" : "mContentView is mNormalView ";
+//        Log.i("oye",  getChildCount() + "个;  onFinishInflate :" + str);
         if (mContentView instanceof AbsListView) {
             mAbsListView = (AbsListView) mContentView;
         } else if (mContentView instanceof RecyclerView) {
@@ -344,31 +371,42 @@ public class BGARefreshLayout extends LinearLayout {
      */
     private boolean shouldHandleLoadingMore() {
         if (mIsLoadingMore || mCurrentRefreshStatus == RefreshStatus.REFRESHING || mLoadMoreFooterView == null || mDelegate == null) {
+//            Log.e("oye", "第一个进来刷新");
             return false;
         }
 
         // 内容是普通控件，满足
         if (mNormalView != null) {
+//            Log.e("oye", "mNormalView != null");
             return true;
         }
 
         if (BGARefreshScrollingUtil.isWebViewToBottom(mWebView)) {
+//            Log.e("oye", "isWebViewToBottom");
             return true;
         }
 
         if (BGARefreshScrollingUtil.isScrollViewToBottom(mScrollView)) {
+//            Log.e("oye", "isScrollViewToBottom");
+
             return true;
         }
 
         if (mAbsListView != null) {
+//            Log.e("oye", "mAbsListView != null");
+
             return shouldHandleAbsListViewLoadingMore(mAbsListView);
         }
 
         if (mRecyclerView != null) {
+//            Log.e("oye", "mRecyclerView != null");
+
             return shouldHandleRecyclerViewLoadingMore(mRecyclerView);
         }
 
         if (mStickyNavLayout != null) {
+//            Log.e("oye", "mStickyNavLayout != null");
+
             return mStickyNavLayout.shouldHandleLoadingMore();
         }
 
@@ -440,26 +478,37 @@ public class BGARefreshLayout extends LinearLayout {
     private boolean isContentViewToTop() {
         // 内容是普通控件，满足
         if (mNormalView != null) {
+//            Log.e("oye", "mNormalView != null");
             return true;
         }
 
         if (BGARefreshScrollingUtil.isScrollViewOrWebViewToTop(mWebView)) {
+//            Log.e("oye", "isScrollViewOrWebViewToTop");
+
             return true;
         }
 
         if (BGARefreshScrollingUtil.isScrollViewOrWebViewToTop(mScrollView)) {
+            Log.e("oye", "isScrollViewOrWebViewToTop");
+
             return true;
         }
 
         if (BGARefreshScrollingUtil.isAbsListViewToTop(mAbsListView)) {
+//            Log.e("oye", "isAbsListViewToTop");
+
             return true;
         }
 
         if (BGARefreshScrollingUtil.isRecyclerViewToTop(mRecyclerView)) {
+//            Log.e("oye", "isRecyclerViewToTop");
+
             return true;
         }
 
         if (BGARefreshScrollingUtil.isStickyNavLayoutToTop(mStickyNavLayout)) {
+//            Log.e("oye", "isStickyNavLayoutToTop");
+
             return true;
         }
 
