@@ -139,11 +139,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+ <!--       <LinearLayout
             android:id="@+id/web_center"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"></LinearLayout>
+            android:orientation="vertical"></LinearLayout>-->
 
 
       <!--   <com.mobisoft.mbswebplugin.MbsWeb.HybridWebView

@@ -528,7 +528,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
         BGAMoocStyleRefreshViewHolder moocStyleRefreshViewHolder = new BGAMoocStyleRefreshViewHolder(mContext.getApplicationContext(), false);
         moocStyleRefreshViewHolder.setOriginalImage(ProxyConfig.getConfig().getLoadingIc());
         moocStyleRefreshViewHolder.setUltimateColor(ProxyConfig.getConfig().getLoadingBg());
-        moocStyleRefreshViewHolder.setSpringDistanceScale(200);
+        moocStyleRefreshViewHolder.setSpringDistanceScale(100);
         bgaRefreshLayout.setRefreshViewHolder(moocStyleRefreshViewHolder);
     }
 
@@ -539,12 +539,9 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
      */
     protected void initViews(View inflate) {
         bgaRefreshLayout = (BGARefreshLayout) inflate.findViewById(R.id.swipeRefreshLayout);
-        LinearLayout web_center = (LinearLayout) inflate.findViewById(R.id.web_center);
         mWebViewExten = new HybridWebView(mContext);
-
-//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-//        mWebViewExten.setLayoutParams(params);
-        bgaRefreshLayout.removeView(web_center);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        mWebViewExten.setLayoutParams(params);
         bgaRefreshLayout.addWebView(mWebViewExten);
 //        mWebViewExten = (HybridWebView) inflate.findViewById(R.id.webViewExten);
         mWebViewExten.setListener(this);

@@ -190,7 +190,9 @@ public class BGARefreshLayout extends LinearLayout {
         super.onFinishInflate();
 
         if (getChildCount() != 2) {
-            throw new RuntimeException(BGARefreshLayout.class.getSimpleName() + "必须有且只有一个子控件");
+            return;
+//            throw new RuntimeException(BGARefreshLayout.class.getSimpleName() + "必须有且只有一个子控件");
+
         }
 
         mContentView = getChildAt(1);
