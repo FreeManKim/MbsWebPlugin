@@ -41,7 +41,6 @@ import com.mobisoft.mbswebplugin.base.Recycler;
 import com.mobisoft.mbswebplugin.proxy.server.ProxyConfig;
 import com.mobisoft.mbswebplugin.refresh.BGAMoocStyleRefreshViewHolder;
 import com.mobisoft.mbswebplugin.refresh.BGARefreshLayout;
-import com.mobisoft.mbswebplugin.refresh.BGAStickyNavLayout;
 import com.mobisoft.mbswebplugin.utils.ActivityCollector;
 import com.mobisoft.mbswebplugin.utils.ToastUtil;
 import com.mobisoft.mbswebplugin.utils.Utils;
@@ -615,7 +614,9 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
         mWebViewExten.getSettings().setAppCachePath(cacheDirPath);
         //开启 Application Caches 功能
         mWebViewExten.getSettings().setAppCacheEnabled(true);
-        mWebViewExten.setWebContentsDebuggingEnabled(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            mWebViewExten.setWebContentsDebuggingEnabled(true);
+        }
     }
 
     @Override
