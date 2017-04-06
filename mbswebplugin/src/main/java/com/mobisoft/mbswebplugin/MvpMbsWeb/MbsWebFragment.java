@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -230,7 +231,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
     /**
      * 头布局
      */
-    public LinearLayout ll_head;
+    public Toolbar toolbar;
 
     /***
      * 单选菜单
@@ -374,8 +375,11 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
             switch (msg.what) {
                 case 0:
                 case 2: // 停止刷新
-                    bgaRefreshLayout.endRefreshing();
-                    bgaRefreshLayout.endLoadingMore();
+                    if (bgaRefreshLayout != null) {
+                        bgaRefreshLayout.endRefreshing();
+                        bgaRefreshLayout.endLoadingMore();
+                    }
+
 
 //                    bgaRefreshLayout.setRefreshing(false);// 停止刷新
 //                    bgaRefreshLayout.setLoading(false);// 停止加载
@@ -500,12 +504,12 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
             hideTitle();
         if (TextUtils.isEmpty(accountStr)) accountStr = "error";
         if (titleColor != 0) { // 设置title颜色 和沉浸式菜单栏
-            ll_head.setBackgroundColor(titleColor);
+            toolbar.setBackgroundColor(titleColor);
 //            if (isSystemBarShow)
 //                initSystemBar(WebAppActivity.this, systemBarColor);
         }
         if (isLeftTextShow) tv_head_left.setVisibility(View.GONE);
-        iv_head_left.setImageResource(iconBack);
+        toolbar.setNavigationIcon(iconBack);
         if (isLeftIconShow) iv_head_left.setVisibility(View.GONE);
 
     }
@@ -517,7 +521,12 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
         bgaRefreshLayout.setDelegate(this);
 
 //        bgaRefreshLayout.setOnRefreshListener(this);
-        iv_head_left.setOnClickListener(this);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onFinish(TYPE_ACTIVITY);
+            }
+        });
         tv_head_left.setOnClickListener(this);
         tv_head_left.setClickable(false);
         ll_head_title.setOnClickListener(this);
@@ -546,24 +555,21 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
         mWebViewExten.setListener(this);
         this.loadUrl(urlStr);
 
+        toolbar = (Toolbar) inflate.findViewById(R.id.web_tool_bar);
 
-        mLl_back = (LinearLayout) inflate.findViewById(R.id.ll_back);
-        ll_head_title = (LinearLayout) inflate.findViewById(R.id.ll_head_title);
-        mTv_head_title = (TextView) inflate.findViewById(R.id.tv_head_title);
-        tv_head_left = (TextView) inflate.findViewById(R.id.tv_head_left);
-        tv_head_right = (TextView) inflate.findViewById(R.id.tv_head_right);
-        ll_right = (LinearLayout) inflate.findViewById(R.id.ll_right);
-        ll_head = (LinearLayout) inflate.findViewById(R.id.ll_head);
-        iv_head_left = (ImageView) inflate.findViewById(R.id.iv_head_left);
-        img_right = (ImageView) inflate.findViewById(R.id.img_right);
-        iv_head_title_menu = (ImageView) inflate.findViewById(R.id.iv_head_title_menu);
+        mLl_back = (LinearLayout) toolbar.findViewById(R.id.ll_back);
+        ll_head_title = (LinearLayout) toolbar.findViewById(R.id.ll_head_title);
+        mTv_head_title = (TextView) toolbar.findViewById(R.id.tv_head_title);
+        tv_head_left = (TextView) toolbar.findViewById(R.id.tv_head_left);
+        tv_head_right = (TextView) toolbar.findViewById(R.id.tv_head_right);
+        ll_right = (LinearLayout) toolbar.findViewById(R.id.ll_right);
+        iv_head_left = (ImageView) toolbar.findViewById(R.id.iv_head_left);
+        img_right = (ImageView) toolbar.findViewById(R.id.img_right);
+        iv_head_title_menu = (ImageView) toolbar.findViewById(R.id.iv_head_title_menu);
 
         //nike
         ll_search = (LinearLayout) inflate.findViewById(R.id.search_ll);
 
-
-        rg_all = (RadioGroup) inflate.findViewById(R.id.rg_all);
-        ll_center_normal = (LinearLayout) inflate.findViewById(R.id.ll_center_normal);
 
 //        mProgressDialog = new ProgressDialog(mContext, ProgressDialog.STYLE_SPINNER);
 //        mProgressDialog.setCanceledOnTouchOutside(false);
@@ -716,7 +722,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
 
     @Override
     public void hideTitle() {
-        ll_head.setVisibility(View.GONE);
+        toolbar.setVisibility(View.GONE);
     }
 
     @Override
@@ -773,7 +779,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
 
     @Override
     public void setTitleBg(String color) {
-        ll_head.setBackgroundColor(Color.parseColor(TextUtils.isEmpty(color) ? "#0089F6" : color));
+        toolbar.setBackgroundColor(Color.parseColor(TextUtils.isEmpty(color) ? "#0089F6" : color));
         mTv_head_title.setTextColor(Color.parseColor(TextUtils.isEmpty(color) ? "#FFFFFF" : "#000000"));
     }
 
@@ -946,7 +952,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
                     setTopRightMenu();
                 }
             }
-        } else if (v.getId() == R.id.iv_head_left) { // 左上角 返回图标 事件
+        } else if (v.getId() == R.id.web_tool_bar) { // 左上角 返回图标 事件
             onFinish(TYPE_ACTIVITY);
         } else if (v.getId() == R.id.tv_head_left) { // 左上角 取消 事件
             TopMenuClick(listMenuItem, 0);
@@ -1133,6 +1139,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
 
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
+        tv_head_right.setText("");
         handler.sendEmptyMessage(1);
     }
 

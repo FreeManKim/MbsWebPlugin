@@ -109,7 +109,7 @@ public class CmdrBuilder {
      */
     public String doMethod() {
         String var = "";
-        Class aClass = proxyCmd.reflectMethod(mCmd);
+        Class aClass = proxyCmd.reflectMethod(mCmd.trim());
         Method method = null;
         try {
             method = aClass.getMethod("doMethod", HybridWebView.class, Context.class,

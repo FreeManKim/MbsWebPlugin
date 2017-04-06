@@ -6,7 +6,7 @@
     <color name="login_bule">#31a5f7</color>
     <color name="light_blue">#6593cb</color>
     <color name="gray">#aaaaaa</color>
-    <color name="color_light_orange">#FF9434</color>
+    <color name="color_light_orange">#ff9434</color>
     <!--<color name="color_light_orange">#f75db3f4</color>-->
     <color name="color_light_green">#FF9434</color>
 <!--
@@ -48,5 +48,10 @@
     <color name="bg_head">#252525</color>
     <!--耐克 白色-->
     <color name="white60">#30FFFFFF</color>
+
+
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
 
 </resources>

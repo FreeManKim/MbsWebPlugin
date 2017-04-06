@@ -43,8 +43,15 @@
 
     <Button
         android:id="@+id/btn_new"
-        android:text="加入QQ讨论群！"
+        android:text="新按钮！"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/btn_join_us"/>
+    <ViewStub
+        android:id="@+id/view_stup"
+        android:layout_below="@id/btn_new"
+        android:layout="@layout/view_stup_tree_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 </RelativeLayout>

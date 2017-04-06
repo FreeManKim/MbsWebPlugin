@@ -77,8 +77,12 @@
             android:exported="false"
             android:finishOnTaskLaunch="false"
             android:launchMode="singleTask"
-            android:theme="@style/Theme.Transparent"></activity>
-        <activity android:name=".Pull.PullWebActivity"></activity>
+            android:theme="@style/Theme.Transparent" />
+        <activity android:name=".Pull.PullWebActivity" />
+        <activity
+            android:name="com.mobisoft.MbsDemo.TableActivity"
+            android:label="@string/title_activity_table"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

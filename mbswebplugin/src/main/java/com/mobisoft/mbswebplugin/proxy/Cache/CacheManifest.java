@@ -71,7 +71,6 @@ public class CacheManifest extends Thread implements Recycler.Recycleable {
 
             int code = connection.getResponseCode();
             if (code == 200) {
-                InputStream inCheck = connection.getInputStream();
                 InputStream in = connection.getInputStream();
                 File file1 = FileCache.getInstance().creatCacheFile(url, path, mContext);
                 File fileTemp = FileCache.getInstance().creatCacheFile(url + "temp", path, mContext);

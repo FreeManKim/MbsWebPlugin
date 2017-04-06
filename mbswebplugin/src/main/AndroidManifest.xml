@@ -66,7 +66,7 @@
         </receiver>
 
         <activity android:name=".MvpMbsWeb.MbsWebActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/MyNoActionBar"></activity>
     </application>
 
 </manifest>

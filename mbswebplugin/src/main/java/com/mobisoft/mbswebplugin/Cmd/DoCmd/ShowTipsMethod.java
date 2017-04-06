@@ -68,7 +68,7 @@ public class ShowTipsMethod extends DoCmdMethod {
                                 String action = param.get("action");
                                 if (action != null) {
                                     String value = action.toLowerCase();
-                                    switch (value.toLowerCase()) {
+                                    switch (value) {
                                         case CMD.action_nextPage:
                                             presenter.nextPage(confirm, value);
 //                                            ((WebAppActivity) context).onNextPage(confirm, value);

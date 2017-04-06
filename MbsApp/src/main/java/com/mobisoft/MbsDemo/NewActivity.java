@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.Button;
 
 import com.mobisoft.MbsDemo.LitsViewActivity.ListActivity;
@@ -41,17 +42,19 @@ public class NewActivity extends AppCompatActivity {
         btn_catch = (Button) findViewById(R.id.btn_down);
         join_us = (Button) findViewById(R.id.btn_join_us);
         btn_nwe = (Button) findViewById(R.id.btn_new);
+        ViewStub viewStub = (ViewStub) findViewById(R.id.view_stup);
+        viewStub.inflate();
+
         btn_nwe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(NewActivity.this, TableActivity.class));
             }
         });
         btn_catch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProxyBuilder.create()
-                        .downCache();
+                ProxyBuilder.create().downCache();
 //               ,"http://elearning.mobisoft.com.cn/mobile/cache.manifest",NewActivity.this);
             }
         });
