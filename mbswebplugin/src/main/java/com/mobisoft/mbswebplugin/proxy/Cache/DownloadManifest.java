@@ -14,9 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.PrintStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.FileChannel;
@@ -264,7 +262,11 @@ public class DownloadManifest extends Thread {
         mIsRunning = false;
     }
 
-    //读取响应头
+    /**
+     * 读取响应头
+     * @param conn URLConnection
+     * @return String
+     */
     private String getResponseHeader(URLConnection conn) {
         boolean isHtml = conn.getURL().toString().contains(".html");
         Log.e(TAG, "url地址，getResponseHeader：" + conn.getURL().toString());
@@ -291,20 +293,9 @@ public class DownloadManifest extends Thread {
         sbResponseHeader.append("\n");
 
 
-//        Calendar cd = Calendar.getInstance();
-//        SimpleDateFormat sdf = new SimpleDateFormat("EEE d MMM yyyy HH:mm:ss 'GMT'", Locale.US);
-////        sdf.setTimeZone(TimeZone.getTimeZone("GMT+8")); // 设置时区为GMT  +8为北京时间东八区
-//        String str = sdf.format(cd.getTime());
-//        System.out.println(str);
         sbResponseHeader.append("Last-Modified: ");
         sbResponseHeader.append(conn.getHeaderField("Last-Modified"));
         sbResponseHeader.append("\n");
-
-//        if (isHtml) {
-//            sbResponseHeader.append("Transfer-Encoding: ");
-//            sbResponseHeader.append("chunked");
-//            sbResponseHeader.append("\n");
-//        }
 
 
         sbResponseHeader.append("Connection: ");
@@ -332,50 +323,6 @@ public class DownloadManifest extends Thread {
 
 
         return sbResponseHeader.toString();
-    }
-
-    /**
-     * 下载html
-     *
-     * @param url
-     * @param file
-     * @return
-     */
-    public String getHTML(String url, File file) {
-        try {
-            URL newUrl = new URL(url);
-            HttpURLConnection connect = (HttpURLConnection) newUrl.openConnection();
-//            FileOutputStream fos = new FileOutputStream(file);
-            PrintStream output = new PrintStream(new FileOutputStream(file));
-//            URLConnection connect=newUrl.openConnection();
-            Log.i(TAG, "getContentLength:" + connect.getContentLength());
-            InputStream uristream = connect.getInputStream();
-            int read_len;
-            byte[] buffer1 = new byte[1024];
-            while ((read_len = uristream.read(buffer1)) > 0) {
-                output.write(buffer1, 0, read_len);
-            }
-            uristream.close();
-
-//            connect.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
-//            DataInputStream dis = new DataInputStream(connect.getInputStream());
-//            BufferedReader in = new BufferedReader(new InputStreamReader(dis, "UTF-8"));//目标页面编码为UTF-8
-//            String html = "";
-//            String readLine = null;
-//            while ((readLine = in.readLine()) != null) {
-////                html=html+readLine+"\n";
-//                Log.i(TAG, readLine);
-//                ps.append(readLine + "\n");
-//            }
-//            in.close();
-            return null;
-        } catch (MalformedURLException me) {
-
-            me.printStackTrace();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-        return null;
     }
 
 }
