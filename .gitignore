@@ -7,3 +7,7 @@
 /build
 /captures
 .externalNativeBuild
+/mbswebplugin/build
+/commonlibrary/build
+/BGARefreshlibrary/build
+/amaplibrary/build
