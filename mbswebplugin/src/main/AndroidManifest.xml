@@ -29,10 +29,14 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- 用于读取手机当前的状态 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
+    <!-- 引用自己声明的权限 ，可不引用-->
+    <uses-permission android:name="com.mobisoft.mbswebplugin.boardcast" />
+    <!-- 声明自定义权限 -->
+    <permission
+        android:name="com.mobisoft.mbswebplugin.boardcast"
+        android:protectionLevel="signature" />
     <application
         android:name=".base.BaseApp"
-        android:allowBackup="true"
         android:label="@string/app_name"
         android:supportsRtl="true">
 
@@ -59,13 +63,15 @@
             android:enabled="true"
             android:exported="true" />
 
-        <receiver android:name=".proxy.Cache.CacheBroadcast">
+        <receiver android:name=".proxy.Cache.CacheBroadcast"
+            android:permission="com.mobisoft.mbswebplugin.boardcast">
             <intent-filter android:priority="100">
                 <action android:name="com.mobisoft.loachtml.Cache.CacheBroadcast" />
             </intent-filter>
         </receiver>
 
-        <activity android:name=".MvpMbsWeb.MbsWebActivity"
+        <activity
+            android:name=".MvpMbsWeb.MbsWebActivity"
             android:theme="@style/MyNoActionBar"></activity>
     </application>
 

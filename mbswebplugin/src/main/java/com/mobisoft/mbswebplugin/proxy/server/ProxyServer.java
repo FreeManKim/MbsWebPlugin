@@ -78,7 +78,7 @@ public class ProxyServer extends Thread {
     private IProxyPortListener mCallback;
 
     private class ProxyConnection implements Runnable {
-        private Socket  connection;
+        private Socket connection;
 
         private ProxyConnection(Socket connection) {
             this.connection = connection;
@@ -97,6 +97,7 @@ public class ProxyServer extends Thread {
 
                 String requestType = splitLine[0];
                 String urlString = splitLine[1];
+
                 String httpVersion = splitLine[2];
 
                 if (getCacheSrc(urlString)) {
@@ -229,11 +230,14 @@ public class ProxyServer extends Thread {
         /**
          * 获取 缓存资源
          *
-         * @param urlString
+         * @param url
          * @return
          */
-        private synchronized boolean getCacheSrc(String urlString) {
-
+        private synchronized boolean getCacheSrc(String url) {
+            String urlString = "";
+            if (url.startsWith("http:")) {
+                urlString = url.replace("http:", "https:");
+            }
             String catchPath = DBdao.getUrlPath(urlString);
             try {
                 if (!TextUtils.isEmpty(catchPath) && !catchPath.endsWith("cache.manifest")) {
@@ -241,7 +245,7 @@ public class ProxyServer extends Thread {
                     String ling = getLine(inputStream1);
                     connection.shutdownInput();
 //                    inputStream1.close();
-                    Log.i(TAG, " -> catchPath: " + catchPath + "-->"+ling);
+                    Log.i(TAG, " -> catchPath: " + catchPath + "-->" + ling);
 //                    connection.setSoTimeout(10 * 1000);
                     // 缓存测试
                     InputStream inputStream = FileCache.getInstance().getCache(urlString, catchPath, mContext);
@@ -272,6 +276,22 @@ public class ProxyServer extends Thread {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+//            final String finalUrlString = urlString;
+//            if (finalUrlString.indexOf("/") < 0) {
+//                return false;
+//            }
+//            new Handler(Looper.getMainLooper()).post(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        File file1 = FileCache.getInstance().creatCacheFile(finalUrlString, ProxyConfig.getConfig().getCachePath(), mContext);
+//                        DownLoadSrcTask task = new DownLoadSrcTask(DBdao);
+//                        task.execute(finalUrlString, file1.getAbsolutePath(), "");
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
             return false;
         }
 
@@ -450,6 +470,8 @@ public class ProxyServer extends Thread {
                 try {
                     Socket socket = serverSocket.accept();
                     socket.setSoTimeout(60 * 1000);
+
+
                     //输出缓冲区大小
 //                    Log.e(TAG, " socket:设置前" +socket.toString()+""+socket.getSendBufferSize());
                     Log.e(TAG, " socket:" + socket.toString() + "" + socket.getReceiveBufferSize());
@@ -461,10 +483,10 @@ public class ProxyServer extends Thread {
 //                    Log.e(TAG, " socket:设置后" + socket.toString()+""+socket.getReceiveBufferSize());
 
                     // Only receive local connections.
-//                    Log.e(TAG, " socket:" + socket.getInetAddress());
-//                    Log.e(TAG, " socket:" + socket.getPort());
-//                    Log.e(TAG, " socket:" + socket.getLocalAddress());
-//                    Log.e(TAG, " socket:" + socket.getLocalPort());
+                    Log.i(TAG, " socket:" + socket.getInetAddress());
+                    Log.i(TAG, " socket:" + socket.getPort());
+                    Log.i(TAG, " socket:" + socket.getLocalAddress());
+                    Log.i(TAG, " socket:" + socket.getLocalPort());
 
                     if (socket.getInetAddress().isLoopbackAddress()) {
                         ProxyConnection parser = new ProxyConnection(socket);

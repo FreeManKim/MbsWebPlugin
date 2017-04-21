@@ -31,6 +31,7 @@ import com.mobisoft.mbswebplugin.base.Recycler;
 import com.mobisoft.mbswebplugin.helper.CoreConfig;
 import com.mobisoft.mbswebplugin.helper.FunctionConfig;
 import com.mobisoft.mbswebplugin.helper.ThemeConfig;
+import com.mobisoft.mbswebplugin.proxy.Cache.CacheManifest;
 import com.mobisoft.mbswebplugin.proxy.server.ProxyConfig;
 import com.mobisoft.mbswebplugin.proxy.server.ProxyService;
 import com.mobisoft.mbswebplugin.proxy.server.SettingProxy;
@@ -215,7 +216,7 @@ public class WebPluginPresenter implements MbsWebPluginContract.Presenter, Recyc
             receiveBroadCast = new ReceiveBroadCast(actionName, callback);
             IntentFilter filter = new IntentFilter();
             filter.addAction(actionName); // 只有持有相同的action的接受者才能接收此广播 receiveMessage
-            mActivity.registerReceiver(receiveBroadCast, filter);
+            mActivity.registerReceiver(receiveBroadCast, filter, CacheManifest.PERMISSION,null);
         }
     }
 

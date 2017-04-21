@@ -38,6 +38,7 @@ import com.mobisoft.mbswebplugin.MbsWeb.WebAppInterface;
 import com.mobisoft.mbswebplugin.MvpMbsWeb.Base.Preconditions;
 import com.mobisoft.mbswebplugin.R;
 import com.mobisoft.mbswebplugin.base.AppConfing;
+import com.mobisoft.mbswebplugin.base.BaseApp;
 import com.mobisoft.mbswebplugin.base.Recycler;
 import com.mobisoft.mbswebplugin.proxy.server.ProxyConfig;
 import com.mobisoft.mbswebplugin.refresh.BGAMoocStyleRefreshViewHolder;
@@ -48,6 +49,7 @@ import com.mobisoft.mbswebplugin.utils.Utils;
 import com.mobisoft.mbswebplugin.view.SingleSeletPopupWindow;
 import com.mobisoft.mbswebplugin.view.TitleMenuPopupWindow;
 import com.mobisoft.mbswebplugin.view.TopMenuPopupWindowActivity;
+import com.squareup.leakcanary.RefWatcher;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -900,6 +902,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
 
     @Override
     public void onDestroy() {
+
         super.onDestroy();
         //魅族和三星Galaxy 5.0webView 问题Android Crash Report - Native crash at /system/lib/libc.so caused by webvi
 //        mWebViewExten.clearCache(true);
@@ -931,7 +934,8 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
         }
 
         // cleanCacheAndCookie();
-
+        RefWatcher refWatcher = BaseApp.getRefWatcher(getActivity());
+        refWatcher.watch(this);
 
     }
 

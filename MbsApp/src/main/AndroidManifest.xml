@@ -24,6 +24,11 @@
     <!-- 用于申请获取蓝牙信息进行室内定位 -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="com.fxd.test.user.precession" />
+
+    <permission
+        android:name="com.fxd.test.user.precession"
+        android:protectionLevel="signature" />
 
     <application
         android:name=".MyApp"
@@ -69,7 +74,8 @@
         <service
             android:name=".Loaction.KeepLiveService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            android:permission="com.fxd.test.user.precession"/>
 
         <activity
             android:name=".Loaction.KeepLiveActivity"
@@ -80,9 +86,19 @@
             android:theme="@style/Theme.Transparent" />
         <activity android:name=".Pull.PullWebActivity" />
         <activity
-            android:name="com.mobisoft.MbsDemo.TableActivity"
+            android:name=".TableActivity"
             android:label="@string/title_activity_table"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <receiver
+            android:name="com.mobisoft.Reciver.TestReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.fxd.test.user" />
+
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

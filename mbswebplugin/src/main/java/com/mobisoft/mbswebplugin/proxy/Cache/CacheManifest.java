@@ -32,6 +32,7 @@ import javax.net.ssl.TrustManager;
 
 public class CacheManifest extends Thread implements Recycler.Recycleable {
     public static final String TAG = "CacheManifest";
+    public static final String PERMISSION = "com.mobisoft.mbswebplugin.boardcast";
     private Activity mContext;
     private String url;
     private String path;
@@ -112,7 +113,7 @@ public class CacheManifest extends Thread implements Recycler.Recycleable {
                 broadcast.putExtra("path", file1.getAbsolutePath());
                 broadcast.putExtra("url", url);
                 broadcast.putExtra("cacheDir", path);
-                mContext.sendBroadcast(broadcast);
+                mContext.sendBroadcast(broadcast, PERMISSION);
             } else {
                 new Throwable("下载失败ResponseCode：" + code + "\n 地址：" + url);
             }

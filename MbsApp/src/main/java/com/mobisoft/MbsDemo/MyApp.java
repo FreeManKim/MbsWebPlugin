@@ -1,13 +1,11 @@
 package com.mobisoft.MbsDemo;
 
-import android.app.Application;
-import android.content.Context;
 import android.os.Environment;
 
 import com.mobisoft.mbswebplugin.base.ActivityManager;
+import com.mobisoft.mbswebplugin.base.BaseApp;
 import com.mobisoft.mbswebplugin.proxy.server.ProxyConfig;
 import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.RefWatcher;
 
 import java.io.File;
 
@@ -17,13 +15,13 @@ import java.io.File;
  * Description：
  */
 
-public class MyApp extends Application {
-    public static RefWatcher getRefWatcher(Context context) {
-        MyApp application = (MyApp) context.getApplicationContext();
-        return application.refWatcher;
-    }
-
-    private RefWatcher refWatcher;
+public class MyApp extends BaseApp {
+//    public static RefWatcher getRefWatcher(Context context) {
+//        MyApp application = (MyApp) context.getApplicationContext();
+//        return application.refWatcher;
+//    }
+//
+//    private RefWatcher refWatcher;
 
 
     @Override
@@ -34,16 +32,15 @@ public class MyApp extends Application {
         ProxyConfig.getConfig()
                 .setCachePath(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator
                         + "AAA_1")
-                .setCacheUrl("http://elearning.mobisoft.com.cn/mobile/cache.manifest")
-                .setPORT(8183)
-                .setShowDialog(true);
+                .setCacheUrl("https://elearning.mobisoft.com.cn/mobile/cache.manifest")
+                .setPORT(8183);
         ActivityManager.get().registerSelf(this.getApplicationContext());
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.
             return;
         }
-        refWatcher = LeakCanary.install(this);
+//        refWatcher = LeakCanary.install(this);
 
     }
 }

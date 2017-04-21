@@ -171,6 +171,7 @@ public class YUtils {
      * @return
      */
     public static String getFilePath(String url) {
+
         return TextUtils.substring(url, 0, url.lastIndexOf("/"));
     }
 

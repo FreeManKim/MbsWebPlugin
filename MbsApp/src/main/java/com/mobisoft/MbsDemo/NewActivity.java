@@ -17,6 +17,7 @@ import com.mobisoft.MbsDemo.LitsViewActivity.ListActivity;
 import com.mobisoft.MbsDemo.Loaction.KeepLiveReceiver;
 import com.mobisoft.MbsDemo.Loaction.KeepLiveService;
 import com.mobisoft.MbsDemo.Pull.PullWebActivity;
+import com.mobisoft.Reciver.TestReceiver;
 import com.mobisoft.mbswebplugin.proxy.server.ProxyBuilder;
 
 /**
@@ -30,6 +31,8 @@ public class NewActivity extends AppCompatActivity {
     private Button btn_catch;
     private Button join_us;
     private Button btn_nwe;
+    private Button btn_register;
+    private TestReceiver testReceiver;
 
 
     @Override
@@ -42,9 +45,33 @@ public class NewActivity extends AppCompatActivity {
         btn_catch = (Button) findViewById(R.id.btn_down);
         join_us = (Button) findViewById(R.id.btn_join_us);
         btn_nwe = (Button) findViewById(R.id.btn_new);
+        btn_register = (Button) findViewById(R.id.btn_register);
         ViewStub viewStub = (ViewStub) findViewById(R.id.view_stup);
         viewStub.inflate();
-
+        testReceiver = new TestReceiver();
+        btn_register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentFilter intentFilter = new IntentFilter();   // 创建IntentFilter对象，指定接收什么类型的广播
+                intentFilter.addAction("com.fxd.test.user");  // 添加action
+                registerReceiver(testReceiver, intentFilter, "com.fxd.test.user.precession", null);  // 注册广播接收者
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(2000);
+                            Intent intent = new Intent("com.fxd.test.user");
+                            intent.putExtra("text", "receiver");
+//                            intent.addCategory(Intent.CATEGORY_DEFAULT);
+// 也可以使用sendBroadcast(intent);进行发送
+                            sendBroadcast(intent, "com.fxd.test.user.precession");
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+            }
+        });
         btn_nwe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,6 +161,7 @@ public class NewActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         unregisterReceiver(receiver);
+        unregisterReceiver(testReceiver);
         super.onDestroy();
     }
 

@@ -122,7 +122,7 @@ public class HybridWebView extends WebView {
         this.getSettings().setUseWideViewPort(true);// 可任意比例缩放
         this.getSettings().setLoadWithOverviewMode(true);// setUseWideViewPort方法设置webview推荐使用的窗口。setLoadWithOverviewMode方法是设置webview加载的页面的模式。
         this.getSettings().setJavaScriptCanOpenWindowsAutomatically(true); // 支持通过JS打开新窗口
-        this.getSettings().setSavePassword(true);
+//        this.getSettings().setSavePassword(true);
         this.getSettings().setSaveFormData(true);// 保存表单数据
         this.getSettings().setJavaScriptEnabled(true);
         this.getSettings().setGeolocationEnabled(true);// 启用地理定位

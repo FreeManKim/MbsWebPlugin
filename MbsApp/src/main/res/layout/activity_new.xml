@@ -47,9 +47,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/btn_join_us"/>
+
+    <Button
+        android:id="@+id/btn_register"
+        android:text="权限注册广播！"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_new"/>
     <ViewStub
         android:id="@+id/view_stup"
-        android:layout_below="@id/btn_new"
+        android:layout_below="@id/btn_register"
         android:layout="@layout/view_stup_tree_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
