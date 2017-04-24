@@ -129,6 +129,15 @@ public interface MbsWebPluginContract {
          * 隐藏进度条
          */
         void hideHud();
+
+        /**
+         * 设置标题
+         * @param type 标题类相关 0：获取h5中的title
+         *             1：获取h5 命令中的title
+         *             default： 默认设置 h5中自带的title
+         * @param title
+         */
+        void setTitle(int type, String title);
     }
 
     interface Presenter extends BasePresenter {
@@ -269,6 +278,15 @@ public interface MbsWebPluginContract {
          * @param action action命令
          */
         void onHomePage(String url, String action);
+
+        /**
+         * 设置标题
+         * @param type 标题类相关 0：获取h5中的title
+         *             1：获取h5 命令中的title
+         *             default： 默认设置 h5中自带的title
+         * @param title
+         */
+        void setTitle(int type, String title);
     }
 
 }

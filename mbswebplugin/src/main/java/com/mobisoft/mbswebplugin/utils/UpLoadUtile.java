@@ -10,6 +10,7 @@ import android.util.Log;
 
 //import com.lzy.okserver.upload.UploadManager;
 import com.mobisoft.mbswebplugin.MbsWeb.HybridWebView;
+import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebPluginContract;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -151,7 +152,7 @@ public class UpLoadUtile {
     }
 
     //    朱桂飞 2016/10/8 14:07:58
-    public void postFileFile(final Context context, final File file, final String mParamter, final String picFunction, final HybridWebView webView) {
+    public void postFileFile(final Context context, final File file, final String mParamter, final String picFunction, final MbsWebPluginContract.View webView) {
         new Thread() {
             @Override
             public void run() {
@@ -197,9 +198,9 @@ public class UpLoadUtile {
      * @param file        文件
      * @param mParamter   js返回参数
      * @param picFunction 回掉方法
-     * @param webView
+     * @param view
      */
-    public void sendPost(final Context context, File file, String mParamter, final String picFunction, final HybridWebView webView) {
+    public void sendPost(final Context context, File file, String mParamter, final String picFunction, final MbsWebPluginContract.View view) {
         if (mParamter != null) {
             try {
                 JSONObject json = new JSONObject(mParamter);
@@ -264,7 +265,7 @@ public class UpLoadUtile {
             final String finalResponse = response;
             if (uploadConnection.getResponseCode() == 200) {
                 String josn2 = String.format("javascript:" + picFunction + "(" + "'%s')", finalResponse);
-                webView.loadUrl(josn2);
+                view.loadUrl(josn2);
                 Log.e("url", josn2);
                 ToastUtil.showShortToast(context, "上传图像成功");
             } else {
@@ -300,7 +301,7 @@ public class UpLoadUtile {
 //                Log.e("oye", "onFinish:" + result);
 //                Log.e("oye", "onSuccess:" + result);
 //                String josn2 = String.format("javascript:" + picFunction + "(" + "'%s')", result);
-//                webView.loadUrl(josn2);
+//                view.loadUrl(josn2);
 //                Log.e("url", josn2);
 //                ToastUtil.showShortToast(context, "上传图像成功");
 //            }
@@ -335,7 +336,7 @@ public class UpLoadUtile {
 //            public void onSuccess(String result) {
 //                Log.e("oye", "onSuccess:" + result);
 //                String josn2 = String.format("javascript:" + picFunction + "(" + "'%s')", result);
-//                webView.loadUrl(josn2);
+//                view.loadUrl(josn2);
 //                Log.e("url", josn2);
 //                ToastUtil.showShortToast(context, "上传图像成功");
 //

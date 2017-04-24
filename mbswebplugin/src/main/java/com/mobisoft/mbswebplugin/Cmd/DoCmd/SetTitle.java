@@ -5,7 +5,6 @@ import android.content.Context;
 import com.mobisoft.mbswebplugin.Cmd.CMD;
 import com.mobisoft.mbswebplugin.Cmd.DoCmdMethod;
 import com.mobisoft.mbswebplugin.MbsWeb.HybridWebView;
-import com.mobisoft.mbswebplugin.MbsWeb.WebAppActivity;
 import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebPluginContract;
 
 import org.json.JSONException;
@@ -24,7 +23,7 @@ public class SetTitle extends DoCmdMethod {
             JSONObject jsonObject = new JSONObject(params);
             /** js返回的标题*/
             String name = jsonObject.optString("title");
-            ((WebAppActivity) context).onTitle( CMD.type_kitappsTitle, name);
+            view.setTitle(CMD.type_kitappsTitle, name);
 
         } catch (JSONException e) {
             e.printStackTrace();

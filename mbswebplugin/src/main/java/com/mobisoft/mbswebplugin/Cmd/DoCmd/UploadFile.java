@@ -15,9 +15,8 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.mobisoft.mbswebplugin.Cmd.DoCmdMethod;
-import com.mobisoft.mbswebplugin.Cmd.ResultListener;
 import com.mobisoft.mbswebplugin.MbsWeb.HybridWebView;
-import com.mobisoft.mbswebplugin.MbsWeb.WebAppActivity;
+import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsResultListener;
 import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebPluginContract;
 import com.mobisoft.mbswebplugin.utils.ToastUtil;
 import com.mobisoft.mbswebplugin.utils.UpLoadUtile;
@@ -29,9 +28,10 @@ import org.json.JSONObject;
 
 import java.io.File;
 
-import static com.mobisoft.mbswebplugin.MbsWeb.WebAppActivity.CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE;
-import static com.mobisoft.mbswebplugin.MbsWeb.WebAppActivity.NICK_REQUEST_CAMERA_CODE;
-import static com.mobisoft.mbswebplugin.MbsWeb.WebAppActivity.PICK_IMAGE_ACTIVITY_REQUEST_CODE;
+import static com.mobisoft.mbswebplugin.base.AppConfing.CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE;
+import static com.mobisoft.mbswebplugin.base.AppConfing.NICK_REQUEST_CAMERA_CODE;
+import static com.mobisoft.mbswebplugin.base.AppConfing.PICK_IMAGE_ACTIVITY_REQUEST_CODE;
+
 
 /**
  * Author：Created by fan.xd on 2017/3/1.
@@ -39,7 +39,7 @@ import static com.mobisoft.mbswebplugin.MbsWeb.WebAppActivity.PICK_IMAGE_ACTIVIT
  * Description： 上传文件
  */
 
-public class UploadFile extends DoCmdMethod implements ResultListener {
+public class UploadFile extends DoCmdMethod implements MbsResultListener {
     private Context context;
     private String cmd;
     /**
@@ -62,7 +62,8 @@ public class UploadFile extends DoCmdMethod implements ResultListener {
         this.cmd = cmd;
         this.mParamter = params;
         this.callBack = callBack;
-        ((WebAppActivity) context).setResult(this);
+//        ((MbsWebActivity) context).setResult(this);
+        presenter.setResultListener(UploadFile.this);
         JSONObject json = null;
         try {
             json = new JSONObject(params);
@@ -75,13 +76,12 @@ public class UploadFile extends DoCmdMethod implements ResultListener {
     }
 
     @Override
-    public void onActivityResult(Context context, HybridWebView view, int requestCode, int resultCode, Intent data) {
-
+    public void onActivityResult(Context context, MbsWebPluginContract.View view, int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case PICK_IMAGE_ACTIVITY_REQUEST_CODE:
                 Uri uri = data.getData();
                 if (uri != null) {
-                    String realPath = Utils.getRealPathFromURI((WebAppActivity) context, uri);
+                    String realPath = Utils.getRealPathFromURI((Activity) context, uri);
 
                     String compress = UpLoadUtile.getInstance().compress(context, realPath);
                     File f = new File(compress);
@@ -109,6 +109,8 @@ public class UploadFile extends DoCmdMethod implements ResultListener {
                 break;
         }
     }
+
+
 
     /**
      * @param type
@@ -204,7 +206,7 @@ public class UploadFile extends DoCmdMethod implements ResultListener {
         } else {
             intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         }
-        ((WebAppActivity) this.context).startActivityForResult(intent, PICK_IMAGE_ACTIVITY_REQUEST_CODE);
+        ((Activity) this.context).startActivityForResult(intent, PICK_IMAGE_ACTIVITY_REQUEST_CODE);
     }
 
     /**
@@ -250,4 +252,5 @@ public class UploadFile extends DoCmdMethod implements ResultListener {
             Log.e("TAG", "请确认已经插入SD卡");
         }
     }
+
 }

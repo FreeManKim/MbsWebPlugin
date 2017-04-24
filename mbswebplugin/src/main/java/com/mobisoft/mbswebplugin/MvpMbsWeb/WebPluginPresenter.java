@@ -50,16 +50,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
-import static com.mobisoft.mbswebplugin.MbsWeb.WebAppActivity.CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE;
-import static com.mobisoft.mbswebplugin.MbsWeb.WebAppActivity.CONTACTS_CODE;
-import static com.mobisoft.mbswebplugin.MbsWeb.WebAppActivity.PICK_IMAGE_ACTIVITY_REQUEST_CODE;
-import static com.mobisoft.mbswebplugin.MbsWeb.WebAppActivity.REFRESH_URL;
-import static com.mobisoft.mbswebplugin.MbsWeb.WebAppFragment.INTENT_REQUEST_CODE;
-import static com.mobisoft.mbswebplugin.MbsWeb.WebAppFragment.REFRESH;
-import static com.mobisoft.mbswebplugin.MbsWeb.WebAppFragment.REQUEST_CODE_MAP;
+
 import static com.mobisoft.mbswebplugin.MvpMbsWeb.Base.Preconditions.checkNotNull;
 import static com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebFragment.IS_TRANSITION_MODE;
 import static com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebFragment.IS_TRANSITION_MODE_ENABLE;
+import static com.mobisoft.mbswebplugin.base.AppConfing.CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE;
+import static com.mobisoft.mbswebplugin.base.AppConfing.CONTACTS_CODE;
+import static com.mobisoft.mbswebplugin.base.AppConfing.INTENT_REQUEST_CODE;
+import static com.mobisoft.mbswebplugin.base.AppConfing.PICK_IMAGE_ACTIVITY_REQUEST_CODE;
+import static com.mobisoft.mbswebplugin.base.AppConfing.REFRESH;
+import static com.mobisoft.mbswebplugin.base.AppConfing.REFRESH_URL;
+import static com.mobisoft.mbswebplugin.base.AppConfing.REQUEST_CODE_MAP;
 import static com.mobisoft.mbswebplugin.utils.Utils.IMAGE_FROM_CAMERA;
 
 /**
@@ -216,7 +217,7 @@ public class WebPluginPresenter implements MbsWebPluginContract.Presenter, Recyc
             receiveBroadCast = new ReceiveBroadCast(actionName, callback);
             IntentFilter filter = new IntentFilter();
             filter.addAction(actionName); // 只有持有相同的action的接受者才能接收此广播 receiveMessage
-            mActivity.registerReceiver(receiveBroadCast, filter, CacheManifest.PERMISSION,null);
+            mActivity.registerReceiver(receiveBroadCast, filter, CacheManifest.PERMISSION, null);
         }
     }
 
@@ -306,6 +307,11 @@ public class WebPluginPresenter implements MbsWebPluginContract.Presenter, Recyc
     @Override
     public void onHomePage(String url, String action) {
         ProxyCmd.getInstance().getHomePage().goHomePage(mActivity, null, url, action);
+    }
+
+    @Override
+    public void setTitle(int type, String title) {
+        mBsWebView.setTitle(type, title);
     }
 
     @Override

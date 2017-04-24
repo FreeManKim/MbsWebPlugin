@@ -5,7 +5,6 @@ import android.text.TextUtils;
 
 import com.mobisoft.mbswebplugin.Cmd.DoCmdMethod;
 import com.mobisoft.mbswebplugin.MbsWeb.HybridWebView;
-import com.mobisoft.mbswebplugin.MbsWeb.WebAppActivity;
 import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebPluginContract;
 
 import org.json.JSONException;
@@ -43,7 +42,7 @@ public class ShowHudMethod extends DoCmdMethod {
             if ("show".equals(action)) {
                 view.showHud(action, "正在加载...");
             }
-            ((WebAppActivity) context).mProgressDialog.show();
+//            ((WebAppActivity) context).mProgressDialog.show();
 
         } catch (JSONException e) {
             e.printStackTrace();

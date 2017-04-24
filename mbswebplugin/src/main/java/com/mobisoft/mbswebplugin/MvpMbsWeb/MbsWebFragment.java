@@ -61,9 +61,10 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.mobisoft.mbswebplugin.MbsWeb.WebAppActivity.TYPE_ACTIVITY;
-import static com.mobisoft.mbswebplugin.MbsWeb.WebAppFragment.INTENT_REQUEST_CODE;
-import static com.mobisoft.mbswebplugin.MbsWeb.WebAppFragment.TITLECOLOR;
+
+import static com.mobisoft.mbswebplugin.base.AppConfing.INTENT_REQUEST_CODE;
+import static com.mobisoft.mbswebplugin.base.AppConfing.TITLECOLOR;
+import static com.mobisoft.mbswebplugin.base.AppConfing.TYPE_ACTIVITY;
 import static com.mobisoft.mbswebplugin.utils.UrlUtil.parseUrl;
 import static java.lang.System.in;
 
@@ -985,6 +986,11 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
                     this.mTv_head_title.setText(urlTitle);
                 break;
         }
+    }
+
+    @Override
+    public void setTitle(int type, String title) {
+        onTitle(type, title);
     }
 
     @Override

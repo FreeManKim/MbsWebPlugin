@@ -45,11 +45,6 @@
         <!-- android:screenOrientation="portrait"></activity> -->
 
         <activity
-            android:name=".MbsWeb.WebAppActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
             android:name=".Voide.EduMediaPlayer"
             android:label="播放视频"
             android:screenOrientation="landscape" />
