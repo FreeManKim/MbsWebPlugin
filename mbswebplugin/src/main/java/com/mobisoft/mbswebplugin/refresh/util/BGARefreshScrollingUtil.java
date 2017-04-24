@@ -44,6 +44,27 @@ public class BGARefreshScrollingUtil {
     private BGARefreshScrollingUtil() {
     }
 
+    /**
+     * x5的WebView 是否滑动到顶部
+     *
+     * @param view
+     * @return
+     */
+    public static boolean isX5WebViewToTop(com.tencent.smtt.sdk.WebView view) {
+        return view != null && view.getView().getScrollY() == 0;
+    }
+
+    /**
+     * x5的WebView 是否滑动到底部
+     *
+     * @param webView
+     * @return
+     */
+    public static boolean isX5WebViewToBottom(com.tencent.smtt.sdk.WebView webView) {
+        return webView != null && webView.getContentHeight() * webView.getScale() == (webView.getView().getScrollY() + webView.getView().getMeasuredHeight());
+    }
+
+
     public static boolean isScrollViewOrWebViewToTop(View view) {
         return view != null && view.getScrollY() == 0;
     }

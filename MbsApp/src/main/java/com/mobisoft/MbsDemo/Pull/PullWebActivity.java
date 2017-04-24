@@ -2,14 +2,13 @@ package com.mobisoft.MbsDemo.Pull;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.webkit.WebResourceResponse;
-import android.webkit.WebView;
 
 import com.mobisoft.MbsDemo.R;
 import com.mobisoft.mbswebplugin.MbsWeb.HybridWebView;
 import com.mobisoft.mbswebplugin.MbsWeb.HybridWebviewListener;
+import com.mobisoft.mbswebplugin.refresh.BGARefreshLayout;
+import com.tencent.smtt.sdk.WebView;
 
-import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 
 public class PullWebActivity extends AppCompatActivity implements BGARefreshLayout.BGARefreshLayoutDelegate, HybridWebviewListener {
 
@@ -56,13 +55,14 @@ public class PullWebActivity extends AppCompatActivity implements BGARefreshLayo
 
     }
 
+
     @Override
     public boolean onNextPage(String url, String action) {
         return false;
     }
 
     @Override
-    public WebResourceResponse onSIRNextPage(String ur, String action) {
+    public com.tencent.smtt.export.external.interfaces.WebResourceResponse onSIRNextPage(String ur, String action) {
         return null;
     }
 

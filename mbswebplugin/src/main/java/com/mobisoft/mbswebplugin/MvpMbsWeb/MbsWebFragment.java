@@ -18,10 +18,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.ValueCallback;
-import android.webkit.WebResourceResponse;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -51,6 +47,10 @@ import com.mobisoft.mbswebplugin.view.TitleMenuPopupWindow;
 import com.mobisoft.mbswebplugin.view.TopMenuPopupWindowActivity;
 import com.squareup.leakcanary.RefWatcher;
 import com.squareup.picasso.Picasso;
+import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
+import com.tencent.smtt.sdk.ValueCallback;
+import com.tencent.smtt.sdk.WebSettings;
+import com.tencent.smtt.sdk.WebView;
 
 import java.io.IOException;
 import java.io.PipedInputStream;
@@ -60,7 +60,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 
 import static com.mobisoft.mbswebplugin.base.AppConfing.INTENT_REQUEST_CODE;
 import static com.mobisoft.mbswebplugin.base.AppConfing.TITLECOLOR;

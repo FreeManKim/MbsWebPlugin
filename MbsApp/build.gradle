@@ -37,11 +37,7 @@ dependencies {
     //    compile 'com.github.CarGuo:RecordWave:v1.1.0'
     compile project(':amaplibrary')
     compile project(':commonlibrary')
-    compile project(':BGARefreshlibrary')
-
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
-
-
 }
 repositories{
     flatDir{

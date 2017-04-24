@@ -105,6 +105,7 @@ public class BGARefreshLayout extends LinearLayout {
     private RecyclerView mRecyclerView;
     private View mNormalView;
     private WebView mWebView;
+    private com.tencent.smtt.sdk.WebView x5WebView;
     private BGAStickyNavLayout mStickyNavLayout;
     private View mContentView;
 
@@ -163,10 +164,10 @@ public class BGARefreshLayout extends LinearLayout {
 
     public void addWebView(View view) {
         addView(view, 1);
-        mNormalView =null;
+        mNormalView = null;
         mContentView = getChildAt(1);
-//        String str = (mContentView instanceof WebView) ? " mContentView is webView" : "mContentView is mNormalView ";
-//        Log.i("oye", getChildCount() + "个" + str);
+        String str = (mContentView instanceof WebView) ? " mContentView is webView" : "mContentView is mNormalView ";
+        Log.i("oye", getChildCount() + "个" + str);
         if (mContentView instanceof AbsListView) {
             mAbsListView = (AbsListView) mContentView;
         } else if (mContentView instanceof RecyclerView) {
@@ -178,6 +179,8 @@ public class BGARefreshLayout extends LinearLayout {
         } else if (mContentView instanceof BGAStickyNavLayout) {
             mStickyNavLayout = (BGAStickyNavLayout) mContentView;
             mStickyNavLayout.setRefreshLayout(this);
+        } else if (mContentView instanceof com.tencent.smtt.sdk.WebView) {
+            x5WebView = (com.tencent.smtt.sdk.WebView) mContentView;
         } else {
             mNormalView = mContentView;
             // 设置为可点击，否则在空白区域无法拖动
@@ -209,6 +212,8 @@ public class BGARefreshLayout extends LinearLayout {
         } else if (mContentView instanceof BGAStickyNavLayout) {
             mStickyNavLayout = (BGAStickyNavLayout) mContentView;
             mStickyNavLayout.setRefreshLayout(this);
+        } else if (mContentView instanceof com.tencent.smtt.sdk.WebView) {
+            x5WebView = (com.tencent.smtt.sdk.WebView) mContentView;
         } else {
             mNormalView = mContentView;
             // 设置为可点击，否则在空白区域无法拖动
@@ -382,8 +387,11 @@ public class BGARefreshLayout extends LinearLayout {
 //            Log.e("oye", "mNormalView != null");
             return true;
         }
-
         if (BGARefreshScrollingUtil.isWebViewToBottom(mWebView)) {
+//            Log.e("oye", "isWebViewToBottom");
+            return true;
+        }
+        if (BGARefreshScrollingUtil.isX5WebViewToBottom(x5WebView)) {
 //            Log.e("oye", "isWebViewToBottom");
             return true;
         }
@@ -485,6 +493,11 @@ public class BGARefreshLayout extends LinearLayout {
         }
 
         if (BGARefreshScrollingUtil.isScrollViewOrWebViewToTop(mWebView)) {
+//            Log.e("oye", "isScrollViewOrWebViewToTop");
+
+            return true;
+        }
+        if (BGARefreshScrollingUtil.isX5WebViewToTop(x5WebView)) {
 //            Log.e("oye", "isScrollViewOrWebViewToTop");
 
             return true;

@@ -5,26 +5,25 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.net.http.SslError;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.webkit.ConsoleMessage;
-import android.webkit.JsResult;
-import android.webkit.SslErrorHandler;
-import android.webkit.WebChromeClient;
-import android.webkit.WebResourceResponse;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.widget.AbsoluteLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.mobisoft.mbswebplugin.Cmd.CMD;
 import com.mobisoft.mbswebplugin.R;
 import com.mobisoft.mbswebplugin.utils.Utils;
+import com.tencent.smtt.export.external.interfaces.ConsoleMessage;
+import com.tencent.smtt.export.external.interfaces.JsResult;
+import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
+import com.tencent.smtt.sdk.WebChromeClient;
+import com.tencent.smtt.sdk.WebSettings;
+import com.tencent.smtt.sdk.WebView;
+import com.tencent.smtt.sdk.WebViewClient;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -88,7 +87,7 @@ public class HybridWebView extends WebView {
      * @param context
      */
     public HybridWebView(Context context) {
-        super(context,null);
+        super(context, null);
         init(context);
     }
 
@@ -133,7 +132,6 @@ public class HybridWebView extends WebView {
 
         this.setWebViewClient(new MyWebViewClient());
         this.setWebChromeClient(new MyChromeClient());
-
 //        /**
 //         * 屏幕适配:这里需要根据不同的屏幕像素密度来设置默认变焦密度，此设置常用于平板
 //         */
@@ -190,7 +188,7 @@ public class HybridWebView extends WebView {
      */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Log.i("weizhi", "===" + event.getY() + ",getScrollY==" + getScrollY());
+//        Log.i("weizhi", "===" + event.getY() + ",getScrollY==" + getScrollY());
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 if (this.getScrollY() <= 0)
@@ -370,12 +368,11 @@ public class HybridWebView extends WebView {
         }
 
         @Override
-        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+        public void onReceivedError(WebView webView, int i, String s, String s1) {
+            super.onReceivedError(webView, i, s, s1);
             //(报告错误信息)
-            Log.e(TAG, "onReceivedSslError==Error:" + error.toString());
-            handler.proceed();
+            Log.e(TAG, "onReceivedSslError==Error:" + s + "/" + s1);
         }
-
 
         @Override
         public void onLoadResource(WebView view, String url) {
@@ -481,7 +478,7 @@ public class HybridWebView extends WebView {
 
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-        LayoutParams lp = (LayoutParams) mProgressBar.getLayoutParams();
+        AbsoluteLayout.LayoutParams lp = (AbsoluteLayout.LayoutParams) mProgressBar.getLayoutParams();
         lp.x = l;
         lp.y = t;
         mProgressBar.setLayoutParams(lp);

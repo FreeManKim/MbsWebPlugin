@@ -6,12 +6,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.mobisoft.mbswebplugin.Entity.Task;
 import com.mobisoft.mbswebplugin.R;
+import com.tencent.smtt.sdk.WebView;
 
 import java.util.List;
 

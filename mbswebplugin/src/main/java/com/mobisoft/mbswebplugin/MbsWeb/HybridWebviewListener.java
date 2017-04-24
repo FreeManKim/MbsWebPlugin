@@ -1,7 +1,7 @@
 package com.mobisoft.mbswebplugin.MbsWeb;
 
-import android.webkit.WebResourceResponse;
-import android.webkit.WebView;
+import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
+import com.tencent.smtt.sdk.WebView;
 
 /**
  * Created by jiangzhou on 16/4/13.

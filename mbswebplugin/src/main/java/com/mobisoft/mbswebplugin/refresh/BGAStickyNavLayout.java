@@ -36,6 +36,7 @@ import android.widget.ScrollView;
 import com.mobisoft.mbswebplugin.refresh.util.BGARefreshScrollingUtil;
 
 
+
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com
  * 创建时间:15/10/28 上午2:32

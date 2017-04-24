@@ -23,9 +23,9 @@ import android.support.v4.view.ViewCompat;
 import android.view.View;
 
 import com.mobisoft.MbsDemo.R;
+import com.mobisoft.mbswebplugin.refresh.BGAMoocStyleRefreshView;
+import com.mobisoft.mbswebplugin.refresh.BGARefreshViewHolder;
 
-import cn.bingoogolapple.refreshlayout.BGAMoocStyleRefreshView;
-import cn.bingoogolapple.refreshlayout.BGARefreshViewHolder;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com

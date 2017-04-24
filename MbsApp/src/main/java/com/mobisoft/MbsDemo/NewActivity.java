@@ -52,10 +52,7 @@ public class NewActivity extends AppCompatActivity {
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IntentFilter intentFilter = new IntentFilter();   // 创建IntentFilter对象，指定接收什么类型的广播
-                intentFilter.addAction("com.fxd.test.user");  // 添加action
-                registerReceiver(testReceiver, intentFilter, "com.fxd.test.user.precession", null);  // 注册广播接收者
-                new Thread(new Runnable() {
+                  new Thread(new Runnable() {
                     @Override
                     public void run() {
                         try {
@@ -135,7 +132,7 @@ public class NewActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             boolean hasPerm = (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED);
             if (!hasPerm)
-                requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, 103);
+                requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, 104);
         }
     }
 
@@ -148,6 +145,11 @@ public class NewActivity extends AppCompatActivity {
         intentFilter.addAction(Intent.ACTION_SCREEN_ON);  // 屏幕点亮
         intentFilter.addAction(Intent.ACTION_SCREEN_OFF); // 屏幕熄灭
         registerReceiver(receiver, intentFilter);  // 注册广播接收者
+
+        IntentFilter intentFilter2= new IntentFilter();   // 创建IntentFilter对象，指定接收什么类型的广播
+        intentFilter2.addAction("com.fxd.test.user");  // 添加action
+        registerReceiver(testReceiver, intentFilter2, "com.fxd.test.user.precession", null);  // 注册广播接收者
+
     }
 
     private void openActivity(Class cls) {
@@ -161,7 +163,8 @@ public class NewActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         unregisterReceiver(receiver);
-        unregisterReceiver(testReceiver);
+        if (testReceiver != null )
+            unregisterReceiver(testReceiver);
         super.onDestroy();
     }
 

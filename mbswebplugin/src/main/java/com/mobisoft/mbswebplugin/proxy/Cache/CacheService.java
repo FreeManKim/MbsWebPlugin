@@ -26,7 +26,6 @@ public class CacheService extends Service {
     public static final String TAG = "CacheService";
     private DownloadManifest downloadManifest;
     private WebviewCaheDao dao;
-    private DownloadTask task;
 
     @Override
     public void onCreate() {

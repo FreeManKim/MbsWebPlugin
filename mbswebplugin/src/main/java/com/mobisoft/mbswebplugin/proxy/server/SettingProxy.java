@@ -7,7 +7,8 @@ import android.net.Proxy;
 import android.os.Build;
 import android.util.ArrayMap;
 import android.util.Log;
-import android.webkit.WebView;
+
+import com.tencent.smtt.sdk.WebView;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -145,7 +146,7 @@ public class SettingProxy {
             params[0] = Class.forName("android.net.ProxyProperties");
             Method updateProxyInstance = jwcjb.getDeclaredMethod("updateProxy", params);
 
-            Class wv = Class.forName("android.webkit.WebView");
+            Class wv = Class.forName("com.tencent.smtt.sdk.WebView");
             Field mWebViewCoreField = wv.getDeclaredField("mWebViewCore");
             Object mWebViewCoreFieldInstance = getFieldValueSafely(mWebViewCoreField, webview);
 
@@ -183,7 +184,7 @@ public class SettingProxy {
             params[0] = Class.forName("android.net.ProxyProperties");
             Method updateProxyInstance = jwcjb.getDeclaredMethod("updateProxy", params);
 
-            Class wv = Class.forName("android.webkit.WebView");
+            Class wv = Class.forName("com.tencent.smtt.sdk.WebView");
             Field mWebViewCoreField = wv.getDeclaredField("mWebViewCore");
             Object mWebViewCoreFieldInstance = getFieldValueSafely(mWebViewCoreField, webview);
 
