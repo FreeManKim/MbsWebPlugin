@@ -31,7 +31,13 @@ android {
     dataBinding {
         enabled = true
     }
-
+    //android studio默认so文件加载目录为:src/main/jniLibs
+//    如在module的build.gradle按照如下方式,自定义了so文件加载目录请确保对应目录下只有armeabi目录
+        sourceSets {
+            main{
+                jniLibs.srcDirs = ['libs']
+            }
+        }
 }
 task clearJar(type: Delete) {
     delete 'build/libs/mbswbplugin_0.0.9.jar'////这行表示如果你已经打过一次包了，再进行打包则把原来的包删掉
@@ -124,7 +130,7 @@ javadoc {
 ext {
     siteUrl = 'https://github.com/FreeManKim/MbsWebPlugin'
     gitUrl = 'https://github.com/FreeManKim/MbsWebPlugin.git'
-    currentVersion = '0.2.0'
+    currentVersion = '0.3.2_beat'
     groupId = 'com.mobisoft.web'
     artifactId = 'webproxy'
     desc = 'Android web proxy'

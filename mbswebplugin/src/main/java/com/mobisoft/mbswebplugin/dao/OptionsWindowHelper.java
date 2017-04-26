@@ -30,8 +30,8 @@ public class OptionsWindowHelper {
     private static List<List<String>> options2Items = null;
     private static List<List<List<String>>> options3Items = null;
 
-    public static interface OnOptionsSelectListener {
-        public void onOptionsSelect(String province, String city, String area);
+    public interface OnOptionsSelectListener {
+        void onOptionsSelect(String province, String city, String area);
     }
 
     private OptionsWindowHelper() {

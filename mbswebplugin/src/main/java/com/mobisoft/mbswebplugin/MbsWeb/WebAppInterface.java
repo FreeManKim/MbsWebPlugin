@@ -9,15 +9,15 @@ public interface WebAppInterface {
      * 设置应用的主页链接
      * @param url
      */
-    public void setMainUrl(String url);
+    void setMainUrl(String url);
 
     /**
      * 获取应用的主页链接地址
      */
-    public String getMainUrl();
+    String getMainUrl();
 
     /**
      * 重新加载页面
      */
-    public  void reloadApp();
+    void reloadApp();
 }

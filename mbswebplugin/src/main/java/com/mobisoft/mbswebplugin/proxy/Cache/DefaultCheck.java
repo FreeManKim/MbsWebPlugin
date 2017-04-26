@@ -29,10 +29,7 @@ public class DefaultCheck implements CheckFile {
     @Override
     public boolean check(File file, WebviewCaheDao dao, String... args) {
         boolean isSave = !TextUtils.isEmpty(dao.getUrlPath(args[0], args[1]));
-        if (isSave && file.exists()) {
-            return true;
-        }
-        return false;
+        return isSave && file.exists();
     }
 
     @Override
@@ -66,10 +63,7 @@ public class DefaultCheck implements CheckFile {
         if (file1.exists()) {
             String f1 = MD5Util.getFileMD5String(file1);
             String f2 = MD5Util.getFileMD5String(inputStream);
-            if (TextUtils.equals(f1, f2))
-                return true;
-            else
-                return false;
+            return TextUtils.equals(f1, f2);
 
         }
         return false;

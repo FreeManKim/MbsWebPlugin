@@ -521,13 +521,8 @@ public class BGARefreshLayout extends LinearLayout {
             return true;
         }
 
-        if (BGARefreshScrollingUtil.isStickyNavLayoutToTop(mStickyNavLayout)) {
-//            Log.e("oye", "isStickyNavLayoutToTop");
+        return BGARefreshScrollingUtil.isStickyNavLayoutToTop(mStickyNavLayout);
 
-            return true;
-        }
-
-        return false;
     }
 
     private boolean shouldInterceptToMoveCustomHeaderViewDown() {
@@ -588,11 +583,7 @@ public class BGARefreshLayout extends LinearLayout {
 
             mCustomHeaderView.getLocationOnScreen(location);
             int customHeaderViewOnScreenY = location[1];
-            if (mOnScreenY <= customHeaderViewOnScreenY) {
-                return true;
-            } else {
-                return false;
-            }
+            return mOnScreenY <= customHeaderViewOnScreenY;
 
         }
         return true;
@@ -612,11 +603,7 @@ public class BGARefreshLayout extends LinearLayout {
 
             mWholeHeaderView.getLocationOnScreen(location);
             int wholeHeaderViewOnScreenY = location[1];
-            if (wholeHeaderViewOnScreenY + mWholeHeaderView.getMeasuredHeight() <= mOnScreenY) {
-                return true;
-            } else {
-                return false;
-            }
+            return wholeHeaderViewOnScreenY + mWholeHeaderView.getMeasuredHeight() <= mOnScreenY;
         }
         return true;
     }

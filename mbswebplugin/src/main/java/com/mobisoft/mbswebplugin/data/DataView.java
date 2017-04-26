@@ -271,7 +271,7 @@ public class DataView extends LinearLayout {
 	}
 
 	public interface OnDatePickTestListener {
-		public void onClick(String year, String month, String day);
+		void onClick(String year, String month, String day);
 	}
 
 	OnClickListener click =new OnClickListener() {
@@ -382,11 +382,7 @@ public class DataView extends LinearLayout {
 	 */
 	public void calDays(int year, int month) {
 		boolean leayyear = false;
-		if (year % 4 == 0 && year % 100 != 0) {
-			leayyear = true;
-		} else {
-			leayyear = false;
-		}
+        leayyear = year % 4 == 0 && year % 100 != 0;
 		for (int i = 1; i <= 12; i++) {
 			switch (month) {
 			case 1:

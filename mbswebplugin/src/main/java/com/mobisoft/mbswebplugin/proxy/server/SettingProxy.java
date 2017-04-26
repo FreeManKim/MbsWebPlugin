@@ -224,7 +224,7 @@ public class SettingProxy {
         try {
             Class wvcClass = Class.forName("android.webkit.WebViewClassic");
             Class wvParams[] = new Class[1];
-            wvParams[0] = Class.forName("android.webkit.WebView");
+            wvParams[0] = Class.forName("com.tencent.smtt.sdk.WebView");
             Method fromWebView = wvcClass.getDeclaredMethod("fromWebView", wvParams);
             Object webViewClassic = fromWebView.invoke(null, webview);
 
@@ -268,7 +268,7 @@ public class SettingProxy {
         try {
             Class wvcClass = Class.forName("android.webkit.WebViewClassic");
             Class wvParams[] = new Class[1];
-            wvParams[0] = Class.forName("android.webkit.WebView");
+            wvParams[0] = Class.forName("com.tencent.smtt.sdk.WebView");
             Method fromWebView = wvcClass.getDeclaredMethod("fromWebView", wvParams);
             Object webViewClassic = fromWebView.invoke(null, webview);
 

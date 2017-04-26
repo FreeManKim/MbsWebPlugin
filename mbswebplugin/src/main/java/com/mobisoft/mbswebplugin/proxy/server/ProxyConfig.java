@@ -34,7 +34,10 @@ public class ProxyConfig {
      * 下拉刷新背景色
      */
     private int loadingBg;
-
+    /**
+     * 是否https 连接
+     */
+    private boolean changeHttps;
 
 
 
@@ -118,6 +121,14 @@ public class ProxyConfig {
         return loadingBg==0? R.color.gray:loadingBg;
     }
 
+    public boolean isChangeHttps() {
+        return changeHttps;
+    }
+
+    public ProxyConfig setChangeHttps(boolean changeHttps) {
+        this.changeHttps = changeHttps;
+        return this;
+    }
 
     public int getPORT() {
         if (PORT < 1024) {

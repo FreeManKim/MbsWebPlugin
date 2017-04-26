@@ -119,7 +119,7 @@ public class Utils {
         Log.i("LLL", "我进打电话了:");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)// 大于6.0 权限检查
         {
-            if ( ((Activity)context).checkSelfPermission(Manifest.permission.CALL_PHONE)
+            if ( context.checkSelfPermission(Manifest.permission.CALL_PHONE)
                     != PackageManager.PERMISSION_GRANTED) {
                 cellPhone(context, paramter);
             } else {

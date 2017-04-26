@@ -32,7 +32,8 @@ public class MyApp extends BaseApp {
         ProxyConfig.getConfig()
                 .setCachePath(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator
                         + "AAA_1")
-                .setCacheUrl("https://elearning.mobisoft.com.cn/mobile/cache.manifest")
+                .setCacheUrl("http://elearning.mobisoft.com.cn/mobile/cache.manifest")
+                .setChangeHttps(false)
                 .setPORT(8183);
         ActivityManager.get().registerSelf(this.getApplicationContext());
         if (LeakCanary.isInAnalyzerProcess(this)) {

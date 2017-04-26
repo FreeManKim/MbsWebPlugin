@@ -130,7 +130,7 @@ public class ActionSheetDialog {
 			SheetItem sheetItem = sheetItemList.get(i - 1);
 			String strItem = sheetItem.name;
 			SheetItemColor color = sheetItem.color;
-			final OnSheetItemClickListener listener = (OnSheetItemClickListener) sheetItem.itemClickListener;
+			final OnSheetItemClickListener listener = sheetItem.itemClickListener;
 
 			TextView textView = new TextView(context);
 			textView.setText(strItem);
@@ -216,7 +216,7 @@ public class ActionSheetDialog {
 
 		private String name;
 
-		private SheetItemColor(String name) {
+		SheetItemColor(String name) {
 			this.name = name;
 		}
 

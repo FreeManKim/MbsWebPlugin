@@ -17,15 +17,12 @@ package com.mobisoft.mbswebplugin.proxy.server;
 
 import android.app.Service;
 import android.content.Intent;
-import android.os.Environment;
 import android.os.IBinder;
 import android.os.RemoteException;
 
 import com.mobisoft.mbswebplugin.IProxyCallback;
 import com.mobisoft.mbswebplugin.IProxyPortListener;
 import com.mobisoft.mbswebplugin.proxy.DB.WebviewCaheDao;
-
-import java.io.File;
 
 
 /**
@@ -52,8 +49,8 @@ public class ProxyService extends Service {
         if (server == null) {
             //getCacheDir().getAbsolutePath()
             dao = new WebviewCaheDao(getApplicationContext());
-
-            server = new ProxyServer(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "AMIN12", getApplicationContext()
+//Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "AMIN12"
+            server = new ProxyServer(ProxyConfig.getConfig().getCachePath(), getApplicationContext()
                     , dao);
 //            server = new ProxyServer(Environment.getExternalStorageDirectory().getAbsolutePath()+ File.separator+"DICM",getApplicationContext()
 //            ,dao);

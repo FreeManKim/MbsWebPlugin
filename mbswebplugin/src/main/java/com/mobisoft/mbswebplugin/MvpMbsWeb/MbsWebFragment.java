@@ -623,7 +623,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
         //开启 Application Caches 功能
         mWebViewExten.getSettings().setAppCacheEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            mWebViewExten.setWebContentsDebuggingEnabled(true);
+            WebView.setWebContentsDebuggingEnabled(true);
         }
     }
 
@@ -903,7 +903,6 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
     @Override
     public void onDestroy() {
 
-        super.onDestroy();
         //魅族和三星Galaxy 5.0webView 问题Android Crash Report - Native crash at /system/lib/libc.so caused by webvi
 //        mWebViewExten.clearCache(true);
         if (mWebViewExten != null) {
@@ -919,6 +918,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
             mWebViewExten.removeAllViews();
             mWebViewExten.destroy();
             Recycler.release(this);
+            super.onDestroy();
 
 //            if(photoInfoList!=null)photoInfoList.clear();
 

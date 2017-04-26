@@ -383,7 +383,7 @@ public class TimeAndDataDialog extends BaseDialog implements
 	}
 
 	public interface OnTimePickListener {
-		public void onClick(String hour, String minute, int year, int month, int day);
+		void onClick(String hour, String minute, int year, int month, int day);
 	}
 
 	public void setTimePickListener(OnTimePickListener onTimePickListener) {
@@ -515,11 +515,7 @@ public class TimeAndDataDialog extends BaseDialog implements
 	public int calDaysOfMonth(int year, int month) {
 		int day = 0;
 		boolean leayyear = false;
-		if (year % 4 == 0 && year % 100 != 0) {
-			leayyear = true;
-		} else {
-			leayyear = false;
-		}
+        leayyear = year % 4 == 0 && year % 100 != 0;
 		for (int i = 1; i <= 12; i++) {
 			switch (month) {
 			case 1:

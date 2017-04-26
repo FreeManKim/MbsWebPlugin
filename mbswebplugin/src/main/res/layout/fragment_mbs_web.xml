@@ -7,7 +7,7 @@
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context="com.mobisoft.mbswebplugin.MbsWeb.WebAppActivity">
+  >
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/web_tool_bar"

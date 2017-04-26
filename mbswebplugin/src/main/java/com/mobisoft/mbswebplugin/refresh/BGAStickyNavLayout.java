@@ -201,11 +201,7 @@ public class BGAStickyNavLayout extends LinearLayout {
         MarginLayoutParams params = (MarginLayoutParams) mNavView.getLayoutParams();
         int navViewTopOnScreenY = location[1] - params.topMargin;
 
-        if (navViewTopOnScreenY == contentOnScreenTopY) {
-            return true;
-        } else {
-            return false;
-        }
+        return navViewTopOnScreenY == contentOnScreenTopY;
     }
 
     private void initVelocityTrackerIfNotExists() {
@@ -367,11 +363,8 @@ public class BGAStickyNavLayout extends LinearLayout {
             return true;
         }
 
-        if (BGARefreshScrollingUtil.isRecyclerViewToTop(mNestedRecyclerView)) {
-            return true;
-        }
+        return BGARefreshScrollingUtil.isRecyclerViewToTop(mNestedRecyclerView);
 
-        return false;
     }
 
     /**

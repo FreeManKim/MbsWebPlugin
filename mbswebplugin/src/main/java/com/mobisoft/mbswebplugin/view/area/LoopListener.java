@@ -8,5 +8,5 @@ package com.mobisoft.mbswebplugin.view.area;
 public interface LoopListener
 {
 
-    public abstract void onItemSelect(int item);
+    void onItemSelect(int item);
 }

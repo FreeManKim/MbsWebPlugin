@@ -59,8 +59,8 @@ public class MbsWebActivity extends BaseWebActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         mbsPersenter = null;
+        super.onDestroy();
     }
 
     @Override

@@ -235,8 +235,10 @@ public class ProxyServer extends Thread {
          */
         private synchronized boolean getCacheSrc(String url) {
             String urlString = "";
-            if (url.startsWith("http:")) {
+            if (url.startsWith("http:") && ProxyConfig.getConfig().isChangeHttps()) {
                 urlString = url.replace("http:", "https:");
+            } else {
+                urlString = url;
             }
             String catchPath = DBdao.getUrlPath(urlString);
             try {

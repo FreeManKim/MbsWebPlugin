@@ -19,6 +19,7 @@ import com.mobisoft.mbswebplugin.R;
 import com.mobisoft.mbswebplugin.utils.Utils;
 import com.tencent.smtt.export.external.interfaces.ConsoleMessage;
 import com.tencent.smtt.export.external.interfaces.JsResult;
+import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
 import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
 import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebSettings;
@@ -220,6 +221,8 @@ public class HybridWebView extends WebView {
      * shouldInterceptRequest方法，来配合拦截action 和cmd命令
      */
     public class MyWebViewClient extends WebViewClient {
+
+
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             // 在点击请求的是链接是才会调用，重写此方法返回true表明点击网页里面的链接还是在当前的webview里跳转，不跳到浏览器那边。
@@ -265,23 +268,6 @@ public class HybridWebView extends WebView {
             if (url.startsWith("kitapps")) {
                 listener.onCommand(view, url);
                 return true;
-//                Map<String, String> param = parseUrl(url);
-//                String parameter = param.get("para");
-//                String function = param.get("callback");
-//                Pattern p = Pattern.compile("\\//(.*?)\\?");//正则表达式，取=和|之间的字符串，不包括=和|
-//                Matcher m = p.matcher(url);
-//                String cmd = null;
-//                while (m.find()) {
-//                    cmd = m.group();
-//                    break; // 菜单里的url带"?"的话会导致cmd取值不对，所以只拿第一次的cmd
-//                }
-//                if (cmd != null) {
-//                    if (listener != null) {
-//                        cmd = cmd.substring(2, cmd.length() - 1);
-//                        listener.onCommand(cmd, parameter, function);
-//                    }
-//                }
-//                return true;
             }
             return false;
         }
@@ -345,22 +331,6 @@ public class HybridWebView extends WebView {
             if (url.startsWith("kitapps")) {
                 listener.onCommand(view, url);
                 return null;
-//                Map<String, String> param = parseUrl(url);
-//                String parameter = param.get("para");
-//                String function = param.get("callback");
-//                Pattern p = Pattern.compile("\\//(.*?)\\?");//正则表达式，取=和|之间的字符串，不包括=和|
-//                Matcher m = p.matcher(url);
-//                String cmd = null;
-//                while (m.find()) {
-//                    cmd = m.group();
-//                }
-//                if (cmd != null) {
-//                    if (listener != null) {
-//                        cmd = cmd.substring(2, cmd.length() - 1);
-//                        listener.onCommand(cmd, parameter, function);
-//                        return null;
-//                    }
-//                }
             }
 
             return super.shouldInterceptRequest(view, url);
@@ -369,9 +339,15 @@ public class HybridWebView extends WebView {
 
         @Override
         public void onReceivedError(WebView webView, int i, String s, String s1) {
-            super.onReceivedError(webView, i, s, s1);
+//            super.onReceivedError(webView, i, s, s1);
             //(报告错误信息)
             Log.e(TAG, "onReceivedSslError==Error:" + s + "/" + s1);
+        }
+
+        @Override
+        public void onReceivedHttpError(WebView webView, WebResourceRequest webResourceRequest, WebResourceResponse webResourceResponse) {
+            Log.e(TAG, "onReceivedHttpError==Error:");
+
         }
 
         @Override
@@ -401,6 +377,7 @@ public class HybridWebView extends WebView {
         }
 
     }
+
 
     /**
      * WebChromeClient

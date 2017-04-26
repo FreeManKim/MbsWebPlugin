@@ -36,8 +36,6 @@ import com.mobisoft.mbswebplugin.R;
 import java.util.LinkedList;
 import java.util.List;
 
-;
-
 
 /**
  * Numeric wheel view.

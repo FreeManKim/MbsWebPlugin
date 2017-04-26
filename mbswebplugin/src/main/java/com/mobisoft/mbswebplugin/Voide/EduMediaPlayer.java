@@ -394,7 +394,6 @@ public class EduMediaPlayer extends Activity implements MediaListerHelper.Comple
             }
         }
 
-        ;
     };
     /**
      * 显隐视图结束
@@ -562,7 +561,6 @@ public class EduMediaPlayer extends Activity implements MediaListerHelper.Comple
             }
         }
 
-        ;
     };
     /**
      * 请求视频进度结束
