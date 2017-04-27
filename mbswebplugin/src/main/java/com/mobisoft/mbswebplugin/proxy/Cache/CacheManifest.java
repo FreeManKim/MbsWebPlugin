@@ -110,7 +110,8 @@ public class CacheManifest extends Thread implements Recycler.Recycleable {
 
                 }
                 Intent broadcast = new Intent();
-                broadcast.setAction("com.mobisoft.loachtml.Cache.CacheBroadcast");
+                broadcast.setClass(mContext,CacheBroadcast.class);
+//                broadcast.setAction("com.mobisoft.loachtml.Cache.CacheBroadcast");
                 broadcast.putExtra("path", file1.getAbsolutePath());
                 broadcast.putExtra("url", url);
                 broadcast.putExtra("cacheDir", path);

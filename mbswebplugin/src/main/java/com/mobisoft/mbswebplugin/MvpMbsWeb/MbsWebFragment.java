@@ -646,7 +646,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
      */
     @Override
     public void forbiddenRefresh() {
-        bgaRefreshLayout.setEnabled(false);
+        bgaRefreshLayout.setPullDownRefreshEnable(false);
     }
 
     /**

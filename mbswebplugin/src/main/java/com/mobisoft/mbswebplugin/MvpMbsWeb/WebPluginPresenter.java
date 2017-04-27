@@ -413,6 +413,11 @@ public class WebPluginPresenter implements MbsWebPluginContract.Presenter, Recyc
     }
 
     @Override
+    public void startIntent(Intent intent) {
+        mActivity.startActivity(intent);
+    }
+
+    @Override
     public void start() {
         Intent intent = new Intent(mActivity, ProxyService.class);
         mActivity.bindService(intent, mProxyConnection, Context.BIND_AUTO_CREATE | Context.BIND_NOT_FOREGROUND);

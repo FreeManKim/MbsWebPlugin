@@ -216,6 +216,12 @@ public interface MbsWebPluginContract {
          * @param intent
          */
         void startActivity(Intent intent);
+        /**
+         * 启动 系统组件，打电话，邮件等；
+         *
+         * @param intent
+         */
+        void startIntent(Intent intent);
 
         void onPause();
 

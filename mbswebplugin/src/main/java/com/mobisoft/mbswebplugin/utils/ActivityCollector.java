@@ -48,7 +48,8 @@ public class ActivityCollector {
                 }
             }
         }
-        Log.i("LLL","activities= clearTask size = " + activities.size());
+        Log.i("LLL","activities= clearTask size = " + activities.size()
+                + "/index /"+index);
     }
     /**
      * 销毁全被Activity

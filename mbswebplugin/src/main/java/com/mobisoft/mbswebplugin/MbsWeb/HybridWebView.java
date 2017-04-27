@@ -205,13 +205,13 @@ public class HybridWebView extends WebView {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
-        Log.i("weizhi", "===" + event.getY() + ",getScrollY==" + getScrollY());
+//        Log.i("weizhi", "===" + event.getY() + ",getScrollY==" + getScrollY());
         return super.onInterceptTouchEvent(event);
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        Log.i("weizhi", "===" + event.getY() + ",getScrollY==" + getScrollY());
+//        Log.i("weizhi", "===" + event.getY() + ",getScrollY==" + getScrollY());
 
         return super.dispatchTouchEvent(event);
     }

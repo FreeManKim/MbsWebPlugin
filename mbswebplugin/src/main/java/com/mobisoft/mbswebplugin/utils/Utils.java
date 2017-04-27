@@ -12,7 +12,10 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -119,8 +122,8 @@ public class Utils {
         Log.i("LLL", "我进打电话了:");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)// 大于6.0 权限检查
         {
-            if ( context.checkSelfPermission(Manifest.permission.CALL_PHONE)
-                    != PackageManager.PERMISSION_GRANTED) {
+            if ( ContextCompat.checkSelfPermission(context,Manifest.permission.CALL_PHONE)
+                    == PackageManager.PERMISSION_GRANTED) {
                 cellPhone(context, paramter);
             } else {
                 // Ask for one permission
@@ -809,5 +812,13 @@ public class Utils {
         long sum = size1 + size2 + size5;
         return FileUtils.setFileSize(sum);
 
+    }
+
+    private static Handler handler;
+    public static Handler getMainHandler() {
+        if (handler == null) {
+            handler = new Handler(Looper.getMainLooper());
+        }
+        return handler;
     }
 }

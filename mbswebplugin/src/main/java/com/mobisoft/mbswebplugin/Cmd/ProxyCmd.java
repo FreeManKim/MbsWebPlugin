@@ -1,5 +1,6 @@
 package com.mobisoft.mbswebplugin.Cmd;
 
+import com.mobisoft.mbswebplugin.Cmd.DoCmd.Cellphone;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.CheckForUpdate;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.ClearTask;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.DefaultHomePage;
@@ -11,6 +12,7 @@ import com.mobisoft.mbswebplugin.Cmd.DoCmd.GetLocalFile;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.GetNetworkStatus;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.GetVersion;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.Logout;
+import com.mobisoft.mbswebplugin.Cmd.DoCmd.OpenBrowser;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.OpenContacts;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.PlayVideo;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.RecvMessage;
@@ -100,6 +102,8 @@ public class ProxyCmd {
         hashmap.put(CMD.cmd_email, SendEmail.class.getName());
         hashmap.put(CMD.cmd_db_get, dbGet.class.getName());
         hashmap.put(CMD.cmd_db_set, dbSet.class.getName());
+        hashmap.put(CMD.cmd_cellphone, Cellphone.class.getName());
+        hashmap.put(CMD.cmd_openBrowser, OpenBrowser.class.getName());
     }
 
     /**

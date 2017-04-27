@@ -51,11 +51,11 @@ public class CMD {
      */
     public final static String cmd_forbidRefresh = "forbidrefresh"; // 不刷新
     /**
-     * 上传文件
+     * 上传文件 TODO 没有测试
      */
     public final static String cmd_uploadFile = "uploadfile";//上传文件
     /**
-     * 退出登录
+     * 退出登录 TODO 没有测试
      */
     public final static String cmd_logout = "logout"; // 退出登录
     /**
@@ -85,7 +85,7 @@ public class CMD {
      */
     public final static String cmd_getDatabase = "getdatabase"; // 读取数据Key
     /**
-     * 打开原生通讯录
+     * 打开原生通讯录 TODO 未测试
      */
     public final static String cmd_openContacts = "opencontacts"; //打开原生通讯录
     /**
@@ -128,13 +128,24 @@ public class CMD {
      */
     public final static String cmd_db_set = "db_set";// 获取db_get位置
     /**
-     * 发送邮件
+     * 发送邮件 更改 EMail
      */
-    public final static String cmd_email = "e-mail";//邮件
+    public final static String cmd_email = "email";//邮件
     /**
      * 设置底部菜单
      */
     public final static String cmd_setBottomMenu = "setbottommenu"; // 设置底部菜单
+
+    /**
+     * 打电话的命令
+     */
+    public final static String cmd_cellphone = "cellphone";// 打电话的命令
+
+    /**
+     * 打开手机自带浏览器
+     */
+    public final static String cmd_openBrowser = "openbrowser"; //打开手机自带浏览器
+
     /*************************分割线***************************/
 
 
@@ -358,10 +369,7 @@ public class CMD {
      * 页面下拉刷新
      */
     public final static String cmd_setHeaderRefreshing = "setHeaderRefreshing";//页面设置下拉刷新
-    /**
-     * 打开手机自带浏览器
-     */
-    public final static String cmd_openBrowser = "openBrowser"; //打开手机自带浏览器
+
 
 
     /**
@@ -375,10 +383,7 @@ public class CMD {
      */
     public final static String cmd_savePicture = "savePicture"; // 保存图片
 
-    /**
-     * 打电话的命令
-     */
-    public final static String cmd_cellphone = "cellphone";// 打电话的命令
+
 
     /***
      * 停止转圈

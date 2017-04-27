@@ -11,7 +11,7 @@ import com.tencent.smtt.sdk.QbSdk;
 
 
 public class BaseApp extends Application {
-	private static BaseApp mInstance;
+	public static BaseApp mInstance;
 	private LockPatternUtils mLockPatternUtils;
 
 	public static RefWatcher getRefWatcher(Context context) {

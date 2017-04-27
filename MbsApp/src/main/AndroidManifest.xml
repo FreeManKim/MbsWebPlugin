@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.mobisoft.MbsDemo">
 
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <!-- 用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- 用于访问GPS定位 -->
@@ -44,9 +45,9 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-  <!--      <activity
-            android:name=".MbsWebActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />-->
+        <!--      <activity
+                  android:name=".MbsWebActivity"
+                  android:theme="@style/Theme.AppCompat.Light.NoActionBar" />-->
         <activity
             android:name=".LitsViewActivity.ListActivity"
             android:label="@string/app_name" />
@@ -75,7 +76,7 @@
             android:name=".Loaction.KeepLiveService"
             android:enabled="true"
             android:exported="true"
-            android:permission="com.fxd.test.user.precession"/>
+            android:permission="com.fxd.test.user.precession" />
 
         <activity
             android:name=".Loaction.KeepLiveActivity"
