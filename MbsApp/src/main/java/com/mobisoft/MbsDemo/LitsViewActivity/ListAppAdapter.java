@@ -1,7 +1,6 @@
 package com.mobisoft.MbsDemo.LitsViewActivity;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +58,7 @@ public class ListAppAdapter extends RecyclerView.Adapter<ListAppAdapter.ListHold
                 public void onClick(View view) {
                     // webAitivity配置 主页面子应用跳转的逻辑
                     ThemeConfig.Builder builder = new ThemeConfig.Builder();
-                    builder.settitleBgColor(Color.parseColor("#31a5f7"));
+                    builder.settitleBgColor(0);
                     ThemeConfig themeConfig = builder.build();
                     com.mobisoft.mbswebplugin.helper.CoreConfig coreConfig =
                             new com.mobisoft.mbswebplugin.helper.CoreConfig.Builder(

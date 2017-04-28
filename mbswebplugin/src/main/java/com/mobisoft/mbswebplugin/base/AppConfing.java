@@ -6,13 +6,23 @@ package com.mobisoft.mbswebplugin.base;
  */
 public class AppConfing {
 
-    /**定位获取的地址Province*/
+    /**
+     * 定位获取的地址Province
+     */
     public static String LOCATION_Province;
-    /**定位获取的地址city*/
+    /**
+     * 定位获取的地址city
+     */
     public static String LOCATION_City;
 
-    /**权限申请 code*/
+    /**
+     * 权限申请 code
+     */
     public static final int PERMISSIONS_REQUEST_CODE = 10010;
+    /**
+     * 下载文件权限申请 code
+     */
+    public static final int PERMISSIONS_REQUEST_CODE_SD = 10011;
 
     /**
      * 聊天历史 界面 返回eventCode
@@ -64,10 +74,9 @@ public class AppConfing {
     public static final String BANNER_URL = "http://cmsdev2.cttq.com/tx/json/sy/gdtp/";
 
 
-
     /****************************** 分割线  UAT环境*******************************************/
     /**
-     *   正大天晴 基本接口 UAT环境
+     * 正大天晴 基本接口 UAT环境
      */
     public static final String CTTQ_URL = "http://ainewqas.cttq.com";
     /**
@@ -95,7 +104,6 @@ public class AppConfing {
      * 基本接口 正式环境UAT
      */
     public static final String BASE_URL = CTTQ_BASE_URL + "/microapp/mobile";
-
 
 
     /**

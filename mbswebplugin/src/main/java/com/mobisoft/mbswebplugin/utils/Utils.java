@@ -119,7 +119,6 @@ public class Utils {
      * @param paramter
      */
     public static void getPhone(Context context, String paramter) {
-        Log.i("LLL", "我进打电话了:");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)// 大于6.0 权限检查
         {
             if ( ContextCompat.checkSelfPermission(context,Manifest.permission.CALL_PHONE)

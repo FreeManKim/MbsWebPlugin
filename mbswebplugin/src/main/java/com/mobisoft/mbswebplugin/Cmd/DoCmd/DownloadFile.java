@@ -1,7 +1,12 @@
 package com.mobisoft.mbswebplugin.Cmd.DoCmd;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Environment;
+import android.support.v4.content.ContextCompat;
 
 import com.mobisoft.mbswebplugin.Cmd.DoCmdMethod;
 import com.mobisoft.mbswebplugin.MbsWeb.HybridWebView;
@@ -20,6 +25,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import static com.mobisoft.mbswebplugin.base.AppConfing.PERMISSIONS_REQUEST_CODE_SD;
+
 /**
  * Author：Created by fan.xd on 2017/3/3.
  * Email：fang.xd@mobisoft.com.cn
@@ -34,7 +41,23 @@ public class DownloadFile extends DoCmdMethod {
         // TODO 下载文件
         downloadCreator = new DefaultDownloadCreator();
         downloadCreator.create(ActivityManager.get().topActivity());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)// 大于6.0 权限检查
+        {
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                downLoad(params);
+            } else {
+                // Ask for one permission
+                ((Activity) context).requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_CODE_SD);
+            }
+        } else {
+            downLoad(params);
+        }
 
+        return null;
+    }
+
+    private void downLoad(final String params) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -92,7 +115,6 @@ public class DownloadFile extends DoCmdMethod {
                 }
             }
         }).start();
-        return null;
     }
 
     private void sendUpdateProgress(long offset, long contentLength) {

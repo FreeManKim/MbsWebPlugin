@@ -17,6 +17,8 @@ public class CheckForUpdate extends DoCmdMethod {
     public String doMethod(HybridWebView webView, Context context, MbsWebPluginContract.View view, MbsWebPluginContract.Presenter presenter, String cmd, String params, String callBack) {
         //TODO 检查升级
 
+
+
         return null;
     }
 

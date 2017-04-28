@@ -13,7 +13,7 @@
         android:id="@+id/web_tool_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/actionsheet_blue"
+        android:background="@color/main_system_status_bar"
         app:navigationIcon="@drawable/back"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
@@ -119,10 +119,5 @@
         android:orientation="vertical">
 
     </com.mobisoft.mbswebplugin.refresh.BGARefreshLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/color_gray" />
 
 </LinearLayout>

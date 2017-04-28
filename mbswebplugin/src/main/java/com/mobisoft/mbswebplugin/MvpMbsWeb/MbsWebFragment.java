@@ -823,12 +823,14 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
         } else {
             tv_head_left.setVisibility(View.GONE);
             tv_head_left.setClickable(false); // 左title文字可点击
-            if (!TextUtils.isEmpty(menu.getItem().get(0).getIcon())) {// 显示图片
+            MeunItem meunItem = menu.getItem().get(0);
+            String icon = meunItem.getIcon();
+            if (!TextUtils.isEmpty(icon)) {// 显示图片
                 tv_head_right.setVisibility(View.GONE);
                 img_right.setVisibility(View.VISIBLE);
-                if (!TextUtils.isEmpty(menu.getItem().get(0).getIcon()))
-                    Picasso.with(mContext).load(menu.getItem().get(0).getIcon()).into(img_right);
-            } else if (!TextUtils.isEmpty(menu.getItem().get(0).getName())) { // 显示菜单名称
+                if (!TextUtils.isEmpty(icon))
+                    Picasso.with(mContext).load(icon).into(img_right);
+            } else if (!TextUtils.isEmpty(meunItem.getName())) { // 显示菜单名称
                 img_right.setVisibility(View.GONE);
                 tv_head_right.setVisibility(View.VISIBLE);
                 tv_head_right.setText(listMenuItem.get(0).getName());
@@ -1156,4 +1158,6 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
     public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
         return false;
     }
+
+
 }

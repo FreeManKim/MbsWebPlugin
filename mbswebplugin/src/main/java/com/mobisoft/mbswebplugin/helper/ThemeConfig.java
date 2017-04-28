@@ -86,9 +86,11 @@ public class ThemeConfig implements Serializable {
         /**导航栏右边 文字  颜色**/
         private int titleRightTextColor = Color.WHITE;
         /**默认导航栏背景颜色**/
-        private int titleBgColor = Color.parseColor("#0089F6");
+//        private int titleBgColor = Color.parseColor("#8c9eff");
+        private int titleBgColor = 0;
         /**沉浸式状态栏的颜色**/
-        private int systemBarColor = Color.parseColor("#0089F6");
+        private int systemBarColor = 0;
+//        private int systemBarColor = Color.parseColor("#8c9eff");
         /**导航栏的左边返回图标**/
         private int iconBack = R.drawable.back;
         /**导航栏中间title 默认图标**/

@@ -36,7 +36,7 @@
     <color name="white_status_bar">#70e4e4e4</color>
 
     <!--沉浸状态栏主题色-->
-    <color name="main_system_status_bar">#0089F6</color>
+    <color name="main_system_status_bar">#1e88e5</color>
     <!--半透明-->
     <color name="grid_state_focused">#80000000</color>
     <!--升级-->
