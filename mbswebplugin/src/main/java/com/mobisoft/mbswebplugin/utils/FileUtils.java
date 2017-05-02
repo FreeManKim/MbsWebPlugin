@@ -15,7 +15,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 
-import static com.mobisoft.mbswebplugin.proxy.Cache.DownloadManifest.TAG;
+import static com.mobisoft.mbswebplugin.proxy.Cache.CacheManifest.TAG;
+
 
 public class FileUtils {
 

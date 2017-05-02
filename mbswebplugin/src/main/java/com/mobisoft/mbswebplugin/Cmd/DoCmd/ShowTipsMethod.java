@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.mobisoft.mbswebplugin.proxy.Cache.DownloadManifest.TAG;
+import static com.mobisoft.mbswebplugin.proxy.Cache.CacheManifest.TAG;
 import static com.mobisoft.mbswebplugin.utils.UrlUtil.parseUrl;
 
 /**

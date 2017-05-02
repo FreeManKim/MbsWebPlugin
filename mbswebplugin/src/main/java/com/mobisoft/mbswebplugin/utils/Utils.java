@@ -3,6 +3,7 @@ package com.mobisoft.mbswebplugin.utils;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,6 +15,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -35,6 +37,8 @@ import com.mobisoft.mbswebplugin.view.area.CharacterPickerWindow;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -92,7 +96,7 @@ public class Utils {
     /**
      * 放置资源的文件夹htmlsrc
      */
-    public static String HTML_PATH = "htmlsrc";
+    public static String HTML_PATH = "Acfan";
 
     /**
      * 放置图片的的文件夹temp
@@ -121,12 +125,12 @@ public class Utils {
     public static void getPhone(Context context, String paramter) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)// 大于6.0 权限检查
         {
-            if ( ContextCompat.checkSelfPermission(context,Manifest.permission.CALL_PHONE)
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE)
                     == PackageManager.PERMISSION_GRANTED) {
                 cellPhone(context, paramter);
             } else {
                 // Ask for one permission
-                ((Activity)context).requestPermissions(new String[]{Manifest.permission.CALL_PHONE},PERMISSIONS_REQUEST_CODE);
+                ((Activity) context).requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, PERMISSIONS_REQUEST_CODE);
             }
         } else {
             cellPhone(context, paramter);
@@ -537,21 +541,72 @@ public class Utils {
      * @param uri
      * @return
      */
-    public static String getAbsoluteImagePath(Context context, Uri uri) {
-        // can post image
-        String[] proj = {MediaStore.Images.Media.DATA};
-        ContentResolver resolver = context.getContentResolver();
-        Cursor cursor = resolver.query(uri, proj, null, null, null);
-        if (cursor == null) {// 处理没有相册文件夹的情况
-            String path = uri.getEncodedPath();
-            StringBuffer buff = new StringBuffer();
-            buff.append("(").append(MediaStore.Images.ImageColumns.DATA).append("=").append("'" + path + "'").append(")");
-            cursor = resolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, proj, buff.toString(), null, null);
+    public static  String getAbsoluteImagePath(Context context, Uri uri) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            String imagePath;
+            if (DocumentsContract.isDocumentUri(context, uri)) {
+                String docId = DocumentsContract.getDocumentId(uri);
+                if ("com.android.providers.media.documents".equals(uri.getAuthority())) {
+                    //Log.d(TAG, uri.toString());
+                    String id = docId.split(":")[1];
+                    String selection = MediaStore.Images.Media._ID + "=" + id;
+                    return imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection, context);
+                } else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
+                    //Log.d(TAG, uri.toString());
+                    Uri contentUri = ContentUris.withAppendedId(
+                            Uri.parse("content://downloads/public_downloads"),
+                            Long.valueOf(docId));
+                    return imagePath = getImagePath(contentUri, null, context);
+                }
+            } else if ("content".equalsIgnoreCase(uri.getScheme())) {
+                //Log.d(TAG, "content: " + uri.toString());
+                return imagePath = getImagePath(uri, null, context);
+            }
+        } else {
+            // can post image
+            String[] proj = {MediaStore.Images.Media.DATA};
+            ContentResolver resolver = context.getContentResolver();
+            Cursor cursor = resolver.query(uri, proj, null, null, null);
+            if (cursor == null) {// 处理没有相册文件夹的情况
+                String path = uri.getEncodedPath();
+                StringBuffer buff = new StringBuffer();
+                buff.append("(").append(MediaStore.Images.ImageColumns.DATA).append("=").append("'" + path + "'").append(")");
+                cursor = resolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, proj, buff.toString(), null, null);
+            }
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
         }
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
+        return null;
     }
+
+    /**
+     * 获取Uri 地址
+     *
+     * @param uri
+     * @param selection
+     * @param context
+     * @return
+     */
+    private static String getImagePath(Uri uri, String selection, Context context) {
+        String path = null;
+        Cursor cursor = context.getContentResolver().query(uri, null, selection, null, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+            }
+
+            cursor.close();
+        }
+        return path;
+    }
+
+
+    /**
+     * 图片暂存地址
+     */
+    public static String FILE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath()
+            + File.separator + "DCIM/MBS" + File.separator;
 
     /**
      * copy照片 到私有目录temp下
@@ -561,23 +616,27 @@ public class Utils {
      */
     public static String copyPhotoToTemp(Context context, Uri fileUrl) {
         String isSuccess = "";
+        File of = null;
         try {
-            File dir = new File(context.getFilesDir() + "/" + HTML_PATH + "/" + HTML_IMAGES_PATH + "/" + HTML_PHTOT_PATH);
+//            File filesDir = context.getFilesDir();
+//            String filesDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + HTML_PATH + "/" + HTML_IMAGES_PATH + "/" + HTML_PHTOT_PATH;
+            String filesDir = FILE_PATH + HTML_PHTOT_PATH;
+            File dir = new File(filesDir);
             if (!dir.exists()) {
                 // 文件不存在进行创建
-                dir.mkdir();
+                dir.mkdirs();
             }
-            Bitmap resizeBitmap;
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
-            BitmapFactory.decodeFile(getAbsoluteImagePath(context, fileUrl), options);
+            String imagePath = getAbsoluteImagePath(context, fileUrl);
+            BitmapFactory.decodeFile(imagePath, options);
 
             options.inSampleSize = calculateInSampleSize(options);
 
             options.inJustDecodeBounds = false;
 
 
-            File file = new File(getAbsoluteImagePath(context, fileUrl));
+            File file = new File(imagePath);
             if (!file.exists()) {
                 return isSuccess;
             }
@@ -585,13 +644,11 @@ public class Utils {
 
             isSuccess = System.currentTimeMillis() + "";
             // 将图片放到制定文件夹下面
-            File of = new File(
-                    context.getFilesDir() + "/" + HTML_PATH + "/" + HTML_IMAGES_PATH + "/" + HTML_PHTOT_PATH + "/" + isSuccess + ".jpg");
+            of = new File(filesDir + "/" + isSuccess + ".jpg");
 
-            of.createNewFile();
             FileOutputStream os = new FileOutputStream(of);
 
-            if (BitmapFactory.decodeFile(getAbsoluteImagePath(context, fileUrl), options).compress(Bitmap.CompressFormat.JPEG, 50, os)) {
+            if (BitmapFactory.decodeFile(imagePath, options).compress(Bitmap.CompressFormat.JPEG, 50, os)) {
                 os.flush();
                 os.close();
             }
@@ -602,19 +659,40 @@ public class Utils {
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            isSuccess = "";
+            isSuccess = null;
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            isSuccess = "";
+            isSuccess = null;
         }
-        Log.i("bitmap", "路径：" + HTML_IMAGES_PATH + "/" + HTML_PHTOT_PATH + "/" + isSuccess + ".jpg");
+//        Log.i("bitmap", "路径：" + HTML_IMAGES_PATH + "/" + HTML_PHTOT_PATH + "/" + isSuccess + ".jpg");
         // 返回路径
         if (TextUtils.isEmpty(isSuccess)) {// 失败的情况下
-            return isSuccess;
+            return "";
         }
-        return HTML_IMAGES_PATH + "/" + HTML_PHTOT_PATH + "/" + isSuccess + ".jpg";
-//		return isSuccess;
+//        return HTML_IMAGES_PATH + "/" + HTML_PHTOT_PATH + "/" + isSuccess + ".jpg";
+        return of.getAbsolutePath();
+    }
+
+    /**
+     * 压缩bitmap
+     *
+     * @param image
+     * @return
+     */
+    public static Bitmap compressImage(Bitmap image) {
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+        int options = 100;
+        while (baos.toByteArray().length / 1024 > 100) {  //循环判断如果压缩后图片是否大于100kb,大于继续压缩
+            baos.reset();//重置baos即清空baos
+            image.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
+            options -= 10;//每次都减少10
+        }
+        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());//把压缩后的数据baos存放到ByteArrayInputStream中
+        Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片
+        return bitmap;
     }
 
     /**
@@ -797,13 +875,14 @@ public class Utils {
 
     /**
      * 获取 缓存的大小
-     * @param absolutePath 缓存的绝对路径
+     *
+     * @param absolutePath       缓存的绝对路径
      * @param app_cacahe_dirname 缓目录
-     * @param PackageName 包名
+     * @param PackageName        包名
      * @return 缓存大小
      * @throws Exception
      */
-    public static String getCacherSize(String absolutePath, String app_cacahe_dirname,String PackageName) throws Exception {
+    public static String getCacherSize(String absolutePath, String app_cacahe_dirname, String PackageName) throws Exception {
         long size1 = FileUtils.getFolderSize(new File(absolutePath + app_cacahe_dirname));
         long size2 = FileUtils.getFolderSize(new File(absolutePath + "/webviewCache"));
         long size5 = FileUtils.getFolderSize(new File(Environment.getExternalStorageDirectory() + File.separator + PackageName + File.separator + "Images"
@@ -814,6 +893,7 @@ public class Utils {
     }
 
     private static Handler handler;
+
     public static Handler getMainHandler() {
         if (handler == null) {
             handler = new Handler(Looper.getMainLooper());

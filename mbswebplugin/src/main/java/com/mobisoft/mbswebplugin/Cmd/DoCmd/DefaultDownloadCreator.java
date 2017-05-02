@@ -12,14 +12,16 @@ import java.io.File;
 
 public class DefaultDownloadCreator implements DownloadCB {
     private ProgressDialog dialog;
-private  Activity activity;
+    private Activity activity;
+
     @Override
     public void onUpdateProgress(final long current, final long total) {
         Utils.getMainHandler().post(new Runnable() {
             @Override
             public void run() {
                 int percent = (int) (current * 1.0f / total * 100);
-                dialog.setProgress(percent);            }
+                dialog.setProgress(percent);
+            }
         });
 
     }
@@ -36,7 +38,7 @@ private  Activity activity;
             Log.e("DownDialogCreator--->", "show download dialog failed:activity was recycled or finished");
             return;
         }
-       this.activity = activity;
+        this.activity = activity;
         dialog = new ProgressDialog(activity);
         dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         dialog.setMax(100);
@@ -53,8 +55,8 @@ private  Activity activity;
             @Override
             public void run() {
                 SafeDialogOper.safeDismissDialog(dialog);
-                if(null!=file)
-                ToastUtil.showShortToast(activity,"已经下载至："+file.getAbsolutePath());
+                if (null != file)
+                    ToastUtil.showShortToast(activity, "已经下载至：" + file.getAbsolutePath());
                 activity = null;
             }
         });

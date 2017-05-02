@@ -24,7 +24,6 @@ import java.net.URL;
 public class CacheService extends Service {
     private CacheBinder downloadBinder = new CacheBinder();
     public static final String TAG = "CacheService";
-    private DownloadManifest downloadManifest;
     private WebviewCaheDao dao;
 
     @Override
@@ -85,7 +84,7 @@ public class CacheService extends Service {
 
                         }
                     } else {
-                        ToastUtil.showLongToast(this,"下载完成");
+                        ToastUtil.showLongToast(this, "下载完成");
                         break;
                     }
 
@@ -103,9 +102,6 @@ public class CacheService extends Service {
 
     @Override
     public void onDestroy() {
-        if (downloadManifest != null)
-            downloadManifest.stopDownload();
-
         super.onDestroy();
         Log.d(TAG, "onDestroy() executed");
     }

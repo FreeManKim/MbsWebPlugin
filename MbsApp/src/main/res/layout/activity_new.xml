@@ -43,7 +43,7 @@
 
     <Button
         android:id="@+id/btn_new"
-        android:text="新按钮！"
+        android:text="新测试页面！"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/btn_join_us"/>

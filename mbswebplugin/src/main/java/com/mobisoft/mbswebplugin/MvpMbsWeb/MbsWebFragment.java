@@ -1159,5 +1159,4 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
         return false;
     }
 
-
 }

@@ -68,8 +68,10 @@ public class CacheManifest extends Thread implements Recycler.Recycleable {
                 connection = (HttpURLConnection) uri.openConnection();
 
             }
-
-
+            connection.setRequestProperty("Content-Type", "text/html; charset=UTF-8");
+            connection.setRequestMethod("GET");
+            connection.setConnectTimeout(1000);
+            connection.setUseCaches(false);
             int code = connection.getResponseCode();
             if (code == 200) {
                 InputStream in = connection.getInputStream();
@@ -110,7 +112,7 @@ public class CacheManifest extends Thread implements Recycler.Recycleable {
 
                 }
                 Intent broadcast = new Intent();
-                broadcast.setClass(mContext,CacheBroadcast.class);
+                broadcast.setClass(mContext, CacheBroadcast.class);
 //                broadcast.setAction("com.mobisoft.loachtml.Cache.CacheBroadcast");
                 broadcast.putExtra("path", file1.getAbsolutePath());
                 broadcast.putExtra("url", url);
@@ -121,12 +123,23 @@ public class CacheManifest extends Thread implements Recycler.Recycleable {
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+
+        } catch (final IOException e) {
             e.printStackTrace();
+            mContext.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(ActivityManager.get().topActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+
+                }
+            });
+
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
+
         } catch (KeyManagementException e) {
             e.printStackTrace();
+
         } finally {
             Recycler.release(this);
         }

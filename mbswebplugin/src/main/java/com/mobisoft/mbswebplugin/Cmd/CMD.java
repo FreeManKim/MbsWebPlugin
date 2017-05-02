@@ -146,6 +146,18 @@ public class CMD {
      */
     public final static String cmd_openBrowser = "openbrowser"; //打开手机自带浏览器
 
+    /***
+     * 获取图像，需要用户选择相册、相机
+     */
+    public final static String cmd_getImage = "getimage";//获取图像，需要用户选择相册、相机
+
+
+    /**
+     * 搜索界面
+     */
+    public final static String cmd_setSearchBar = "setSearchBar";// 搜索界面
+
+
     /*************************分割线***************************/
 
 
@@ -211,11 +223,7 @@ public class CMD {
 
     //	public final static String cmd_getCamara = "getCamara";//打开相机相册 imageSourceType
     // ：0相册 1相机 2相机相册
-    /***
-     * 获取图像，需要用户选择相册、相机
-     */
-    public final static String cmd_getImage = "getImage";//获取图像，需要用户选择相册、相机
-    /***
+       /***
      * //获取相机图片
      */
     public final static String cmd_getCamera = "getCamera";//获取相机图片
@@ -463,10 +471,7 @@ public class CMD {
      * 关闭屏幕常亮
      */
     public final static String cmd_canBlankScreen = "canBlankScreen";// 关闭屏幕常亮
-    /**
-     * 搜索界面
-     */
-    public final static String cmd_setSearchBar = "setSearchBar";// 搜索界面
+
     /**
      * 不能刷新
      */

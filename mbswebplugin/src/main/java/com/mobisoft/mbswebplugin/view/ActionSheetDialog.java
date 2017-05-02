@@ -16,6 +16,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.mobisoft.mbswebplugin.R;
+import com.mobisoft.mbswebplugin.base.SafeDialogOper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +56,9 @@ public class ActionSheetDialog {
 		txt_cancel.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				dialog.dismiss();
+//				dialog.dismiss();
+				SafeDialogOper.safeDismissDialog(dialog);
+
 			}
 		});
 
@@ -181,7 +184,7 @@ public class ActionSheetDialog {
 				@Override
 				public void onClick(View v) {
 					listener.onClick(index);
-					dialog.dismiss();
+					SafeDialogOper.safeDismissDialog(dialog);
 				}
 			});
 
@@ -191,7 +194,7 @@ public class ActionSheetDialog {
 
 	public void show() {
 		setSheetItems();
-		dialog.show();
+		SafeDialogOper.safeShowDialog(dialog);
 	}
 
 	public interface OnSheetItemClickListener {

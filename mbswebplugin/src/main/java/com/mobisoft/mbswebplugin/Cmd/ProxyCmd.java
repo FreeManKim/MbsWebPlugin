@@ -1,5 +1,6 @@
 package com.mobisoft.mbswebplugin.Cmd;
 
+import com.mobisoft.mbswebplugin.Cmd.DoCmd.AlbumOrCamera;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.Cellphone;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.CheckForUpdate;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.ClearTask;
@@ -104,6 +105,7 @@ public class ProxyCmd {
         hashmap.put(CMD.cmd_db_set, dbSet.class.getName());
         hashmap.put(CMD.cmd_cellphone, Cellphone.class.getName());
         hashmap.put(CMD.cmd_openBrowser, OpenBrowser.class.getName());
+        hashmap.put(CMD.cmd_getImage, AlbumOrCamera.class.getName());
     }
 
     /**

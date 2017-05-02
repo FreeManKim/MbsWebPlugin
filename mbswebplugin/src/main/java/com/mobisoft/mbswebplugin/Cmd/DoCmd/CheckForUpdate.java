@@ -13,13 +13,13 @@ import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebPluginContract;
  */
 
 public class CheckForUpdate extends DoCmdMethod {
+
+
     @Override
     public String doMethod(HybridWebView webView, Context context, MbsWebPluginContract.View view, MbsWebPluginContract.Presenter presenter, String cmd, String params, String callBack) {
-        //TODO 检查升级
-
-
 
         return null;
     }
+
 
 }

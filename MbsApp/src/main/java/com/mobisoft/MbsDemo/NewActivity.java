@@ -18,6 +18,9 @@ import com.mobisoft.MbsDemo.Loaction.KeepLiveReceiver;
 import com.mobisoft.MbsDemo.Loaction.KeepLiveService;
 import com.mobisoft.MbsDemo.Pull.PullWebActivity;
 import com.mobisoft.Reciver.TestReceiver;
+import com.mobisoft.mbswebplugin.MbsWeb.HybridWebApp;
+import com.mobisoft.mbswebplugin.helper.FunctionConfig;
+import com.mobisoft.mbswebplugin.helper.ThemeConfig;
 import com.mobisoft.mbswebplugin.proxy.server.ProxyBuilder;
 
 /**
@@ -33,6 +36,7 @@ public class NewActivity extends AppCompatActivity {
     private Button btn_nwe;
     private Button btn_register;
     private TestReceiver testReceiver;
+    public static final String INDEX_URL="http://euat.idoutec.cn/HyTestDdemo/index.html";
 
 
     @Override
@@ -72,7 +76,19 @@ public class NewActivity extends AppCompatActivity {
         btn_nwe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(NewActivity.this, TableActivity.class));
+                ThemeConfig.Builder builder = new ThemeConfig.Builder();
+                builder.settitleBgColor(0);
+                ThemeConfig themeConfig = builder.build();
+                com.mobisoft.mbswebplugin.helper.CoreConfig coreConfig =
+                        new com.mobisoft.mbswebplugin.helper.CoreConfig.Builder(
+                                NewActivity.this, themeConfig, FunctionConfig.DEFAULT_ACTIVITY)
+                                .setURL(INDEX_URL)
+                                .setAccount("8100458")//
+                                .setNoAnimcation(false)
+                                .build();
+                HybridWebApp.init(coreConfig).startWebActivity(NewActivity.this,com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebActivity.class);
+
+//                startActivity(new Intent(NewActivity.this, TableActivity.class));
             }
         });
         btn_catch.setOnClickListener(new View.OnClickListener() {

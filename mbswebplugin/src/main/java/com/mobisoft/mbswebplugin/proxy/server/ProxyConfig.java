@@ -40,32 +40,35 @@ public class ProxyConfig {
     private boolean changeHttps;
 
 
-
     public static void setConfig(ProxyConfig config) {
         ProxyConfig.config = config;
     }
 
 
     public int getLoadingIc() {
-        return loadingIc==0? R.drawable.ic_launcher:loadingIc;
+        return loadingIc == 0 ? R.drawable.ic_launcher : loadingIc;
     }
 
     /**
      * 设置加载图标
+     *
      * @param loadingIc 图标ID
      */
     public ProxyConfig setLoadingIc(int loadingIc) {
         this.loadingIc = loadingIc;
         return this;
     }
+
     /**
      * 设置背景颜色
+     *
      * @return 背景色ID
      */
     public ProxyConfig setLoadingBg(int loadingBg) {
         this.loadingBg = loadingBg;
         return this;
     }
+
     /**
      * 设置cacheManifest地址
      *
@@ -117,8 +120,9 @@ public class ProxyConfig {
     public boolean isShowDialog() {
         return isShowDialog;
     }
+
     public int getLoadingBg() {
-        return loadingBg==0? R.color.gray:loadingBg;
+        return loadingBg == 0 ? R.color.gray : loadingBg;
     }
 
     public boolean isChangeHttps() {
@@ -156,6 +160,6 @@ public class ProxyConfig {
     }
 
     public void excuet() {
-        new CacheManifest();
+        new CacheManifest().execute();
     }
 }
