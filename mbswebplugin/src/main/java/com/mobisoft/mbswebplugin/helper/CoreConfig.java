@@ -84,14 +84,14 @@ public class CoreConfig {
             if (android.text.TextUtils.indexOf(url, CMD.action_hideNavigation)>=0) {
                 this.url = url;
                 setHideNavigation(true);
-                functionConfig = null;
-                functionConfig = new FunctionConfig.Builder().setIsRefreshEnable(true).build();
+//                functionConfig = null;
+//                functionConfig = new FunctionConfig.Builder().setIsRefreshEnable(true).build();
 //                    themeConfig = new ThemeConfig.Builder().setsystemBarColor(Color.parseColor("#FFFFFF")).build();
             } else {
                 setHideNavigation(false);
                 this.url = url;
-                functionConfig = null;
-                functionConfig = FunctionConfig.DEFAULT_ACTIVITY;
+//                functionConfig = null;
+//                functionConfig = FunctionConfig.DEFAULT_ACTIVITY;
             }
 
             return this;

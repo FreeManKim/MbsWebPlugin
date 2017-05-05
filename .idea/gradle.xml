@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/amaplibrary" />
             <option value="$PROJECT_DIR$/commonlibrary" />
             <option value="$PROJECT_DIR$/mbswebplugin" />
+            <option value="$PROJECT_DIR$/searchlibrary" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

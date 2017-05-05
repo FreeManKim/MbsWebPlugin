@@ -62,6 +62,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.mobisoft.mbswebplugin.base.AppConfing.INTENT_REQUEST_CODE;
+import static com.mobisoft.mbswebplugin.base.AppConfing.IS_LEFT_ICON_SHOW;
+import static com.mobisoft.mbswebplugin.base.AppConfing.IS_LEFT_TEXT_SHOW;
 import static com.mobisoft.mbswebplugin.base.AppConfing.TITLECOLOR;
 import static com.mobisoft.mbswebplugin.base.AppConfing.TYPE_ACTIVITY;
 import static com.mobisoft.mbswebplugin.utils.UrlUtil.parseUrl;
@@ -151,14 +153,8 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
      * 标题右边图片 （非必须，有默认值）
      */
     public static final String ICON_TITLE_RIGHT = "IconTitleRight";
-    /**
-     * 是否显示左边“返回”文字 （非必须，有默认值）
-     */
-    public static final String IS_LEFT_TEXT_SHOW = "IsLeftTextShow";
-    /**
-     * 是否显示左边“返回”图片 （非必须，有默认值）
-     */
-    public static final String IS_LEFT_ICON_SHOW = "IsLeftIconShow";
+
+
     /**
      * 是否显示沉浸式菜单栏 （非必须，有默认值）
      */
@@ -337,7 +333,12 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
     /**
      * 是否显示左边“返回”图片
      */
-    protected boolean isLeftIconShow = false; // 是否显示左边“返回”图片
+    protected boolean isLeftIconShow = true; // 是否显示左边“返回”图片
+    /**
+     * 代码控制  是否显示左边“返回”图片
+     */
+    private boolean isLeftIconID = true;
+
     /**
      * 是否显示沉浸式菜单栏
      */
@@ -511,9 +512,27 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
 //                initSystemBar(WebAppActivity.this, systemBarColor);
         }
         if (isLeftTextShow) tv_head_left.setVisibility(View.GONE);
-        toolbar.setNavigationIcon(iconBack);
-        if (isLeftIconShow) iv_head_left.setVisibility(View.GONE);
+        if (isLeftIconShow) {
+            // true 显示 返回图标
+            setNavigationIcon(iconBack);
+        } else {
+            // true 显示 返回图标
+            setNavigationIcon(-1);
+        }
+    }
 
+    @Override
+    public void setNavigationIcon(int resId) {
+        // true 显示 返回图标
+        if (resId <= 0) {
+            isLeftIconID = false;
+            if (iv_head_left != null) iv_head_left.setVisibility(View.GONE);
+        } else if (!isLeftIconID) {
+            iv_head_left.setVisibility(View.GONE);
+        } else {
+            isLeftIconID = true;
+            iv_head_left.setImageResource(resId);
+        }
     }
 
     /**
@@ -523,12 +542,13 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
         bgaRefreshLayout.setDelegate(this);
 
 //        bgaRefreshLayout.setOnRefreshListener(this);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onFinish(TYPE_ACTIVITY);
-            }
-        });
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onFinish(TYPE_ACTIVITY);
+//            }
+//        });
+        iv_head_left.setOnClickListener(this);
         tv_head_left.setOnClickListener(this);
         tv_head_left.setClickable(false);
         ll_head_title.setOnClickListener(this);
@@ -699,6 +719,8 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
             bunde.putBoolean(IS_TRANSITION_MODE_ENABLE, true);
             bunde.putString(IS_TRANSITION_MODE, isTransitionMode);
         }
+        bunde.putBoolean(AppConfing.IS_LEFT_ICON_SHOW, true);
+
         Intent intent = new Intent();
         intent.putExtras(bunde);
 //        intent.setClass(mContext, MbsWebActivity.class);
@@ -948,6 +970,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
 
     @Override
     public void onClick(View v) {
+
         if (v.getId() == R.id.ll_right) { //  右上菜单图片点击事件
             if (showModel) { // 左右菜单,右菜单点击事件
                 TopMenuClick(listMenuItem, 1);
@@ -962,6 +985,9 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
             onFinish(TYPE_ACTIVITY);
         } else if (v.getId() == R.id.tv_head_left) { // 左上角 取消 事件
             TopMenuClick(listMenuItem, 0);
+        } else if (v.getId() == R.id.iv_head_left) {// 左边，返回按钮 back
+            onFinish(TYPE_ACTIVITY);
+
         } else if (v.getId() == R.id.ll_head_title) { // title点击事件
             if (listTitleMenuItem.size() == 1) {
                 TopMenuClick(listTitleMenuItem, 0);
@@ -1109,16 +1135,8 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
     @Override
     public void reload() {
         handler.sendEmptyMessage(1);
-//        mWebViewExten.reload();
     }
 
-//    /**
-//     * 下拉刷新
-//     */
-//    @Override
-//    public void onRefresh() {
-//        handler.sendEmptyMessage(1);
-//    }
 
     @Override
     public void onResume() {
@@ -1158,5 +1176,6 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
     public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
         return false;
     }
+
 
 }

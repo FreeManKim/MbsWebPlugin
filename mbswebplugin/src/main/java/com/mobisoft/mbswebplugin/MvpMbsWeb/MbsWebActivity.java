@@ -32,7 +32,7 @@ public class MbsWebActivity extends BaseWebActivity {
         }
         mbsPersenter = new WebPluginPresenter(mbsWebFragment, this, MbsWebActivity.class, getIntent().getExtras());
         mbsPersenter.onCreate();
-
+//        mbsPersenter.setNavigationIcon(-1);
     }
 
     @Override

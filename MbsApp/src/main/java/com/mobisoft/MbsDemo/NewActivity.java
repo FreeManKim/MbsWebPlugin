@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewStub;
 import android.widget.Button;
 
+import com.mobisoft.ActionTopDialog;
 import com.mobisoft.MbsDemo.LitsViewActivity.ListActivity;
 import com.mobisoft.MbsDemo.Loaction.KeepLiveReceiver;
 import com.mobisoft.MbsDemo.Loaction.KeepLiveService;
@@ -36,7 +37,8 @@ public class NewActivity extends AppCompatActivity {
     private Button btn_nwe;
     private Button btn_register;
     private TestReceiver testReceiver;
-    public static final String INDEX_URL="http://euat.idoutec.cn/HyTestDdemo/index.html";
+    public static final String INDEX_URL = "http://euat.idoutec.cn/HyTestDdemo/index.html";
+    private Button btn_pull_sheet;
 
 
     @Override
@@ -50,13 +52,14 @@ public class NewActivity extends AppCompatActivity {
         join_us = (Button) findViewById(R.id.btn_join_us);
         btn_nwe = (Button) findViewById(R.id.btn_new);
         btn_register = (Button) findViewById(R.id.btn_register);
+        btn_pull_sheet = (Button) findViewById(R.id.btn_pull_sheet);
         ViewStub viewStub = (ViewStub) findViewById(R.id.view_stup);
         viewStub.inflate();
         testReceiver = new TestReceiver();
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                  new Thread(new Runnable() {
+                new Thread(new Runnable() {
                     @Override
                     public void run() {
                         try {
@@ -76,17 +79,22 @@ public class NewActivity extends AppCompatActivity {
         btn_nwe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                FunctionConfig functionConfig = new FunctionConfig.Builder()
+                        .setIsLeftIconShow(true)
+                        .build();
+
                 ThemeConfig.Builder builder = new ThemeConfig.Builder();
                 builder.settitleBgColor(0);
                 ThemeConfig themeConfig = builder.build();
                 com.mobisoft.mbswebplugin.helper.CoreConfig coreConfig =
                         new com.mobisoft.mbswebplugin.helper.CoreConfig.Builder(
-                                NewActivity.this, themeConfig, FunctionConfig.DEFAULT_ACTIVITY)
+                                NewActivity.this, themeConfig, functionConfig)
                                 .setURL(INDEX_URL)
                                 .setAccount("8100458")//
                                 .setNoAnimcation(false)
                                 .build();
-                HybridWebApp.init(coreConfig).startWebActivity(NewActivity.this,com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebActivity.class);
+                HybridWebApp.init(coreConfig).startWebActivity(NewActivity.this, com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebActivity.class);
 
 //                startActivity(new Intent(NewActivity.this, TableActivity.class));
             }
@@ -150,6 +158,22 @@ public class NewActivity extends AppCompatActivity {
             if (!hasPerm)
                 requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, 104);
         }
+
+        btn_pull_sheet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ActionTopDialog(NewActivity.this)
+                        .builder()
+                        .setCancelable(false)
+                        .setCanceledOnTouchOutside(false)
+                        .addSheetItem("aaa", ActionTopDialog.SheetItemColor.Blue, new ActionTopDialog.OnSheetItemClickListener() {
+                            @Override
+                            public void onClick(int which) {
+
+                            }
+                        }).show();
+            }
+        });
     }
 
     /**
@@ -162,7 +186,7 @@ public class NewActivity extends AppCompatActivity {
         intentFilter.addAction(Intent.ACTION_SCREEN_OFF); // 屏幕熄灭
         registerReceiver(receiver, intentFilter);  // 注册广播接收者
 
-        IntentFilter intentFilter2= new IntentFilter();   // 创建IntentFilter对象，指定接收什么类型的广播
+        IntentFilter intentFilter2 = new IntentFilter();   // 创建IntentFilter对象，指定接收什么类型的广播
         intentFilter2.addAction("com.fxd.test.user");  // 添加action
         registerReceiver(testReceiver, intentFilter2, "com.fxd.test.user.precession", null);  // 注册广播接收者
 
@@ -179,7 +203,7 @@ public class NewActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         unregisterReceiver(receiver);
-        if (testReceiver != null )
+        if (testReceiver != null)
             unregisterReceiver(testReceiver);
         super.onDestroy();
     }

@@ -138,6 +138,12 @@ public interface MbsWebPluginContract {
          * @param title
          */
         void setTitle(int type, String title);
+
+        /**
+         * 设置toolbar的返回图标
+         * @param resId
+         */
+        void setNavigationIcon(int resId);
     }
 
     interface Presenter extends BasePresenter {
@@ -293,6 +299,11 @@ public interface MbsWebPluginContract {
          * @param title
          */
         void setTitle(int type, String title);
+        /**
+         * 设置toolbar的返回图标
+         * @param resId
+         */
+        void setNavigationIcon(int resId);
     }
 
 }
