@@ -1,1 +1,1 @@
-include ':MbsApp', ':mbswebplugin', ':amaplibrary', ':commonlibrary', ':BGARefreshlibrary', ':searchlibrary'
+include ':MbsApp', ':mbswebplugin', ':amaplibrary', ':commonlibrary', ':BGARefreshlibrary', ':searchlibrary', ':bannerlibrary'
