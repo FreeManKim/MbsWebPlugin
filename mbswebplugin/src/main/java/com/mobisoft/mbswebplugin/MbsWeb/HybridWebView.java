@@ -33,8 +33,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
 
@@ -433,21 +431,21 @@ public class HybridWebView extends WebView {
         public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
             String message = consoleMessage.message();
             Log.i(TAG, "consoleMessage:" + message);
-            if (message.contains("ReferenceError")) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(HybridWebView.this.getContext());
-                builder.setTitle("ReferenceError").setMessage(message)
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-
-                //禁止响应按back键的事件
-                builder.setCancelable(false);
-                dialog = builder.create();
-                dialog.show();
-            }
+//            if (message.contains("ReferenceError")) {
+//                final AlertDialog.Builder builder = new AlertDialog.Builder(HybridWebView.this.getContext());
+//                builder.setTitle("ReferenceError").setMessage(message)
+//                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//                            }
+//                        });
+//
+//                //禁止响应按back键的事件
+//                builder.setCancelable(false);
+//                dialog = builder.create();
+//                dialog.show();
+//            }
             return super.onConsoleMessage(consoleMessage);
         }
 
@@ -569,30 +567,6 @@ public class HybridWebView extends WebView {
         loadUrl(josn);
     }
 
-    /**
-     * 获得用户的account
-     *
-     * @return 用户的account
-     */
-    public String getAccount(String url) {
-        String param = url.substring(url.indexOf("?") + 1);
-        param = param.replaceAll("%(?![0-9a-fA-F]{2})", "%25");
-        try {
-            param = URLDecoder.decode(param, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        String str = "";
-        String[] list2 = param.split("account");
-        if (list2.length >= 2) {
-            String[] list3 = list2[1].split("\"");
-            if (list3.length >= 2) {
-                str = list3[1];
-            }
-        }
-        Log.i(TAG, "getAccount()===用户account：" + str);
-        return str;
-    }
 
     /**
      * 设置 是否 当前页面加载
