@@ -1,15 +1,19 @@
 package com.mobisoft.MbsDemo;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.Button;
@@ -30,10 +34,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
 
-/**
- * 主页
- */
-public class NewActivity extends AppCompatActivity {
+public class ScrollingActivity extends AppCompatActivity implements View.OnClickListener {
     private Button btn_html;
     private Button btn_location;
     private KeepLiveReceiver receiver;
@@ -46,31 +47,53 @@ public class NewActivity extends AppCompatActivity {
     public static final String INDEX_URL = "http://euat.idoutec.cn/HyTestDdemo/index.html";
     private Button btn_pull_sheet;
     private BGABanner banner_guide_content;
-    private Toolbar toolbar_1;
-
+    private AppBarLayout app_bar;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
+    private Toolbar toolbar;
+    private Button btn_tab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new);
-        btn_html = (Button) findViewById(R.id.btn_html);
-//        toolbar_1 = (Toolbar)findViewById(R.id.toolbar_1);
-        btn_refresh = (Button) findViewById(R.id.btn_refresh);
-        btn_location = (Button) findViewById(R.id.btn_location);
-        btn_catch = (Button) findViewById(R.id.btn_down);
-        join_us = (Button) findViewById(R.id.btn_join_us);
-        btn_nwe = (Button) findViewById(R.id.btn_new);
-        btn_register = (Button) findViewById(R.id.btn_register);
-        btn_pull_sheet = (Button) findViewById(R.id.btn_pull_sheet);
-        banner_guide_content = (BGABanner) findViewById(R.id.banner_guide_content);
-//        setSupportActionBar(toolbar_1);
+        setContentView(R.layout.activity_scrolling);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+        setSupportActionBar(toolbar);
+        initViews();
+        setEvents();
+//        toolbar.setBackgroundResource(R.color.colorPrimary);
+
+//        collapsingToolbarLayout.setBackgroundResource(R.color.actionsheet_red);
+        app_bar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+//                app_bar.setBackgroundColor();
+                int alpha = 255 + verticalOffset;
+                Log.e("oye", "verticalOffset/:/" + verticalOffset + "//" + alpha);
+
+//                collapsingToolbarLayout.setAlpha(alpha);
+//                toolbar.setAlpha(alpha);
+//                app_bar.setAlpha(alpha);
+            }
+        });
+    }
+
+    private void setEvents() {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
         banner_guide_content.setData(Arrays.asList("http://i8.download.fd.pchome.net/t_540x960/g1/M00/06/09/oYYBAFJJJaeIFh1GAAL4Tp2c4g0AAA6pAPTLhsAAvhm339.jpg",
                 "http://img-download.pchome.net/download/1k0/k0/2k/o6faou-146b.jpg",
                 "http://missever.com/wp-content/uploads/2016/07/1435027856_TyIjXaxW.jpg"), Arrays.asList("提示文字1", "提示文字2", "提示文字3"));
         banner_guide_content.setAdapter(new BGABanner.Adapter<ImageView, String>() {
             @Override
             public void fillBannerItem(BGABanner banner, ImageView itemView, String model, int position) {
-                Picasso.with(NewActivity.this)
+                Picasso.with(ScrollingActivity.this)
                         .load(model)
                         .placeholder(R.drawable.uoko_guide_background_1)
                         .error(R.drawable.uoko_guide_background_1)
@@ -115,12 +138,12 @@ public class NewActivity extends AppCompatActivity {
                 ThemeConfig themeConfig = builder.build();
                 com.mobisoft.mbswebplugin.helper.CoreConfig coreConfig =
                         new com.mobisoft.mbswebplugin.helper.CoreConfig.Builder(
-                                NewActivity.this, themeConfig, functionConfig)
+                                ScrollingActivity.this, themeConfig, functionConfig)
                                 .setURL(INDEX_URL)
                                 .setAccount("8100458")//
                                 .setNoAnimcation(false)
                                 .build();
-                HybridWebApp.init(coreConfig).startWebActivity(NewActivity.this, com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebActivity.class);
+                HybridWebApp.init(coreConfig).startWebActivity(ScrollingActivity.this, com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebActivity.class);
 
 //                startActivity(new Intent(NewActivity.this, TableActivity.class));
             }
@@ -164,31 +187,31 @@ public class NewActivity extends AppCompatActivity {
         });
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            boolean hasPerm = (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+            boolean hasPerm = (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
             if (!hasPerm)
-                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 101);
+                requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 101);
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            boolean hasPerm = (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED);
+            boolean hasPerm = (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED);
             if (!hasPerm)
-                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 102);
+                requestPermissions(new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION}, 102);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            boolean hasPerm = (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED);
+            boolean hasPerm = (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED);
             if (!hasPerm)
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 103);
+                requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 103);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            boolean hasPerm = (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED);
+            boolean hasPerm = (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED);
             if (!hasPerm)
-                requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, 104);
+                requestPermissions(new String[]{android.Manifest.permission.READ_PHONE_STATE}, 104);
         }
 
         btn_pull_sheet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new ActionTopDialog(NewActivity.this)
+                new ActionTopDialog(ScrollingActivity.this)
                         .builder()
                         .setCancelable(false)
                         .setCanceledOnTouchOutside(false)
@@ -200,6 +223,22 @@ public class NewActivity extends AppCompatActivity {
                         }).show();
             }
         });
+        btn_tab.setOnClickListener(this);
+    }
+
+    private void initViews() {
+        btn_html = (Button) findViewById(R.id.btn_html);
+        app_bar = (AppBarLayout) findViewById(R.id.app_bar);
+//        toolbar_1 = (Toolbar)findViewById(R.id.toolbar_1);
+        btn_refresh = (Button) findViewById(R.id.btn_refresh);
+        btn_location = (Button) findViewById(R.id.btn_location);
+        btn_catch = (Button) findViewById(R.id.btn_down);
+        join_us = (Button) findViewById(R.id.btn_join_us);
+        btn_nwe = (Button) findViewById(R.id.btn_new);
+        btn_register = (Button) findViewById(R.id.btn_register);
+        btn_pull_sheet = (Button) findViewById(R.id.btn_pull_sheet);
+        btn_tab = (Button) findViewById(R.id.btn_tab);
+        banner_guide_content = (BGABanner) findViewById(R.id.banner_guide_content);
     }
 
     /**
@@ -252,6 +291,17 @@ public class NewActivity extends AppCompatActivity {
         } catch (Exception e) {
             // 未安装手Q或安装的版本不支持
             return false;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_tab:
+                Intent intent = new Intent();
+                intent.setClass(ScrollingActivity.this,TableActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 }

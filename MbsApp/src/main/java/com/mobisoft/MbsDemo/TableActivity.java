@@ -1,25 +1,29 @@
 package com.mobisoft.MbsDemo;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.mobisoft.MbsDemo.View.MBSScrollView;
+import com.mobisoft.MbsDemo.View.MBSTabLayout;
 
 public class TableActivity extends AppCompatActivity {
 
+    public static final String TAG = "OMM";
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -34,32 +38,38 @@ public class TableActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private static MBSTabLayout tab_layout;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-//        ActionBar actionBar = getActionBar();
-//        actionBar.setDisplayHomeAsUpEnabled(false);
-//        //显示左侧的返回箭头，并且返回箭头和title一直设置返回箭头才能显示
-//        actionBar.setDisplayShowHomeEnabled(true);
-//        actionBar.setDisplayUseLogoEnabled(true);
-//        //显示标题
-//        actionBar.setDisplayShowTitleEnabled(true);
-//        actionBar.setTitle("返回箭头 ");
-
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
+        tab_layout = (MBSTabLayout) findViewById(R.id.tab_layout);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+//                tab_layout.rollBackState(position );
+                Log.i(TAG,position+"/  onPageSelected ");
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+
+//        tab_layout.setupWithViewPager(mViewPager);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +79,24 @@ public class TableActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        tab_layout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mViewPager.setCurrentItem(tab.getPosition());
+            }
 
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+        tab_layout.setupWithViewPager(mViewPager, false);
+//        scrollview_1.setScanScrollChangedListener(this);
     }
 
 
@@ -95,15 +122,19 @@ public class TableActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class PlaceholderFragment extends Fragment implements MBSScrollView.ISmartScrollChangedListener {
         /**
          * The fragment argument representing the section number for this
          * fragment.
          */
+        private MBSScrollView scrollview_1;
+
         private static final String ARG_SECTION_NUMBER = "section_number";
+        private boolean isAlpha = false;
 
         public PlaceholderFragment() {
         }
@@ -125,8 +156,38 @@ public class TableActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_table, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            ImageView image = (ImageView) rootView.findViewById(R.id.image_label);
+
+            scrollview_1 = (MBSScrollView) rootView.findViewById(R.id.scrollview_1);
+
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            scrollview_1.setScanScrollChangedListener(this);
+            int num = getArguments().getInt(ARG_SECTION_NUMBER);
+            if(num==1){
+                image.setImageResource(R.drawable.bg_green);
+            }else if(num==2){
+                image.setImageResource(R.drawable.bg_red);
+
+            }
             return rootView;
+        }
+
+        @Override
+        public void onScrolledToBottom() {
+
+        }
+
+        @Override
+        public void onScrolledToTop() {
+
+        }
+
+        @Override
+        public void onScrolledChange(int alpha) {
+            int num = getArguments().getInt(ARG_SECTION_NUMBER);
+            tab_layout.setScrollChange(alpha, num);
+            Log.i(TAG, "/  onScrolledChange// "+num);
+
         }
     }
 
@@ -144,7 +205,7 @@ public class TableActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            return PlaceholderFragment.newInstance(position);
         }
 
         @Override
@@ -157,11 +218,11 @@ public class TableActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "SECTION 1";
+                    return "首页";
                 case 1:
-                    return "SECTION 2";
+                    return "圈子";
                 case 2:
-                    return "SECTION 3";
+                    return "我的";
             }
             return null;
         }

@@ -42,23 +42,30 @@
         <service android:name="com.amap.api.location.APSService" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".GuideUi.GuideActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <!--      <activity
-                  android:name=".MbsWebActivity"
-                  android:theme="@style/Theme.AppCompat.Light.NoActionBar" />-->
-        <activity
-            android:name=".LitsViewActivity.ListActivity"
-            android:label="@string/app_name" />
-        <activity android:name=".LocationActivity" />
-        <activity android:name=".NewActivity">
+            android:theme="@style/AppTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!--
+                  <activity
+                  android:name=".MbsWebActivity"
+                  android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        -->
+        <activity
+            android:name=".LitsViewActivity.ListActivity"
+            android:label="@string/app_name" />
+        <activity android:name=".LocationActivity" />
+        <activity
+            android:name=".NewActivity"></activity>
 
         <!-- 高德地图 -->
         <meta-data
@@ -97,9 +104,15 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="com.fxd.test.user" />
-
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".ScrollingActivity"
+            android:label="@string/title_activity_scrolling"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
     </application>
 
 </manifest>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MBSTabLayout">
+        <!--当滑动顶部是否事透明-->
+        <attr name="isTransparent" format="boolean" />
+    </declare-styleable>
+</resources>

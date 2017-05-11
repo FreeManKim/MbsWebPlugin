@@ -10,9 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        ndk {
-            abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
-        }
+
     }
     buildTypes {
         release {
@@ -42,6 +40,7 @@ dependencies {
     compile project(':commonlibrary')
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
     compile project(':searchlibrary')
+    compile project(':bannerlibrary')
 }
 repositories{
     flatDir{
