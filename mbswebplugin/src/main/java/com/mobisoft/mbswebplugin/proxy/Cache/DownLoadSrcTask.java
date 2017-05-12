@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.mobisoft.mbswebplugin.proxy.DB.WebviewCaheDao;
+import com.mobisoft.mbswebplugin.proxy.Setting.ProxyConfig;
+import com.mobisoft.mbswebplugin.proxy.Work.DownloadSrcCallback;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -33,15 +35,18 @@ import javax.net.ssl.TrustManager;
 public class DownLoadSrcTask extends AsyncTask<String, Integer, String> {
     private String TAG = "DownLoadSrcTask";
     private WebviewCaheDao webviewCaheDao;
+    private DownloadSrcCallback srcCallback;
+    private boolean isFinish;
 
     public DownLoadSrcTask(WebviewCaheDao webviewCaheDao) {
         this.webviewCaheDao = webviewCaheDao;
+        srcCallback = ProxyConfig.getConfig().getSrcCallback();
     }
 
     @Override
     protected String doInBackground(String... params) {
+        String cachePath = params[0];
         try {
-            String cachePath = params[0];
             URL uri = new URL(cachePath);
             Log.i(TAG, "下载：URL:" + cachePath);
 
@@ -55,8 +60,9 @@ public class DownLoadSrcTask extends AsyncTask<String, Integer, String> {
             } else {
                 connection = (HttpURLConnection) uri.openConnection();
             }
-
+            connection.setUseCaches(false);
             connection.setRequestProperty("Accept-Encoding", "identity");
+//            connection.setRequestProperty("Cache-Control", "no-cache");
 
             String responseHeader = getResponseHeader(connection);
             Log.e(TAG, "头文件:" + responseHeader);
@@ -97,7 +103,7 @@ public class DownLoadSrcTask extends AsyncTask<String, Integer, String> {
                     }
                 }
 
-                Log.i(TAG, "下载完成getResponseCode:" + file1.getAbsolutePath());
+                Log.i(TAG, "下载完成 getResponseCode:" + file1.getAbsolutePath());
                 webviewCaheDao.saveUrlPath(params[2], cachePath, file1.getAbsolutePath());
             } else {
                 file1.delete();
@@ -105,24 +111,45 @@ public class DownLoadSrcTask extends AsyncTask<String, Integer, String> {
             }
             output.close();
             uristream.close();
-            return  params[0];
+            return params[0];
         } catch (FileNotFoundException e) {
+            webviewCaheDao.deletKey(cachePath);
             e.printStackTrace();
+
         } catch (NoSuchAlgorithmException e) {
+            webviewCaheDao.deletKey(cachePath);
+
             e.printStackTrace();
         } catch (MalformedURLException e) {
+            webviewCaheDao.deletKey(cachePath);
+
             e.printStackTrace();
         } catch (IOException e) {
+            webviewCaheDao.deletKey(cachePath);
+
             e.printStackTrace();
         } catch (KeyManagementException e) {
+            webviewCaheDao.deletKey(cachePath);
             e.printStackTrace();
         }
         return params[0];
     }
 
     @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        Log.i(TAG, "开始下载：onPreExecute");
+
+    }
+
+    @Override
     protected void onPostExecute(String s) {
-        Log.i(TAG, "下载完成："+s);
+        if (srcCallback != null && !isFinish) {
+            isFinish = true;
+            srcCallback.downLoadFinish();
+        }
+        int n = webviewCaheDao.getCount();
+        Log.i(TAG, "下载完成路径：" + s + "/// : " + n);
     }
 
     /**

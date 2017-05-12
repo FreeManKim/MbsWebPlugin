@@ -9,7 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.mobisoft.mbswebplugin.proxy.DB.WebviewCaheDao;
-import com.mobisoft.mbswebplugin.utils.ToastUtil;
+import com.mobisoft.mbswebplugin.proxy.tool.FileCache;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -84,7 +84,7 @@ public class CacheService extends Service {
 
                         }
                     } else {
-                        ToastUtil.showLongToast(this, "下载完成");
+//                        ToastUtil.showLongToast(this, "下载完成");
                         break;
                     }
 

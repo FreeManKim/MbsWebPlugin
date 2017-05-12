@@ -56,6 +56,10 @@ public class WebviewCaheDao {
 	public void deletKey(String column_key){
 		DemoDBManager.getInstance().deletKey(column_key);
 	}
+
+	public int  getCount(){
+		 return DemoDBManager.getInstance().getCount();
+	}
 	/**
 	 *获取缓存
 	 * @param account

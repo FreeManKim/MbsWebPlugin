@@ -22,14 +22,7 @@
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay">
 
-            </android.support.v7.widget.Toolbar>
             <com.mobisoft.bannerlibrary.BGABanner
                 android:id="@+id/banner_guide_content"
                 android:layout_width="match_parent"
@@ -40,8 +33,16 @@
                 app:banner_pointDrawable="@drawable/bga_banner_selector_point_hollow"
                 app:banner_pointTopBottomMargin="15dp"
                 app:banner_transitionEffect="alpha" />
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
 
+            </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
+
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_scrolling" />

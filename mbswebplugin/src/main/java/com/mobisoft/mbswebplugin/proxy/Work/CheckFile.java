@@ -1,4 +1,4 @@
-package com.mobisoft.mbswebplugin.proxy.Cache;
+package com.mobisoft.mbswebplugin.proxy.Work;
 
 import com.mobisoft.mbswebplugin.proxy.DB.WebviewCaheDao;
 

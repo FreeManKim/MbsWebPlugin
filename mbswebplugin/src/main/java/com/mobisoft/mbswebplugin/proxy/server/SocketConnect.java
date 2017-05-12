@@ -3,7 +3,7 @@ package com.mobisoft.mbswebplugin.proxy.server;
 import android.content.Context;
 import android.util.Log;
 
-import com.mobisoft.mbswebplugin.proxy.Cache.FileCache;
+import com.mobisoft.mbswebplugin.proxy.tool.FileCache;
 import com.mobisoft.mbswebplugin.proxy.DB.WebviewCaheDao;
 
 import java.io.File;

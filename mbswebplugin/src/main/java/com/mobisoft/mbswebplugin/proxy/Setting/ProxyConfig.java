@@ -1,7 +1,8 @@
-package com.mobisoft.mbswebplugin.proxy.server;
+package com.mobisoft.mbswebplugin.proxy.Setting;
 
 import com.mobisoft.mbswebplugin.R;
 import com.mobisoft.mbswebplugin.proxy.Cache.CacheManifest;
+import com.mobisoft.mbswebplugin.proxy.Work.DownloadSrcCallback;
 
 /**
  * Author：Created by fan.xd on 2017/3/17.
@@ -38,12 +39,25 @@ public class ProxyConfig {
      * 是否https 连接
      */
     private boolean changeHttps;
+    private DownloadSrcCallback srcCallback;
 
 
     public static void setConfig(ProxyConfig config) {
         ProxyConfig.config = config;
     }
+    /**
+     * 设置加载回掉
+     *
+     * @param callback 图标ID
+     */
+    public ProxyConfig setDownloadSrcCallback(DownloadSrcCallback callback) {
+        this.srcCallback = callback;
+        return this;
+    }
 
+    public DownloadSrcCallback getSrcCallback() {
+        return srcCallback;
+    }
 
     public int getLoadingIc() {
         return loadingIc == 0 ? R.drawable.ic_launcher : loadingIc;

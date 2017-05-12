@@ -14,6 +14,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.Button;
@@ -29,9 +31,12 @@ import com.mobisoft.bannerlibrary.BGABanner;
 import com.mobisoft.mbswebplugin.MbsWeb.HybridWebApp;
 import com.mobisoft.mbswebplugin.helper.FunctionConfig;
 import com.mobisoft.mbswebplugin.helper.ThemeConfig;
-import com.mobisoft.mbswebplugin.proxy.server.ProxyBuilder;
+import com.mobisoft.mbswebplugin.proxy.Setting.ProxyBuilder;
+import com.mobisoft.mbswebplugin.proxy.Setting.ProxyConfig;
+import com.mobisoft.mbswebplugin.utils.FileUtils;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.Arrays;
 
 public class ScrollingActivity extends AppCompatActivity implements View.OnClickListener {
@@ -241,6 +246,31 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         banner_guide_content = (BGABanner) findViewById(R.id.banner_guide_content);
     }
 
+    @Override
+    public void invalidateOptionsMenu() {
+        super.invalidateOptionsMenu();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_table, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_delete:
+                File file = new File(ProxyConfig.getConfig().getCachePath());
+                FileUtils.deleteFile(file);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     /**
      * 注册广播
      */
@@ -299,7 +329,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         switch (v.getId()) {
             case R.id.btn_tab:
                 Intent intent = new Intent();
-                intent.setClass(ScrollingActivity.this,TableActivity.class);
+                intent.setClass(ScrollingActivity.this, TableActivity.class);
                 startActivity(intent);
                 break;
         }

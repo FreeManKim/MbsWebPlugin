@@ -32,7 +32,7 @@ import com.mobisoft.mbswebplugin.helper.CoreConfig;
 import com.mobisoft.mbswebplugin.helper.FunctionConfig;
 import com.mobisoft.mbswebplugin.helper.ThemeConfig;
 import com.mobisoft.mbswebplugin.proxy.Cache.CacheManifest;
-import com.mobisoft.mbswebplugin.proxy.server.ProxyConfig;
+import com.mobisoft.mbswebplugin.proxy.Setting.ProxyConfig;
 import com.mobisoft.mbswebplugin.proxy.server.ProxyService;
 import com.mobisoft.mbswebplugin.proxy.server.SettingProxy;
 import com.mobisoft.mbswebplugin.utils.ActivityCollector;

@@ -3,11 +3,13 @@ package com.mobisoft.mbswebplugin.proxy.Cache;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.mobisoft.mbswebplugin.base.ActivityManager;
 import com.mobisoft.mbswebplugin.base.Recycler;
-import com.mobisoft.mbswebplugin.proxy.server.ProxyConfig;
+import com.mobisoft.mbswebplugin.proxy.Setting.ProxyConfig;
+import com.mobisoft.mbswebplugin.proxy.Work.DefaultCheck;
+import com.mobisoft.mbswebplugin.proxy.Work.DownloadSrcCallback;
+import com.mobisoft.mbswebplugin.proxy.tool.FileCache;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -36,6 +38,7 @@ public class CacheManifest extends Thread implements Recycler.Recycleable {
     private Activity mContext;
     private String url;
     private String path;
+    private DownloadSrcCallback callback;
 
     public CacheManifest(String path, String url) {
         this.url = ProxyConfig.getConfig().getCacheUrl();
@@ -47,6 +50,7 @@ public class CacheManifest extends Thread implements Recycler.Recycleable {
         this.url = ProxyConfig.getConfig().getCacheUrl();
         this.path = ProxyConfig.getConfig().getCachePath();
         mContext = ActivityManager.get().topActivity();
+        callback = ProxyConfig.getConfig().getSrcCallback();
     }
 
     public void execute() {
@@ -68,7 +72,10 @@ public class CacheManifest extends Thread implements Recycler.Recycleable {
                 connection = (HttpURLConnection) uri.openConnection();
 
             }
+            connection.setUseCaches(false);
             connection.setRequestProperty("Content-Type", "text/html; charset=UTF-8");
+//            connection.setRequestProperty("Cache-Control", "no-cache");
+
             connection.setRequestMethod("GET");
             connection.setConnectTimeout(1000);
             connection.setUseCaches(false);
@@ -96,8 +103,8 @@ public class CacheManifest extends Thread implements Recycler.Recycleable {
                     mContext.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(ActivityManager.get().topActivity(), "服务端与本地文件一致无需缓存", Toast.LENGTH_LONG).show();
-
+                            if (callback != null)
+                                callback.noNeedUpData();
                         }
                     });
                     return;
@@ -105,7 +112,9 @@ public class CacheManifest extends Thread implements Recycler.Recycleable {
                     mContext.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(ActivityManager.get().topActivity(), "开始更新Manifest文件！", Toast.LENGTH_LONG).show();
+                            if (callback != null)
+                                callback.downLoadStart();
+//                            Toast.makeText(ActivityManager.get().topActivity(), "开始更新Manifest文件！", Toast.LENGTH_LONG).show();
 
                         }
                     });
@@ -129,7 +138,9 @@ public class CacheManifest extends Thread implements Recycler.Recycleable {
             mContext.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(ActivityManager.get().topActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    if (callback != null)
+                        callback.downLoadFailure(e.getMessage());
+//                    Toast.makeText(ActivityManager.get().topActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
 
                 }
             });

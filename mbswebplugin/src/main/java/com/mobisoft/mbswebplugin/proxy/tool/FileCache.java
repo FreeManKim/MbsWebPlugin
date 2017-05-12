@@ -1,10 +1,7 @@
-package com.mobisoft.mbswebplugin.proxy.Cache;
+package com.mobisoft.mbswebplugin.proxy.tool;
 
 import android.content.Context;
 import android.util.Log;
-
-import com.mobisoft.mbswebplugin.proxy.tool.NetWorkUtils;
-import com.mobisoft.mbswebplugin.proxy.tool.YUtils;
 
 import java.io.File;
 import java.io.FileInputStream;

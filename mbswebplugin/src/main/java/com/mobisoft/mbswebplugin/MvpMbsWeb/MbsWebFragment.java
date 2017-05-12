@@ -36,7 +36,7 @@ import com.mobisoft.mbswebplugin.R;
 import com.mobisoft.mbswebplugin.base.AppConfing;
 import com.mobisoft.mbswebplugin.base.BaseApp;
 import com.mobisoft.mbswebplugin.base.Recycler;
-import com.mobisoft.mbswebplugin.proxy.server.ProxyConfig;
+import com.mobisoft.mbswebplugin.proxy.Setting.ProxyConfig;
 import com.mobisoft.mbswebplugin.refresh.BGAMoocStyleRefreshViewHolder;
 import com.mobisoft.mbswebplugin.refresh.BGARefreshLayout;
 import com.mobisoft.mbswebplugin.utils.ActivityCollector;

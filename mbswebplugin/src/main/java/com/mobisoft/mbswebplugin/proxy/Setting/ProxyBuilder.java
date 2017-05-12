@@ -1,4 +1,4 @@
-package com.mobisoft.mbswebplugin.proxy.server;
+package com.mobisoft.mbswebplugin.proxy.Setting;
 
 import com.mobisoft.mbswebplugin.proxy.Cache.CacheManifest;
 

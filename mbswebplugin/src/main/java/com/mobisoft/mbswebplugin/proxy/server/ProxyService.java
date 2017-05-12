@@ -23,6 +23,7 @@ import android.os.RemoteException;
 import com.mobisoft.mbswebplugin.IProxyCallback;
 import com.mobisoft.mbswebplugin.IProxyPortListener;
 import com.mobisoft.mbswebplugin.proxy.DB.WebviewCaheDao;
+import com.mobisoft.mbswebplugin.proxy.Setting.ProxyConfig;
 
 
 /**

@@ -4,7 +4,8 @@ import android.os.Environment;
 
 import com.mobisoft.mbswebplugin.base.ActivityManager;
 import com.mobisoft.mbswebplugin.base.BaseApp;
-import com.mobisoft.mbswebplugin.proxy.server.ProxyConfig;
+import com.mobisoft.mbswebplugin.proxy.Setting.ProxyConfig;
+import com.mobisoft.mbswebplugin.proxy.Work.DefaultDownloadSacCallback;
 import com.squareup.leakcanary.LeakCanary;
 
 import java.io.File;
@@ -32,9 +33,10 @@ public class MyApp extends BaseApp {
         ProxyConfig.getConfig()
                 .setCachePath(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator
                         + "AAA_1")
-                .setCacheUrl("http://elearning.mobisoft.com.cn/mobile/cache.manifest")
+                .setCacheUrl("http://test.mobisoft.com.cn/guotai/cache.manifest")
                 .setChangeHttps(false)
-                .setPORT(8183);
+                .setPORT(8183)
+                .setDownloadSrcCallback(new DefaultDownloadSacCallback());
         ActivityManager.get().registerSelf(this.getApplicationContext());
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.

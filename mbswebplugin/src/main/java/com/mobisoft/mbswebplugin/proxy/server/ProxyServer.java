@@ -22,8 +22,9 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.mobisoft.mbswebplugin.IProxyPortListener;
-import com.mobisoft.mbswebplugin.proxy.Cache.FileCache;
+import com.mobisoft.mbswebplugin.proxy.tool.FileCache;
 import com.mobisoft.mbswebplugin.proxy.DB.WebviewCaheDao;
+import com.mobisoft.mbswebplugin.proxy.Setting.ProxyConfig;
 
 import java.io.IOException;
 import java.io.InputStream;

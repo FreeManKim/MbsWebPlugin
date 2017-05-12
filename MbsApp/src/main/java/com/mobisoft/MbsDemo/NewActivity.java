@@ -25,7 +25,7 @@ import com.mobisoft.bannerlibrary.BGABanner;
 import com.mobisoft.mbswebplugin.MbsWeb.HybridWebApp;
 import com.mobisoft.mbswebplugin.helper.FunctionConfig;
 import com.mobisoft.mbswebplugin.helper.ThemeConfig;
-import com.mobisoft.mbswebplugin.proxy.server.ProxyBuilder;
+import com.mobisoft.mbswebplugin.proxy.Setting.ProxyBuilder;
 import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
