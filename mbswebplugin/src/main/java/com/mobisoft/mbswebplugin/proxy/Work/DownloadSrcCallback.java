@@ -1,5 +1,7 @@
 package com.mobisoft.mbswebplugin.proxy.Work;
 
+import android.support.annotation.WorkerThread;
+
 /**
  * Author：Created by fan.xd on 2017/5/12.
  * Email：fang.xd@mobisoft.com.cn
@@ -15,6 +17,7 @@ public interface DownloadSrcCallback {
     /**
      * 开始下载
      */
+    @WorkerThread
     void downLoadStart();
 
     /**
@@ -22,10 +25,12 @@ public interface DownloadSrcCallback {
      *
      * @param message
      */
+    @WorkerThread
     void downLoadFailure(String message);
 
     /**
      * 无需更新缓存文件
      */
+    @WorkerThread
     void noNeedUpData();
 }

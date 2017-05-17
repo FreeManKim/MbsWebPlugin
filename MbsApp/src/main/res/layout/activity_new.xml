@@ -11,94 +11,103 @@
     tools:context="com.mobisoft.MbsDemo.NewActivity">
 
 
+    <!--      <com.mobisoft.bannerlibrary.BGABanner
+              android:id="@+id/banner_guide_content"
+              android:layout_width="match_parent"
+              android:layout_height="200dp"
+              app:banner_pageChangeDuration="1000"
+              app:banner_pointAutoPlayAble="true"
+              app:banner_pointContainerBackground="@android:color/transparent"
+              app:banner_pointDrawable="@drawable/bga_banner_selector_point_hollow"
+              app:banner_pointTopBottomMargin="15dp"
+              app:banner_transitionEffect="alpha" />-->
 
-  <!--      <com.mobisoft.bannerlibrary.BGABanner
-            android:id="@+id/banner_guide_content"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:banner_pageChangeDuration="1000"
-            app:banner_pointAutoPlayAble="true"
-            app:banner_pointContainerBackground="@android:color/transparent"
-            app:banner_pointDrawable="@drawable/bga_banner_selector_point_hollow"
-            app:banner_pointTopBottomMargin="15dp"
-            app:banner_transitionEffect="alpha" />-->
 
+    <Button
+        android:id="@+id/btn_pull_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="弹窗！" />
 
-        <Button
-            android:id="@+id/btn_pull_sheet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="弹窗！" />
+    <Button
+        android:id="@+id/btn_html"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_pull_sheet"
+        android:text="网页测试页面" />
 
-        <Button
-            android:id="@+id/btn_html"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/btn_pull_sheet"
-            android:text="网页测试页面" />
+    <Button
+        android:id="@+id/btn_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_html"
+        android:text="定位测试页面" />
 
-        <Button
-            android:id="@+id/btn_location"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_html"
-            android:text="定位测试页面" />
+    <Button
+        android:id="@+id/btn_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_location"
+        android:text="下拉刷新测试页面" />
 
-        <Button
-            android:id="@+id/btn_refresh"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_location"
-            android:text="下拉刷新测试页面" />
+    <Button
+        android:id="@+id/btn_down"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_refresh"
+        android:text="下载cache.mainfest" />
 
-        <Button
-            android:id="@+id/btn_down"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_refresh"
-            android:text="下载cache.mainfest" />
+    <Button
+        android:id="@+id/btn_join_us"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_down"
+        android:text="加入QQ讨论群！" />
 
-        <Button
-            android:id="@+id/btn_join_us"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/btn_down"
-            android:text="加入QQ讨论群！" />
+    <Button
+        android:id="@+id/btn_new"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_join_us"
+        android:text="新测试页面！" />
 
-        <Button
-            android:id="@+id/btn_new"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/btn_join_us"
-            android:text="新测试页面！" />
+    <Button
+        android:id="@+id/btn_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_new"
+        android:text="权限注册广播！" />
 
-        <Button
-            android:id="@+id/btn_register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/btn_new"
-            android:text="权限注册广播！" />
+    <com.mobisoft.searchlibrary.IconCenterEditText
+        android:id="@+id/icet_search2"
+        style="@style/StyleEditText"
+        android:layout_below="@id/btn_register" />
 
-        <com.mobisoft.searchlibrary.IconCenterEditText
-            android:id="@+id/icet_search2"
-            style="@style/StyleEditText"
-            android:layout_below="@id/btn_register" />
+    <com.mobisoft.searchlibrary.IconCenterEditText
+        android:id="@+id/icet_search"
+        style="@style/StyleEditText"
+        android:layout_below="@id/icet_search2" />
 
-        <com.mobisoft.searchlibrary.IconCenterEditText
-            android:id="@+id/icet_search"
-            style="@style/StyleEditText"
-            android:layout_below="@id/icet_search2" />
-      <Button
-          android:id="@+id/btn_tab"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_below="@id/icet_search"
-          android:text="TABLayout！" />
-        <ViewStub
-            android:id="@+id/view_stup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/btn_tab"
-            android:layout="@layout/view_stup_tree_layout" />
+    <Button
+        android:id="@+id/btn_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/icet_search"
+        android:text="TABLayout！" />
+
+    <Button
+        android:id="@+id/btn_alipay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_tab"
+        android:text="支付宝授权！"
+        android:onClick="alipay"/>
+
+    <ViewStub
+        android:id="@+id/view_stup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_alipay"
+        android:layout="@layout/view_stup_tree_layout" />
 
 </RelativeLayout>

@@ -254,4 +254,8 @@ public class NewActivity extends AppCompatActivity {
             return false;
         }
     }
+
+    public void alipay(View view) {
+
+    }
 }

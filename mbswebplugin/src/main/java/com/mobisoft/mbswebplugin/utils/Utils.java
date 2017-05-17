@@ -2,8 +2,6 @@ package com.mobisoft.mbswebplugin.utils;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,7 +13,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -542,64 +539,9 @@ public class Utils {
      * @return
      */
     public static  String getAbsoluteImagePath(Context context, Uri uri) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            String imagePath;
-            if (DocumentsContract.isDocumentUri(context, uri)) {
-                String docId = DocumentsContract.getDocumentId(uri);
-                if ("com.android.providers.media.documents".equals(uri.getAuthority())) {
-                    //Log.d(TAG, uri.toString());
-                    String id = docId.split(":")[1];
-                    String selection = MediaStore.Images.Media._ID + "=" + id;
-                    return imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection, context);
-                } else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
-                    //Log.d(TAG, uri.toString());
-                    Uri contentUri = ContentUris.withAppendedId(
-                            Uri.parse("content://downloads/public_downloads"),
-                            Long.valueOf(docId));
-                    return imagePath = getImagePath(contentUri, null, context);
-                }
-            } else if ("content".equalsIgnoreCase(uri.getScheme())) {
-                //Log.d(TAG, "content: " + uri.toString());
-                return imagePath = getImagePath(uri, null, context);
-            }
-        } else {
-            // can post image
-            String[] proj = {MediaStore.Images.Media.DATA};
-            ContentResolver resolver = context.getContentResolver();
-            Cursor cursor = resolver.query(uri, proj, null, null, null);
-            if (cursor == null) {// 处理没有相册文件夹的情况
-                String path = uri.getEncodedPath();
-                StringBuffer buff = new StringBuffer();
-                buff.append("(").append(MediaStore.Images.ImageColumns.DATA).append("=").append("'" + path + "'").append(")");
-                cursor = resolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, proj, buff.toString(), null, null);
-            }
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        }
-        return null;
+        return URIUtils.getPath(context, uri);
     }
 
-    /**
-     * 获取Uri 地址
-     *
-     * @param uri
-     * @param selection
-     * @param context
-     * @return
-     */
-    private static String getImagePath(Uri uri, String selection, Context context) {
-        String path = null;
-        Cursor cursor = context.getContentResolver().query(uri, null, selection, null, null);
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-            }
-
-            cursor.close();
-        }
-        return path;
-    }
 
 
     /**

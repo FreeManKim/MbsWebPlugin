@@ -2,7 +2,6 @@ package com.mobisoft.mbswebplugin.proxy.Cache;
 
 import android.app.Service;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
 import android.text.TextUtils;
@@ -19,6 +18,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+
+import static android.os.AsyncTask.THREAD_POOL_EXECUTOR;
 
 
 public class CacheService extends Service {
@@ -80,7 +81,12 @@ public class CacheService extends Service {
 
                             File file1 = FileCache.getInstance().creatCacheFile(cachePath, cacheDir, this);
 
-                            new DownLoadSrcTask(dao).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, cachePath, file1.getAbsolutePath(), "");
+//                            1、THREAD_POOL_EXECUTOR
+//                            多个任务可以在线程池中异步并发执行。
+//                            2、SERIAL_EXECUTOR
+//                            把多个线程按串行的方式执行，所以是同步执行的。
+//                            也就是说，只有当一个线程执行完毕之后，才会执行下个线程。
+                            new DownLoadSrcTask(dao).executeOnExecutor(THREAD_POOL_EXECUTOR, cachePath, file1.getAbsolutePath(), "");
 
                         }
                     } else {

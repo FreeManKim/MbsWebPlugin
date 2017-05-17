@@ -10,6 +10,7 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 
 import com.mobisoft.mbswebplugin.Cmd.DoCmdMethod;
 import com.mobisoft.mbswebplugin.MbsWeb.HybridWebView;
@@ -92,7 +93,8 @@ public class AlbumOrCamera extends DoCmdMethod implements MbsResultListener {
                  * 选则相册
                  */
                 if (requestCode == AppConfing.PICK_IMAGE_ACTIVITY_REQUEST_CODE) {
-                    final String path2 = Utils.copyPhotoToTemp(context1, data.getData());
+                    Uri uri = data.getData();
+                    final String path2 = Utils.copyPhotoToTemp(context1, uri);
 
                     setImageSrc(path2, view, context);
                 } else if (requestCode == AppConfing.CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
@@ -120,6 +122,7 @@ public class AlbumOrCamera extends DoCmdMethod implements MbsResultListener {
 
     /**
      * 给webView设置图片
+     *
      * @param path2
      * @param view
      * @param context
@@ -149,7 +152,7 @@ public class AlbumOrCamera extends DoCmdMethod implements MbsResultListener {
      * @param context
      * @param context1
      */
-    private void showSelectDialog(Context context, final Activity context1) {
+    private void showSelectDialog(final Context context, final Activity context1) {
         new ActionSheetDialog(context)
                 .builder()
                 .setCancelable(false)
@@ -168,7 +171,11 @@ public class AlbumOrCamera extends DoCmdMethod implements MbsResultListener {
                                 if (file.exists()) {
                                     file.delete();
                                 }
-                                Uri uri = Uri.fromFile(file);
+                                Uri uri;
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                                    uri = FileProvider.getUriForFile(context, "com.mobisoft.mbswebplugin.fileprovider", file);
+                                else
+                                    uri = Uri.fromFile(file);
                                 intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                                 (context1).startActivityForResult(intent, AppConfing.CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
                             }

@@ -61,7 +61,7 @@ public class CacheManifest extends Thread implements Recycler.Recycleable {
     public void run() {
         try {
             URL uri = new URL(url);
-            HttpURLConnection connection;
+            final HttpURLConnection connection;
             if (url.contains("https")) {
                 SSLContext sc = SSLContext.getInstance("TLS");
                 sc.init(null, new TrustManager[]{new MyTrustManager()}, new SecureRandom());
@@ -100,24 +100,12 @@ public class CacheManifest extends Thread implements Recycler.Recycleable {
                 out.close();
                 in.close();
                 if (DefaultCheck.getInstance().check(file1, fileTemp)) {
-                    mContext.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (callback != null)
-                                callback.noNeedUpData();
-                        }
-                    });
+                    if (callback != null)
+                        callback.noNeedUpData();
                     return;
                 } else {
-                    mContext.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (callback != null)
-                                callback.downLoadStart();
-//                            Toast.makeText(ActivityManager.get().topActivity(), "开始更新Manifest文件！", Toast.LENGTH_LONG).show();
-
-                        }
-                    });
+                    if (callback != null)
+                        callback.downLoadStart();
 
                 }
                 Intent broadcast = new Intent();
@@ -128,22 +116,18 @@ public class CacheManifest extends Thread implements Recycler.Recycleable {
                 broadcast.putExtra("cacheDir", path);
                 mContext.sendBroadcast(broadcast, PERMISSION);
             } else {
-                new Throwable("下载失败ResponseCode：" + code + "\n 地址：" + url);
+                String mess = connection.getResponseCode() + " " + connection.getResponseMessage();
+                if (callback != null)
+                    callback.downLoadFailure(mess);
+//                new IOException("下载失败ResponseCode：" + code + "\n 地址：" + url);
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
 
         } catch (final IOException e) {
             e.printStackTrace();
-            mContext.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (callback != null)
-                        callback.downLoadFailure(e.getMessage());
-//                    Toast.makeText(ActivityManager.get().topActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
-
-                }
-            });
+            if (callback != null)
+                callback.downLoadFailure(e.getMessage());
 
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -164,5 +148,6 @@ public class CacheManifest extends Thread implements Recycler.Recycleable {
         mContext = null;
         url = null;
         path = null;
+        callback = null;
     }
 }

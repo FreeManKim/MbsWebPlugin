@@ -2,6 +2,8 @@ package com.mobisoft.MbsDemo;
 
 import android.os.Environment;
 
+import com.mobisoft.MbsDemo.cmd.aliPayAuth;
+import com.mobisoft.mbswebplugin.Cmd.ProxyCmd;
 import com.mobisoft.mbswebplugin.base.ActivityManager;
 import com.mobisoft.mbswebplugin.base.BaseApp;
 import com.mobisoft.mbswebplugin.proxy.Setting.ProxyConfig;
@@ -33,11 +35,12 @@ public class MyApp extends BaseApp {
         ProxyConfig.getConfig()
                 .setCachePath(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator
                         + "AAA_1")
-                .setCacheUrl("http://test.mobisoft.com.cn/guotai/cache.manifest")
+                .setCacheUrl("http://test.mobisoft.com.cn/cathay/cache.manifest")
                 .setChangeHttps(false)
                 .setPORT(8183)
                 .setDownloadSrcCallback(new DefaultDownloadSacCallback());
         ActivityManager.get().registerSelf(this.getApplicationContext());
+        ProxyCmd.getInstance().putCmd("alipay", aliPayAuth.class.getName());
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.

@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -13,19 +15,23 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.alipay.sdk.app.AuthTask;
 import com.mobisoft.ActionTopDialog;
 import com.mobisoft.MbsDemo.LitsViewActivity.ListActivity;
 import com.mobisoft.MbsDemo.Loaction.KeepLiveReceiver;
 import com.mobisoft.MbsDemo.Loaction.KeepLiveService;
 import com.mobisoft.MbsDemo.Pull.PullWebActivity;
+import com.mobisoft.MbsDemo.alipay.AuthResult;
+import com.mobisoft.MbsDemo.alipay.OrderInfoUtil2_0;
 import com.mobisoft.Reciver.TestReceiver;
 import com.mobisoft.bannerlibrary.BGABanner;
 import com.mobisoft.mbswebplugin.MbsWeb.HybridWebApp;
@@ -38,6 +44,13 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Map;
+
+import static com.mobisoft.MbsDemo.cmd.aliPayAuth.APPID;
+import static com.mobisoft.MbsDemo.cmd.aliPayAuth.PID;
+import static com.mobisoft.MbsDemo.cmd.aliPayAuth.RSA2_PRIVATE;
+import static com.mobisoft.MbsDemo.cmd.aliPayAuth.RSA_PRIVATE;
+import static com.mobisoft.MbsDemo.cmd.aliPayAuth.TARGET_ID;
 
 public class ScrollingActivity extends AppCompatActivity implements View.OnClickListener {
     private Button btn_html;
@@ -56,6 +69,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private Toolbar toolbar;
     private Button btn_tab;
+    private final int SDK_AUTH_FLAG =2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +88,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
 //                app_bar.setBackgroundColor();
                 int alpha = 255 + verticalOffset;
-                Log.e("oye", "verticalOffset/:/" + verticalOffset + "//" + alpha);
+//                Log.e("oye", "verticalOffset/:/" + verticalOffset + "//" + alpha);
 
 //                collapsingToolbarLayout.setAlpha(alpha);
 //                toolbar.setAlpha(alpha);
@@ -333,5 +347,70 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
                 startActivity(intent);
                 break;
         }
+    }
+    private Handler mHandler  = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case SDK_AUTH_FLAG:
+                    @SuppressWarnings("unchecked")
+                    AuthResult authResult = new AuthResult((Map<String, String>) msg.obj, true);
+                    String resultStatus = authResult.getResultStatus();
+
+                    // 判断resultStatus 为“9000”且result_code
+                    // 为“200”则代表授权成功，具体状态码代表含义可参考授权接口文档
+                    if (TextUtils.equals(resultStatus, "9000") && TextUtils.equals(authResult.getResultCode(), "200")) {
+                        // 获取alipay_open_id，调支付时作为参数extern_token 的value
+                        // 传入，则支付账户为该授权账户
+                        Toast.makeText(ScrollingActivity.this.getApplicationContext(),
+                                "授权成功\n" + String.format("authCode:%s", authResult.getAuthCode()), Toast.LENGTH_SHORT)
+                                .show();
+                    } else {
+                        // 其他状态值则为授权失败
+                        Toast.makeText(ScrollingActivity.this.getApplicationContext(),
+                                "授权失败" + String.format("authCode:%s", authResult.getAuthCode()), Toast.LENGTH_LONG).show();
+
+                    }
+                    break;
+                default:
+            }
+        }
+    };;
+    public void alipay(View view) {
+
+        /**
+         * 这里只是为了方便直接向商户展示支付宝的整个支付流程；所以Demo中加签过程直接放在客户端完成；
+         * 真实App里，privateKey等数据严禁放在客户端，加签过程务必要放在服务端完成；
+         * 防止商户私密数据泄露，造成不必要的资金损失，及面临各种安全风险；
+         *
+         * authInfo的获取必须来自服务端；
+         */
+        boolean rsa2 = (RSA2_PRIVATE.length() > 0);
+        Map<String, String> authInfoMap = OrderInfoUtil2_0.buildAuthInfoMap(PID, APPID, TARGET_ID, rsa2);
+        String info = OrderInfoUtil2_0.buildOrderParam(authInfoMap);
+
+        String privateKey = rsa2 ? RSA2_PRIVATE : RSA_PRIVATE;
+        String sign = OrderInfoUtil2_0.getSign(authInfoMap, privateKey, rsa2);
+        final String authInfo = info + "&" + sign;
+        Runnable authRunnable = new Runnable() {
+
+            @Override
+            public void run() {
+                // 构造AuthTask 对象
+                AuthTask authTask = new AuthTask(ScrollingActivity.this);
+                // 调用授权接口，获取授权结果
+                Map<String, String> result = authTask.authV2(authInfo, true);
+
+                Message msg = new Message();
+                msg.what = SDK_AUTH_FLAG;
+                msg.obj = result;
+                mHandler.sendMessage(msg);
+            }
+        };
+
+        // 必须异步调用
+        Thread authThread = new Thread(authRunnable);
+        authThread.start();
+
     }
 }
