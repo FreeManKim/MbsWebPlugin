@@ -69,7 +69,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private Toolbar toolbar;
     private Button btn_tab;
-    private final int SDK_AUTH_FLAG =2;
+    private final int SDK_AUTH_FLAG = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -348,7 +348,8 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
                 break;
         }
     }
-    private Handler mHandler  = new Handler() {
+
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -375,9 +376,14 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
                 default:
             }
         }
-    };;
-    public void alipay(View view) {
+    };
+    ;
 
+    public void alipay(View view) {
+        int[] a = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+        int[] b = {0, 1, 2, 3, 4, 5, 6, 7, 8};
+        TestMove.rcr(a, 5);
+        TestMove.rcr(b, 5);
         /**
          * 这里只是为了方便直接向商户展示支付宝的整个支付流程；所以Demo中加签过程直接放在客户端完成；
          * 真实App里，privateKey等数据严禁放在客户端，加签过程务必要放在服务端完成；

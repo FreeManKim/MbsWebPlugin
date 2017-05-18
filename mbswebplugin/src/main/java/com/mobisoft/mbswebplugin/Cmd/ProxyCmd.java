@@ -114,8 +114,9 @@ public class ProxyCmd {
      * @param cmd
      * @param className
      */
-    public void putCmd(String cmd, String className) {
+    public ProxyCmd putCmd(String cmd, String className) {
         hashmap.put(cmd, className);
+        return this.cmd;
     }
 
     /**

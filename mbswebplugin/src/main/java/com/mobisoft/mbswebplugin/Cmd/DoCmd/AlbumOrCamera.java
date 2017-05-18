@@ -16,6 +16,7 @@ import com.mobisoft.mbswebplugin.Cmd.DoCmdMethod;
 import com.mobisoft.mbswebplugin.MbsWeb.HybridWebView;
 import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsResultListener;
 import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebPluginContract;
+import com.mobisoft.mbswebplugin.R;
 import com.mobisoft.mbswebplugin.base.AppConfing;
 import com.mobisoft.mbswebplugin.utils.Base64Util;
 import com.mobisoft.mbswebplugin.utils.ToastUtil;
@@ -86,6 +87,8 @@ public class AlbumOrCamera extends DoCmdMethod implements MbsResultListener {
     @Override
     public void onActivityResult(final Context context, final MbsWebPluginContract.View view, final int requestCode, int resultCode, final Intent data) {
 //            final String path = Utils.getAbsoluteImagePath(context, data.getData());
+
+//        if (data != null)
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -93,7 +96,13 @@ public class AlbumOrCamera extends DoCmdMethod implements MbsResultListener {
                  * 选则相册
                  */
                 if (requestCode == AppConfing.PICK_IMAGE_ACTIVITY_REQUEST_CODE) {
+                    if (data == null || data.getData() == null) {
+                        Context applicationContext = context.getApplicationContext();
+                        ToastUtil.showShortToast(applicationContext, applicationContext.getString(R.string.getImage_error));
+                        return;
+                    }
                     Uri uri = data.getData();
+
                     final String path2 = Utils.copyPhotoToTemp(context1, uri);
 
                     setImageSrc(path2, view, context);
@@ -118,6 +127,7 @@ public class AlbumOrCamera extends DoCmdMethod implements MbsResultListener {
 
             }
         }).start();
+//
     }
 
     /**
@@ -172,9 +182,11 @@ public class AlbumOrCamera extends DoCmdMethod implements MbsResultListener {
                                     file.delete();
                                 }
                                 Uri uri;
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                                    uri = FileProvider.getUriForFile(context, "com.mobisoft.mbswebplugin.fileprovider", file);
-                                else
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                    String fileProvider = context.getPackageName() + ".fileProvider";
+//                                    String fileProvider = "com.mobisoft.mbsDemo.fileProvider";
+                                    uri = FileProvider.getUriForFile(context, fileProvider, file);
+                                } else
                                     uri = Uri.fromFile(file);
                                 intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                                 (context1).startActivityForResult(intent, AppConfing.CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
