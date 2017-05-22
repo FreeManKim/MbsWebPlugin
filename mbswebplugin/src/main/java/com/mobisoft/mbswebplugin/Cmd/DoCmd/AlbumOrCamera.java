@@ -8,12 +8,14 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 
 import com.mobisoft.mbswebplugin.Cmd.DoCmdMethod;
 import com.mobisoft.mbswebplugin.MbsWeb.HybridWebView;
+import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsRequestPermissionsListener;
 import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsResultListener;
 import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebPluginContract;
 import com.mobisoft.mbswebplugin.R;
@@ -64,6 +66,19 @@ public class AlbumOrCamera extends DoCmdMethod implements MbsResultListener {
         this.params = params;
         this.callBack = callBack;
         presenter.setResultListener(AlbumOrCamera.this);
+        presenter.setMbsRequestPermissionsResultListener(new MbsRequestPermissionsListener() {
+            @Override
+            public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+                if(requestCode==200){
+                   if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                       showSelectDialog(context, context1);
+
+                   }else {
+                       ToastUtil.showShortToast(context,"缺少相关权限无法使此功能！");
+                   }
+                }
+            }
+        });
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)// 大于6.0 权限检查
         {
             if (ContextCompat.checkSelfPermission(context1,

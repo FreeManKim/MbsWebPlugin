@@ -89,14 +89,15 @@ public class WebPluginPresenter implements MbsWebPluginContract.Presenter, Recyc
      */
     protected String isTransitionMode = "RIGHT"; // activity打开方式
     private ReceiveBroadCast receiveBroadCast;
+    private MbsRequestPermissionsListener permissionsResultListener;
 
     public WebPluginPresenter(@NonNull MbsWebPluginContract.View mbsWebView,
                               Activity activity, Class cls, Bundle bundle) {
         mBsWebView = checkNotNull(mbsWebView, "mbsWebView cannot be null!");
+        mBsWebView.setPresenter(this);
         this.mActivity = checkNotNull(activity);
         this.cls = checkNotNull(cls);
         this.bundle = checkNotNull(bundle);
-        mBsWebView.setPresenter(this);
         isTransitionModeEnable = bundle.getBoolean(IS_TRANSITION_MODE_ENABLE, true);
         isTransitionMode = bundle.getString(IS_TRANSITION_MODE);
     }
@@ -321,6 +322,11 @@ public class WebPluginPresenter implements MbsWebPluginContract.Presenter, Recyc
     }
 
     @Override
+    public void setMbsRequestPermissionsResultListener(MbsRequestPermissionsListener listener) {
+        this.permissionsResultListener = listener;
+    }
+
+    @Override
     public void setProxy() {
         Intent intent = new Intent(mActivity, ProxyService.class);
         mActivity.startService(intent);
@@ -331,8 +337,9 @@ public class WebPluginPresenter implements MbsWebPluginContract.Presenter, Recyc
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-
-
+        if (permissionsResultListener != null) {
+            permissionsResultListener.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     @Override

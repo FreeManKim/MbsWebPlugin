@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import com.mobisoft.mbswebplugin.Cmd.CMD;
 import com.mobisoft.mbswebplugin.R;
 import com.mobisoft.mbswebplugin.utils.Utils;
+import com.tencent.smtt.export.external.interfaces.ConsoleMessage;
 import com.tencent.smtt.export.external.interfaces.JsResult;
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
 import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
@@ -426,7 +427,7 @@ public class HybridWebView extends WebView {
         }
 
 
-    /*    @Override
+        @Override
         public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
             String message = consoleMessage.message();
             Log.i(TAG, "consoleMessage:" + message);
@@ -446,7 +447,7 @@ public class HybridWebView extends WebView {
                 dialog.show();
             }
             return super.onConsoleMessage(consoleMessage);
-        }*/
+        }
 
     }
 

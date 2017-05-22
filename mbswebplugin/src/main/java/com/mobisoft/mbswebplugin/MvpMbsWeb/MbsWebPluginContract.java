@@ -119,11 +119,12 @@ public interface MbsWebPluginContract {
         void setTopAndRightMenu(String json);
 
         /**
-         *  显示进度条
+         * 显示进度条
+         *
          * @param action
          * @param message
          */
-        void showHud(String action,String message);
+        void showHud(String action, String message);
 
         /**
          * 隐藏进度条
@@ -132,15 +133,17 @@ public interface MbsWebPluginContract {
 
         /**
          * 设置标题
-         * @param type 标题类相关 0：获取h5中的title
-         *             1：获取h5 命令中的title
-         *             default： 默认设置 h5中自带的title
+         *
+         * @param type  标题类相关 0：获取h5中的title
+         *              1：获取h5 命令中的title
+         *              default： 默认设置 h5中自带的title
          * @param title
          */
         void setTitle(int type, String title);
 
         /**
          * 设置toolbar的返回图标
+         *
          * @param resId
          */
         void setNavigationIcon(int resId);
@@ -222,6 +225,7 @@ public interface MbsWebPluginContract {
          * @param intent
          */
         void startActivity(Intent intent);
+
         /**
          * 启动 系统组件，打电话，邮件等；
          *
@@ -293,17 +297,27 @@ public interface MbsWebPluginContract {
 
         /**
          * 设置标题
-         * @param type 标题类相关 0：获取h5中的title
-         *             1：获取h5 命令中的title
-         *             default： 默认设置 h5中自带的title
+         *
+         * @param type  标题类相关 0：获取h5中的title
+         *              1：获取h5 命令中的title
+         *              default： 默认设置 h5中自带的title
          * @param title
          */
         void setTitle(int type, String title);
+
         /**
          * 设置toolbar的返回图标
+         *
          * @param resId
          */
         void setNavigationIcon(int resId);
+
+        /**
+         * 命令回掉
+         *
+         * @param listener
+         */
+        void setMbsRequestPermissionsResultListener(MbsRequestPermissionsListener listener);
     }
 
 }
