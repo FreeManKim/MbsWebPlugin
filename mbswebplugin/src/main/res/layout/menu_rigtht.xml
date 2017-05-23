@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?><!-- 右 -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_right"
+    android:layout_width="60dp"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/tv_head_right"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/right_menu_margin"
+        android:gravity="center"
+        android:textColor="@color/mbs_web_plugin_title_color" />
+
+    <ImageView
+        android:id="@+id/img_right"
+        android:layout_width="21dp"
+        android:layout_height="21dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/right_menu_margin"
+        android:visibility="invisible" />
+
+    <com.mobisoft.mbsmsgview.MBSMsgView
+        xmlns:mv="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/hebo_msg_tip"
+        android:layout_width="9dp"
+        android:layout_height="9dp"
+        android:layout_marginLeft="-12dp"
+        android:layout_marginTop="14dp"
+        android:layout_toRightOf="@+id/img_right"
+        android:textColor="#ffffff"
+        android:textSize="11.5sp"
+        android:visibility="visible"
+        mv:mbs_mv_backgroundColor="#F13837"
+        mv:mbs_mv_isRadiusHalfHeight="true"
+        mv:mbs_mv_strokeColor="#ffffff"
+        mv:mbs_mv_strokeWidth="0dp" />
+</RelativeLayout>

@@ -85,6 +85,8 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    compile 'com.mobisoft.view:mbsmsgview:0.0.1@aar'
+
 }
 
 if (project.hasProperty("android")) { // Android libraries
@@ -131,7 +133,7 @@ javadoc {
 ext {
     siteUrl = 'https://github.com/FreeManKim/MbsWebPlugin'
     gitUrl = 'https://github.com/FreeManKim/MbsWebPlugin.git'
-    currentVersion = '0.3.9_beat'
+    currentVersion = '0.3.8_beat'
     groupId = 'com.mobisoft.web'
     artifactId = 'webproxy'
     desc = 'Android web proxy'

@@ -18,12 +18,15 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.mobisoft.mbsmsgview.MBSMsgView;
 import com.mobisoft.mbswebplugin.Cmd.CMD;
 import com.mobisoft.mbswebplugin.Cmd.CmdrBuilder;
 import com.mobisoft.mbswebplugin.Entity.MeunItem;
@@ -224,7 +227,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
     /**
      * 右标题
      */
-    protected LinearLayout ll_right;
+    protected RelativeLayout ll_right;
 
     /**
      * 头布局
@@ -368,6 +371,11 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
      ***/
     public boolean isClearTask = false;
     /**
+     * 消息控件
+     */
+    private MBSMsgView tipView;
+
+    /**
      * 上拉刷新的线程
      */
     @SuppressLint("HandlerLeak")
@@ -438,6 +446,10 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
             }
         }
     };
+    /**
+     * 填充right菜单
+     */
+    private ViewStub stub;
 
     public MbsWebFragment() {
         // Required empty public constructor
@@ -541,25 +553,26 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
     private void setEvents() {
         bgaRefreshLayout.setDelegate(this);
 
-//        bgaRefreshLayout.setOnRefreshListener(this);
-//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onFinish(TYPE_ACTIVITY);
-//            }
-//        });
         iv_head_left.setOnClickListener(this);
         tv_head_left.setOnClickListener(this);
         tv_head_left.setClickable(false);
         ll_head_title.setOnClickListener(this);
-        ll_right.setOnClickListener(this);
+
         ll_head_title.setClickable(false);
-        ll_right.setClickable(false);
+
         BGAMoocStyleRefreshViewHolder moocStyleRefreshViewHolder = new BGAMoocStyleRefreshViewHolder(mContext.getApplicationContext(), false);
         moocStyleRefreshViewHolder.setOriginalImage(ProxyConfig.getConfig().getLoadingIc());
         moocStyleRefreshViewHolder.setUltimateColor(ProxyConfig.getConfig().getLoadingBg());
         moocStyleRefreshViewHolder.setSpringDistanceScale(100);
         bgaRefreshLayout.setRefreshViewHolder(moocStyleRefreshViewHolder);
+//        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) tipView.getLayoutParams();
+//        DisplayMetrics dm = tipView.getResources().getDisplayMetrics();
+//        tipView.setStrokeWidth(0);
+//        tipView.setText("");
+//
+//        lp.width = (int) (8 * dm.density);
+//        lp.height = (int) (8 * dm.density);
+//        tipView.setLayoutParams(lp);
     }
 
     /***
@@ -583,21 +596,15 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
         ll_head_title = (LinearLayout) toolbar.findViewById(R.id.ll_head_title);
         mTv_head_title = (TextView) toolbar.findViewById(R.id.tv_head_title);
         tv_head_left = (TextView) toolbar.findViewById(R.id.tv_head_left);
-        tv_head_right = (TextView) toolbar.findViewById(R.id.tv_head_right);
-        ll_right = (LinearLayout) toolbar.findViewById(R.id.ll_right);
         iv_head_left = (ImageView) toolbar.findViewById(R.id.iv_head_left);
-        img_right = (ImageView) toolbar.findViewById(R.id.img_right);
+
         iv_head_title_menu = (ImageView) toolbar.findViewById(R.id.iv_head_title_menu);
 
         //nike
         ll_search = (LinearLayout) inflate.findViewById(R.id.search_ll);
 
-
-//        mProgressDialog = new ProgressDialog(mContext, ProgressDialog.STYLE_SPINNER);
-//        mProgressDialog.setCanceledOnTouchOutside(false);
-//        mProgressDialog.setMessage("正在加载...");
-//        mProgressDialog.show(); // 本地不show，拦截url响应事件
         presenter.setProxy();
+
     }
 
     /**
@@ -762,6 +769,8 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
 
     @Override
     public void setTopRightMenu() {
+        initRightMenu();
+
         mTopMenuPopWin = new TopMenuPopupWindowActivity(mContext);
         if (farstMune) {
             listMenuItem.remove(0);
@@ -779,6 +788,23 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
                 mTopMenuPopWin.dismiss();
             }
         });
+    }
+
+    /**
+     * 初始化右上角菜单
+     */
+    private void initRightMenu() {
+        if (stub == null) {
+            stub = (ViewStub) toolbar.findViewById(R.id.right_menu);
+            View inflated = stub.inflate();
+            tv_head_right = (TextView) inflated.findViewById(R.id.tv_head_right);
+            ll_right = (RelativeLayout) inflated.findViewById(R.id.ll_right);
+            img_right = (ImageView) inflated.findViewById(R.id.img_right);
+            tipView = (MBSMsgView) inflated.findViewById(R.id.hebo_msg_tip);
+            ll_right.setOnClickListener(this);
+            ll_right.setClickable(false);
+        }
+
     }
 
     @Override
@@ -819,12 +845,17 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
 
     @Override
     public void setTopAndRightMenu(String json) {
+        initRightMenu();
+        setRightMenuText(true);
         farstMune = true;
         listMenuItem.clear();
         TopMenu menu = Utils.json2entity(json, TopMenu.class);
+        showTipView(menu.isShowMsg());
+
+
         /**当返回菜单数组为空 隐藏菜单*/
         if (menu == null || menu.getItem() == null || menu.getItem().size() == 0) {
-            img_right.setVisibility(View.GONE);
+            img_right.setVisibility(View.INVISIBLE);
             tv_head_right.setVisibility(View.GONE);
             ll_right.setClickable(false);
             return;
@@ -839,7 +870,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
             tv_head_left.setClickable(true); // 左title文字可点击
             tv_head_right.setVisibility(View.GONE);
             if (listMenuItem.size() < 2) return;
-            img_right.setVisibility(View.GONE);
+            img_right.setVisibility(View.INVISIBLE);
             tv_head_right.setVisibility(View.VISIBLE);
             tv_head_right.setText(listMenuItem.get(1).getName());
         } else {
@@ -853,16 +884,28 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
                 if (!TextUtils.isEmpty(icon))
                     Picasso.with(mContext).load(icon).into(img_right);
             } else if (!TextUtils.isEmpty(meunItem.getName())) { // 显示菜单名称
-                img_right.setVisibility(View.GONE);
+                img_right.setVisibility(View.INVISIBLE);
                 tv_head_right.setVisibility(View.VISIBLE);
                 tv_head_right.setText(listMenuItem.get(0).getName());
             } else { // 隐藏
-                img_right.setVisibility(View.GONE);
+                img_right.setVisibility(View.INVISIBLE);
                 tv_head_right.setVisibility(View.GONE);
                 tv_head_right.setText("菜单");
             }
         }
 
+    }
+
+    /**
+     * 是否显示 消息提示按钮
+     * @param isShowMsg
+     */
+    private void showTipView(boolean isShowMsg) {
+        if (isShowMsg) {
+            tipView.setVisibility(View.VISIBLE);
+        } else {
+            tipView.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -1167,8 +1210,18 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
     }
 
     @Override
+    public void setRightMenuText(boolean isShow) {
+        if (!isShow && ll_right != null) {
+            tv_head_right.setText("");
+            ll_right.setVisibility(View.INVISIBLE);
+        } else if (isShow && ll_right != null) {
+            ll_right.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
-        tv_head_right.setText("");
+        setRightMenuText(false);
         handler.sendEmptyMessage(1);
     }
 

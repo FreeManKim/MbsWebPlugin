@@ -37,6 +37,9 @@
 
     <!--沉浸状态栏主题色-->
     <color name="main_system_status_bar">#19A7F4</color>
+
+    <!--右上角菜单背景色-->
+    <color name="meu_right_bg_color">#19A7F4</color>
     <!--webView 的title字体颜色-->
     <color name="mbs_web_plugin_title_color">#FFFFFF</color>
 

@@ -119,6 +119,12 @@ public interface MbsWebPluginContract {
         void setTopAndRightMenu(String json);
 
         /**
+         * 是否显示 右上角菜单
+         * @param isShow
+         */
+        void setRightMenuText(boolean isShow);
+
+        /**
          * 显示进度条
          *
          * @param action

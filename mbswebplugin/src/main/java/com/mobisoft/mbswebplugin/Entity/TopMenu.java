@@ -9,6 +9,15 @@ import java.util.List;
  */
 public class TopMenu {
     List<MeunItem> item;
+    boolean showMsg;
+
+    public boolean isShowMsg() {
+        return showMsg;
+    }
+
+    public void setShowMsg(boolean showMsg) {
+        this.showMsg = showMsg;
+    }
 
     public List<MeunItem> getItem() {
         return item;

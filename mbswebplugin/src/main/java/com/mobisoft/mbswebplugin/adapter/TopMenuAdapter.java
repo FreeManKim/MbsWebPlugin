@@ -84,7 +84,7 @@ public class TopMenuAdapter extends BaseAdapter {
                     .getColor(R.color.color_black));
         } else {
             vHolder.txt_menu_item.setBackgroundColor(context.getResources()
-                    .getColor(R.color.actionsheet_blue));
+                    .getColor(R.color.meu_right_bg_color));
             vHolder.txt_menu_item.setTextColor(context.getResources()
                     .getColor(R.color.white));
         }

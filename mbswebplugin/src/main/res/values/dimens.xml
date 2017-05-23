@@ -8,5 +8,6 @@
     <dimen name="web_app_right_h">30dp</dimen>
     <!--mbsWebFragment title 字体大小-->
     <dimen name="mbs_title_size">17sp</dimen>
+    <dimen name="right_menu_margin">6dp</dimen>
 
 </resources>

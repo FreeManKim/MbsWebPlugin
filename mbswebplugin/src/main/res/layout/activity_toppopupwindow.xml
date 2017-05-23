@@ -32,7 +32,7 @@
             android:dividerHeight="1dp"
             android:listSelector="@color/color_no"
             android:scrollbars="none"
-            android:background="@color/actionsheet_blue"
+            android:background="@color/meu_right_bg_color"
             >
         </ListView>
 
