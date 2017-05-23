@@ -6,5 +6,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="web_app_right_img">22dp</dimen>
     <dimen name="web_app_right_h">30dp</dimen>
+    <!--mbsWebFragment title 字体大小-->
+    <dimen name="mbs_title_size">17sp</dimen>
 
 </resources>

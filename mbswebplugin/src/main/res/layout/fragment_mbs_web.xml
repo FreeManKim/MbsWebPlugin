@@ -65,8 +65,8 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="正在加载..."
-                android:textColor="#E2ff1E"
-                android:textSize="17sp"
+                android:textColor="@color/mbs_web_plugin_title_color"
+                android:textSize="@dimen/mbs_title_size"
                 android:textStyle="bold" />
 
             <ImageView

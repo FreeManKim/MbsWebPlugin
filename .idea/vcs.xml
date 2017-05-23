@@ -3,6 +3,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/bannerlibrary" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/mbsmsgview" vcs="svn" />
     <mapping directory="$PROJECT_DIR$/searchlibrary" vcs="svn" />
   </component>
 </project>

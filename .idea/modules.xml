@@ -8,6 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/amaplibrary/amaplibrary.iml" filepath="$PROJECT_DIR$/amaplibrary/amaplibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/bannerlibrary/bannerlibrary.iml" filepath="$PROJECT_DIR$/bannerlibrary/bannerlibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/commonlibrary/commonlibrary.iml" filepath="$PROJECT_DIR$/commonlibrary/commonlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mbsmsgview/mbsmsgview.iml" filepath="$PROJECT_DIR$/mbsmsgview/mbsmsgview.iml" />
       <module fileurl="file://$PROJECT_DIR$/mbswebplugin/mbswebplugin.iml" filepath="$PROJECT_DIR$/mbswebplugin/mbswebplugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/searchlibrary/searchlibrary.iml" filepath="$PROJECT_DIR$/searchlibrary/searchlibrary.iml" />
     </modules>
