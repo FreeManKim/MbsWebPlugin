@@ -168,7 +168,7 @@ public class CMD {
     /**
      * 返回首页
      **/
-    public final static String action_homepage = "homepage";// 返回首页
+    public final static String action_homepage = "gohome";// 返回首页
     /**
      * 返回首页
      **/

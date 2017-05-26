@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
 import com.mobisoft.mbswebplugin.dao.db.WebViewDao;
+import com.umeng.analytics.MobclickAgent;
 
 
 public  class BaseWebActivity extends AppCompatActivity {
@@ -50,8 +51,16 @@ public  class BaseWebActivity extends AppCompatActivity {
 //        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
 
-
-
+    }
 }

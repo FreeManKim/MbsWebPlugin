@@ -5,6 +5,7 @@ import android.content.Context;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.ErrorMethod;
 import com.mobisoft.mbswebplugin.MbsWeb.HybridWebView;
 import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebPluginContract;
+import com.umeng.analytics.MobclickAgent;
 
 import java.lang.reflect.Method;
 
@@ -119,6 +120,8 @@ public class CmdrBuilder {
 
         } catch (Exception e) {
             e.printStackTrace();
+            // 友盟 错误抓取
+            MobclickAgent.reportError(mContext,e);
             ErrorMethod errorMethod = new ErrorMethod();
 
             var = errorMethod.doMethod(mWebView, mContext,contractView,presenter, mCmd, parameter, function);

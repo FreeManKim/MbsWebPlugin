@@ -16,12 +16,14 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.AuthTask;
@@ -34,6 +36,7 @@ import com.mobisoft.MbsDemo.alipay.AuthResult;
 import com.mobisoft.MbsDemo.alipay.OrderInfoUtil2_0;
 import com.mobisoft.Reciver.TestReceiver;
 import com.mobisoft.bannerlibrary.BGABanner;
+import com.mobisoft.mbsmsgview.MBSMsgView;
 import com.mobisoft.mbswebplugin.MbsWeb.HybridWebApp;
 import com.mobisoft.mbswebplugin.helper.FunctionConfig;
 import com.mobisoft.mbswebplugin.helper.ThemeConfig;
@@ -70,6 +73,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     private Toolbar toolbar;
     private Button btn_tab;
     private final int SDK_AUTH_FLAG = 2;
+    private MBSMsgView tipView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -243,6 +247,14 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
             }
         });
         btn_tab.setOnClickListener(this);
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) tipView.getLayoutParams();
+        DisplayMetrics dm = tipView.getResources().getDisplayMetrics();
+        tipView.setStrokeWidth(0);
+        tipView.setText("");
+
+        lp.width = (int) (8 * dm.density);
+        lp.height = (int) (8 * dm.density);
+        tipView.setLayoutParams(lp);
     }
 
     private void initViews() {
@@ -258,6 +270,8 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         btn_pull_sheet = (Button) findViewById(R.id.btn_pull_sheet);
         btn_tab = (Button) findViewById(R.id.btn_tab);
         banner_guide_content = (BGABanner) findViewById(R.id.banner_guide_content);
+        tipView = (MBSMsgView) findViewById(R.id.hebo_msg_tip);
+
     }
 
     @Override

@@ -18,11 +18,14 @@
     <ImageView
         android:id="@+id/img_right"
         android:layout_width="21dp"
-        android:layout_height="21dp"
+        android:layout_height="31dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:paddingBottom="10dp"
         android:layout_marginRight="@dimen/right_menu_margin"
-        android:visibility="invisible" />
+        android:visibility="visible"
+        android:src="@drawable/ic_launcher"
+        />
 
     <com.mobisoft.mbsmsgview.MBSMsgView
         xmlns:mv="http://schemas.android.com/apk/res-auto"
@@ -30,7 +33,7 @@
         android:layout_width="9dp"
         android:layout_height="9dp"
         android:layout_marginLeft="-12dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/img_right"
         android:textColor="#ffffff"
         android:textSize="11.5sp"

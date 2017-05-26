@@ -146,6 +146,7 @@ public class ProxyCmd {
             return doCmdMethod;
         } catch (Exception e) {
             e.printStackTrace();
+
         }
         return ErrorMethod.class;
     }

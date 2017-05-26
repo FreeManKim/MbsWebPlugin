@@ -102,12 +102,28 @@
         android:layout_below="@id/btn_tab"
         android:text="支付宝授权！"
         android:onClick="alipay"/>
-
+    <com.mobisoft.mbsmsgview.MBSMsgView
+        android:id="@+id/hebo_msg_tip"
+        xmlns:mv="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical"
+        android:textColor="#ffffff"
+        android:textSize="11.5sp"
+        android:visibility="visible"
+        android:layout_below="@id/btn_alipay"
+        mv:mbs_mv_backgroundColor="#FD481F"
+        mv:mbs_mv_isRadiusHalfHeight="true"
+        mv:mbs_mv_strokeColor="#ffffff"
+        mv:mbs_mv_strokeWidth="1dp"/>
     <ViewStub
         android:id="@+id/view_stup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btn_alipay"
+        android:layout_below="@id/hebo_msg_tip"
         android:layout="@layout/view_stup_tree_layout" />
 
 </RelativeLayout>

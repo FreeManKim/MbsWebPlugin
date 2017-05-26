@@ -5,6 +5,7 @@ buildscript {
         maven {
             url "https://dl.bintray.com/gala/maven"
         }
+
         jcenter()
 
     }
@@ -23,7 +24,11 @@ allprojects {
     repositories {
         jcenter()
 //        maven { url 'https://jitpack.io' }
+        maven {
+            url "https://dl.bintray.com/gala/maven"
+        }
     }
+
 }
 
 task clean(type: Delete) {

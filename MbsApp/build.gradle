@@ -49,6 +49,7 @@ dependencies {
     //    compile 'com.mobisoft.view:bannerlibrary:0.0.2@aar'
     //
     compile files('libs/alipaySingle-20170510.jar')
+
 }
 repositories{
     flatDir{

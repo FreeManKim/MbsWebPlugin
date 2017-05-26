@@ -54,6 +54,7 @@ import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
 import com.tencent.smtt.sdk.ValueCallback;
 import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.IOException;
 import java.io.PipedInputStream;

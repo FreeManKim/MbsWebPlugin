@@ -39,6 +39,7 @@ import com.mobisoft.mbswebplugin.utils.ActivityCollector;
 import com.mobisoft.mbswebplugin.utils.ToastUtil;
 import com.mobisoft.mbswebplugin.utils.Utils;
 import com.mobisoft.mbswebplugin.view.ActionSheetDialog;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,7 +51,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
-
 import static com.mobisoft.mbswebplugin.MvpMbsWeb.Base.Preconditions.checkNotNull;
 import static com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebFragment.IS_TRANSITION_MODE;
 import static com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebFragment.IS_TRANSITION_MODE_ENABLE;
@@ -296,8 +296,7 @@ public class WebPluginPresenter implements MbsWebPluginContract.Presenter, Recyc
         CoreConfig coreConfig =
                 new CoreConfig.Builder(
                         mActivity, ThemeConfig.DEFAULT, FunctionConfig.DEFAULT_ACTIVITY)
-                        .setURL("http://elearning.mobisoft.com.cn/mobile/registe.html")
-                        .setAccount("8100458")//
+                        .setURL(url)
                         .setNoAnimcation(false)
                         .setHideNavigation(true)
                         .build();
@@ -434,6 +433,7 @@ public class WebPluginPresenter implements MbsWebPluginContract.Presenter, Recyc
     public void start() {
         Intent intent = new Intent(mActivity, ProxyService.class);
         mActivity.bindService(intent, mProxyConnection, Context.BIND_AUTO_CREATE | Context.BIND_NOT_FOREGROUND);
+        MobclickAgent.onPageStart(mBsWebView.getUrl()); //统计页面(仅有Activity的应用中SDK自动调用，不需要单独写。"SplashScreen"为页面名称，可自定义)
 
     }
 
@@ -443,6 +443,8 @@ public class WebPluginPresenter implements MbsWebPluginContract.Presenter, Recyc
         if (mBound) {
             mActivity.unbindService(mProxyConnection);
         }
+        MobclickAgent.onPageEnd(mBsWebView.getUrl());
+
     }
 
 
