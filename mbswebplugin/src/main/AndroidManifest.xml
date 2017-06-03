@@ -61,9 +61,9 @@
 
         <receiver android:name=".proxy.Cache.CacheBroadcast"
             android:permission="com.mobisoft.mbswebplugin.boardcast">
-            <intent-filter android:priority="100">
-                <action android:name="com.mobisoft.loachtml.Cache.CacheBroadcast" />
-            </intent-filter>
+            <!--<intent-filter android:priority="100">-->
+                <!--<action android:name="com.mobisoft.loachtml.Cache.CacheBroadcast" />-->
+            <!--</intent-filter>-->
         </receiver>
 
         <activity

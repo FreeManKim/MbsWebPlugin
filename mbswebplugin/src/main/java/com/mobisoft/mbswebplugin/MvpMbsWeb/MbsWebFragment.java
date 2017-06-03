@@ -39,8 +39,7 @@ import com.mobisoft.mbswebplugin.R;
 import com.mobisoft.mbswebplugin.base.AppConfing;
 import com.mobisoft.mbswebplugin.base.BaseApp;
 import com.mobisoft.mbswebplugin.base.Recycler;
-import com.mobisoft.mbswebplugin.proxy.Setting.ProxyConfig;
-import com.mobisoft.mbswebplugin.refresh.BGAMoocStyleRefreshViewHolder;
+import com.mobisoft.mbswebplugin.refresh.BGANormalRefreshViewHolder;
 import com.mobisoft.mbswebplugin.refresh.BGARefreshLayout;
 import com.mobisoft.mbswebplugin.utils.ActivityCollector;
 import com.mobisoft.mbswebplugin.utils.ToastUtil;
@@ -54,7 +53,6 @@ import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
 import com.tencent.smtt.sdk.ValueCallback;
 import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
-import com.umeng.analytics.MobclickAgent;
 
 import java.io.IOException;
 import java.io.PipedInputStream;
@@ -514,15 +512,12 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
         isTransitionModeEnable = bundle.getBoolean(IS_TRANSITION_MODE_ENABLE, true);
         isTransitionMode = bundle.getString(IS_TRANSITION_MODE);
         is_hidenavigation = bundle.getBoolean(IS_HIDENAVIGATION, false);
-//        Log.e(TAG, "==isTransitionMode:" + isTransitionMode + " enmu:" + FunctionConfig.TransitionMode.LEFT.name());
-//        Log.e(TAG, "is_hidenavigation:" + is_hidenavigation);
-        if (is_hidenavigation || showModel || showModelSearchPage || urlStr.equals(AppConfing.CTTQ_BASE_URL + "/tianxin/aaaao20041-test/html/index.html"))
+
+        if (is_hidenavigation || showModel || showModelSearchPage)
             hideTitle();
         if (TextUtils.isEmpty(accountStr)) accountStr = "error";
         if (titleColor != 0) { // 设置title颜色 和沉浸式菜单栏
             toolbar.setBackgroundColor(titleColor);
-//            if (isSystemBarShow)
-//                initSystemBar(WebAppActivity.this, systemBarColor);
         }
         if (isLeftTextShow) tv_head_left.setVisibility(View.GONE);
         if (isLeftIconShow) {
@@ -561,19 +556,15 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
 
         ll_head_title.setClickable(false);
 
-        BGAMoocStyleRefreshViewHolder moocStyleRefreshViewHolder = new BGAMoocStyleRefreshViewHolder(mContext.getApplicationContext(), false);
-        moocStyleRefreshViewHolder.setOriginalImage(ProxyConfig.getConfig().getLoadingIc());
-        moocStyleRefreshViewHolder.setUltimateColor(ProxyConfig.getConfig().getLoadingBg());
-        moocStyleRefreshViewHolder.setSpringDistanceScale(100);
-        bgaRefreshLayout.setRefreshViewHolder(moocStyleRefreshViewHolder);
-//        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) tipView.getLayoutParams();
-//        DisplayMetrics dm = tipView.getResources().getDisplayMetrics();
-//        tipView.setStrokeWidth(0);
-//        tipView.setText("");
+
+        bgaRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(mContext.getApplicationContext(), true));
+
 //
-//        lp.width = (int) (8 * dm.density);
-//        lp.height = (int) (8 * dm.density);
-//        tipView.setLayoutParams(lp);
+//        BGAMoocStyleRefreshViewHolder moocStyleRefreshViewHolder = new BGAMoocStyleRefreshViewHolder(mContext.getApplicationContext(), false);
+//        moocStyleRefreshViewHolder.setOriginalImage(ProxyConfig.getConfig().getLoadingIc());
+//        moocStyleRefreshViewHolder.setUltimateColor(ProxyConfig.getConfig().getLoadingBg());
+//        moocStyleRefreshViewHolder.setSpringDistanceScale(100);
+//        bgaRefreshLayout.setRefreshViewHolder(moocStyleRefreshViewHolder);
     }
 
     /***
@@ -705,7 +696,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
      */
     @Override
     public void openNextWebActivity(String url, String action) {
-        url = url.replace("&action=nextPage", "");
+        url = url.replace("?action=nextPage", "");
         Bundle bunde = new Bundle();
         bunde.putString(URL, url);
 
@@ -831,9 +822,12 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
     @Override
     public void setTitleBg(String color) {
         toolbar.setBackgroundColor(Color.parseColor(TextUtils.isEmpty(color) ? "#0089F6" : color));
-        mTv_head_title.setTextColor(Color.parseColor(TextUtils.isEmpty(color) ? "#FFFFFF" : "#000000"));
     }
+    @Override
+    public void setTitleColor(String color) {
+        mTv_head_title.setTextColor(Color.parseColor(TextUtils.isEmpty(color) ? "#FFFFFF" : color));
 
+    }
     @Override
     public boolean getIsClearTask() {
         return isClearTask;
@@ -899,6 +893,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
 
     /**
      * 是否显示 消息提示按钮
+     *
      * @param isShowMsg
      */
     private void showTipView(boolean isShowMsg) {

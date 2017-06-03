@@ -95,6 +95,10 @@ public interface MbsWebPluginContract {
          * 设置标题栏背景色
          */
         void setTitleBg(String color);
+        /**
+         * 设置标题字体颜色色
+         */
+        void setTitleColor(String color);
 
         /**
          * 获取 是否清除过任务栈

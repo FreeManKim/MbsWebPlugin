@@ -18,15 +18,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-
-import static android.os.AsyncTask.THREAD_POOL_EXECUTOR;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 
 public class CacheService extends Service {
     private CacheBinder downloadBinder = new CacheBinder();
     public static final String TAG = "CacheService";
     private WebviewCaheDao dao;
-
+    private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
+    // We want at least 2 threads and at most 4 threads in the core pool,
+    // preferring to have 1 less than the CPU count to avoid saturating
+    // the CPU with background work
+    private static final int CORE_POOL_SIZE = Math.max(2, Math.min(CPU_COUNT - 1, 4));
+    private static final int MAXIMUM_POOL_SIZE = CPU_COUNT * 2 + 1;
+//    private ExecutorService customerExecutorService = new ThreadPoolExecutor(CORE_POOL_SIZE, Integer.MAX_VALUE, 0, TimeUnit.MILLISECONDS, new SynchronousQueue<Runnable>());
+    public ExecutorService customerExecutorService = new ThreadPoolExecutor(CORE_POOL_SIZE, MAXIMUM_POOL_SIZE, 0, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
     @Override
     public void onCreate() {
         super.onCreate();
@@ -86,7 +95,8 @@ public class CacheService extends Service {
 //                            2、SERIAL_EXECUTOR
 //                            把多个线程按串行的方式执行，所以是同步执行的。
 //                            也就是说，只有当一个线程执行完毕之后，才会执行下个线程。
-                            new DownLoadSrcTask(dao).executeOnExecutor(THREAD_POOL_EXECUTOR, cachePath, file1.getAbsolutePath(), "");
+
+                            new DownLoadSrcTask(dao).executeOnExecutor(customerExecutorService, cachePath, file1.getAbsolutePath(), "");
 
                         }
                     } else {

@@ -32,7 +32,7 @@ private CacheService.CacheBinder  cacheBinder;
     @Override
     public void onReceive(Context context, Intent intent) {
         if(intent!=null){
-//            Log.i("CacheBroadcast",intent.getStringExtra("path"));
+            Log.i("CacheBroadcast",intent.getStringExtra("path"));
             intent.setClass(context,CacheService.class);
             context.startService(intent);
 

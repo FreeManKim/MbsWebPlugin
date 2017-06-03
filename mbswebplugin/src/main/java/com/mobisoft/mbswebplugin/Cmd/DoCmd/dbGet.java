@@ -29,12 +29,11 @@ public class dbGet extends DoCmdMethod {
             /** 存储key*/
             String getkey = jsonObject.optString("key");
             /*工号*/
-            String acount = jsonObject.optString("account");
-            String valueFromDB = getValueFromDB(context, acount, getkey);
-//            String json = UrlUtil.getFormatJavascript(callBack, valueFromDB);
-//            webView.loadUrl(json);
+            String account = jsonObject.optString("account");
+            String valueFromDB = getValueFromDB(context, account, getkey);
+
             JsResult jsResult = new JsResult();
-            jsResult.setAccount(acount);
+            jsResult.setAccount(account);
             jsResult.setKey(getkey);
             jsResult.setResult(true);
             jsResult.setValue(valueFromDB);

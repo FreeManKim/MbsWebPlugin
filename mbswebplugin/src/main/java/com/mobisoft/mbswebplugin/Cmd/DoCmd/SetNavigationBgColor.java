@@ -22,7 +22,10 @@ public class SetNavigationBgColor extends DoCmdMethod {
             JSONObject jsonObject = new JSONObject(params);
             /** js返回的颜色*/
             String color = jsonObject.optString("color");
+            String titleColor = jsonObject.optString("titleColor");
             view.setTitleBg(color);
+            view.setTitleColor(titleColor);
+
 //            ((WebAppActivity)context).ll_head.setBackgroundColor(Color.parseColor(TextUtils.isEmpty(color) ? "#0089F6" : color));
 //            ((WebAppActivity)context).mTv_head_title.setTextColor(Color.parseColor(TextUtils.isEmpty(color) ? "#FFFFFF" : "#000000"));
 

@@ -17,7 +17,6 @@ import android.widget.ProgressBar;
 import com.mobisoft.mbswebplugin.Cmd.CMD;
 import com.mobisoft.mbswebplugin.R;
 import com.mobisoft.mbswebplugin.utils.Utils;
-import com.tencent.smtt.export.external.interfaces.ConsoleMessage;
 import com.tencent.smtt.export.external.interfaces.JsResult;
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
 import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
@@ -388,8 +387,11 @@ public class HybridWebView extends WebView {
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
-            if (listener != null) {
-                listener.onTitle(0, title);
+            if (listener != null && !TextUtils.isEmpty(title)) {
+                int i = url_ROOT.indexOf(title);
+                if(i <0||i>8){
+                    listener.onTitle(0, title);
+                }
             }
         }
 
@@ -427,27 +429,27 @@ public class HybridWebView extends WebView {
         }
 
 
-        @Override
-        public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
-            String message = consoleMessage.message();
-            Log.i(TAG, "consoleMessage:" + message);
-            if (message.contains("ReferenceError")) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(HybridWebView.this.getContext());
-                builder.setTitle("ReferenceError").setMessage(message)
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-
-                //禁止响应按back键的事件
-                builder.setCancelable(false);
-                dialog = builder.create();
-                dialog.show();
-            }
-            return super.onConsoleMessage(consoleMessage);
-        }
+//        @Override
+//        public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+//            String message = consoleMessage.message();
+//            Log.i(TAG, "consoleMessage:" + message);
+//            if (message.contains("ReferenceError")) {
+//                final AlertDialog.Builder builder = new AlertDialog.Builder(HybridWebView.this.getContext());
+//                builder.setTitle("ReferenceError").setMessage(message)
+//                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//                            }
+//                        });
+//
+//                //禁止响应按back键的事件
+//                builder.setCancelable(false);
+//                dialog = builder.create();
+//                dialog.show();
+//            }
+//            return super.onConsoleMessage(consoleMessage);
+//        }
 
     }
 
