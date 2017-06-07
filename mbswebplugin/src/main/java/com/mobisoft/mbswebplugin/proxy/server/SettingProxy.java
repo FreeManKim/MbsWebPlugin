@@ -46,6 +46,7 @@ public class SettingProxy {
         }
         // 4.4 (KK) & 5.0 (Lollipop)
         else {
+
             return setProxyKKPlus(webview, host, port, applicationClassName);
         }
     }

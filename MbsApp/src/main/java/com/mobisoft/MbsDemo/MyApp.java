@@ -38,7 +38,8 @@ public class MyApp extends BaseApp {
                 .setCacheUrl("http://test.mobisoft.com.cn/cathay/cache.manifest")
                 .setChangeHttps(false)
                 .setPORT(8183)
-                .setDownloadSrcCallback(new DefaultDownloadSacCallback());
+                .setDownloadSrcCallback(new DefaultDownloadSacCallback())
+        .setBaseUrl("http://test.mobisoft.com.cn:8180");
         ActivityManager.get().registerSelf(this.getApplicationContext());
         ProxyCmd.getInstance().putCmd("alipay", aliPayAuth.class.getName());
         if (LeakCanary.isInAnalyzerProcess(this)) {

@@ -33,7 +33,9 @@ public class ProxyService extends Service {
 
     private ProxyServer server = null;
 
-    /** Keep these values up-to-date with PacManager.java */
+    /**
+     * Keep these values up-to-date with PacManager.java
+     */
     public static final String KEY_PROXY = "keyProxy";
     public static final String HOST = "localhost";
     // STOPSHIP This being a static port means it can be hijacked by other apps.
@@ -48,14 +50,9 @@ public class ProxyService extends Service {
     public void onCreate() {
         super.onCreate();
         if (server == null) {
-            //getCacheDir().getAbsolutePath()
             dao = new WebviewCaheDao(getApplicationContext());
-//Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "AMIN12"
             server = new ProxyServer(ProxyConfig.getConfig().getCachePath(), getApplicationContext()
                     , dao);
-//            server = new ProxyServer(Environment.getExternalStorageDirectory().getAbsolutePath()+ File.separator+"DICM",getApplicationContext()
-//            ,dao);
-//            server = new ProxyServer(getCacheDir().getAbsolutePath(),getApplicationContext(),dao);
             server.startServer();
         }
     }

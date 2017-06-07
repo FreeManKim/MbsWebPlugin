@@ -91,6 +91,7 @@ dependencies {
     compile 'com.umeng.analytics:analytics:6.1.0'
 
 
+    compile 'com.loopj.android:android-async-http:1.4.9'
 }
 
 if (project.hasProperty("android")) { // Android libraries
@@ -137,7 +138,7 @@ javadoc {
 ext {
     siteUrl = 'https://github.com/FreeManKim/MbsWebPlugin'
     gitUrl = 'https://github.com/FreeManKim/MbsWebPlugin.git'
-    currentVersion = '0.5.1'
+    currentVersion = '0.5.6_beat'
     groupId = 'com.mobisoft.web'
     artifactId = 'webproxy'
     desc = 'Android web proxy'

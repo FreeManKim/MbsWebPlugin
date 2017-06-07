@@ -2,9 +2,7 @@ package com.mobisoft.mbswebplugin.Cmd.DoCmd;
 
 import android.content.Context;
 
-import com.alibaba.fastjson.JSON;
 import com.mobisoft.mbswebplugin.Cmd.DoCmdMethod;
-import com.mobisoft.mbswebplugin.Entity.JsResult;
 import com.mobisoft.mbswebplugin.MbsWeb.HybridWebView;
 import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebPluginContract;
 import com.mobisoft.mbswebplugin.dao.db.WebViewDao;
@@ -31,14 +29,14 @@ public class dbGet extends DoCmdMethod {
             /*工号*/
             String account = jsonObject.optString("account");
             String valueFromDB = getValueFromDB(context, account, getkey);
-
-            JsResult jsResult = new JsResult();
-            jsResult.setAccount(account);
-            jsResult.setKey(getkey);
-            jsResult.setResult(true);
-            jsResult.setValue(valueFromDB);
-            String json= JSON.toJSONString(jsResult);
-            webView.loadUrl(UrlUtil.getFormatJs(callBack,json));
+//
+//            JsResult jsResult = new JsResult();
+//            jsResult.setAccount(account);
+//            jsResult.setKey(getkey);
+//            jsResult.setResult(true);
+//            jsResult.setValue(valueFromDB);
+//            String json= JSON.toJSONString(jsResult);
+            webView.loadUrl(UrlUtil.getFormatJs(callBack,valueFromDB));
         } catch (JSONException e) {
             e.printStackTrace();
         }

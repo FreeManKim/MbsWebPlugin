@@ -8,7 +8,9 @@ import java.util.List;
  * Description：菜单实体类
  */
 public class TopMenu {
+
     List<MeunItem> item;
+
     boolean showMsg;
 
     public boolean isShowMsg() {

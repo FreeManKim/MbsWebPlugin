@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
@@ -16,6 +17,7 @@ import android.util.Log;
 
 import com.mobisoft.mbswebplugin.Cmd.DoCmdMethod;
 import com.mobisoft.mbswebplugin.MbsWeb.HybridWebView;
+import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsRequestPermissionsListener;
 import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsResultListener;
 import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebPluginContract;
 import com.mobisoft.mbswebplugin.utils.ToastUtil;
@@ -54,21 +56,50 @@ public class UploadFile extends DoCmdMethod implements MbsResultListener {
      * 照片选择路径
      */
     private String picFileFullName;
+    private Activity context1;
 
     @Override
-    public String doMethod(HybridWebView webView, Context context, MbsWebPluginContract.View view, MbsWebPluginContract.Presenter presenter, String cmd, String params, String callBack) {
+    public String doMethod(HybridWebView webView, final Context context, MbsWebPluginContract.View view, MbsWebPluginContract.Presenter presenter, String cmd, String params, String callBack) {
         // TODO 上传文件，需要后续补上
         this.context = context;
         this.cmd = cmd;
         this.mParamter = params;
         this.callBack = callBack;
+        context1 = (Activity) context;
 //        ((MbsWebActivity) context).setResult(this);
         presenter.setResultListener(UploadFile.this);
         JSONObject json = null;
         try {
             json = new JSONObject(params);
-            String type = json.optString("type");
-            getPic(type);
+            final String type = json.optString("type");
+            presenter.setMbsRequestPermissionsResultListener(new MbsRequestPermissionsListener() {
+                @Override
+                public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+                    if(requestCode==200){
+                        if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                            getPic(type);
+                        }else {
+                            ToastUtil.showShortToast(context,"缺少相关权限无法使此功能！");
+                        }
+                    }
+                }
+            });
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)// 大于6.0 权限检查
+            {
+                if (ContextCompat.checkSelfPermission(context1,
+                        Manifest.permission.CAMERA)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    String[] permission = new String[]{
+                            android.Manifest.permission.CAMERA
+                    };
+                    ActivityCompat.requestPermissions(context1, permission, 200);
+                } else {
+                    getPic(type);                }
+
+            } else {
+                getPic(type);
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

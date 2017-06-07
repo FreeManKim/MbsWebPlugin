@@ -67,7 +67,8 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     private TestReceiver testReceiver;
 //    public static final String INDEX_URL = "http://euat.idoutec.cn/HyTestDdemo/index.html";
 //    public static final String INDEX_URL = "http://test.mobisoft.com.cn/cathay/index.html";
-    public static final String INDEX_URL = "http://nikegcuat.mobisoft.com.cn:81/mobile/login.html";
+    public static final String INDEX_URL = " http://test.mobisoft.com.cn/cathay/agent/agent.html";
+//    public static final String INDEX_URL = "http://nikegcuat.mobisoft.com.cn:81/mobile/login.html";
     private Button btn_pull_sheet;
     private BGABanner banner_guide_content;
     private AppBarLayout app_bar;

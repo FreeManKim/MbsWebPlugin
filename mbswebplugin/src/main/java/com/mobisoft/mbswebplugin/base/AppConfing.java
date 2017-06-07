@@ -6,6 +6,7 @@ package com.mobisoft.mbswebplugin.base;
  */
 public class AppConfing {
 
+
     /**
      * 定位获取的地址Province
      */
@@ -63,47 +64,6 @@ public class AppConfing {
      */
     public static final int INVITE_SINGLE_MEMBRER = 118;
 
-    /**
-     * 待办数量
-     */
-    public static int CTTQ_WAITTASK_NUM = 0;
-
-    /**
-     * 获取轮播图的Url
-     */
-    public static final String BANNER_URL = "http://cmsdev2.cttq.com/tx/json/sy/gdtp/";
-
-
-    /****************************** 分割线  UAT环境*******************************************/
-    /**
-     * 正大天晴 基本接口 UAT环境
-     */
-    public static final String CTTQ_URL = "http://ainewqas.cttq.com";
-    /**
-     * 正大天晴 基本接口 UAT环境
-     */
-    public static final String CTTQ_BASE_URL = "http://ainewqas.cttq.com";
-
-    /**
-     * 待办事项
-     */
-    public static final String CTTQ_WAITTASK = CTTQ_BASE_URL + "/waitTask/waitCount";
-    /**
-     * html页面 地址拼接
-     */
-    public static final String CTTQ_WEB_PATH = "/tianxin";
-    /**
-     * 升级接口  正式环境 UAT环境
-     */
-    public static final String ULR_UP = "https://ainewqas.cttq.com:1443/install/install.xml";
-    /**
-     * 工号登陆接口  正式环境UAT
-     */
-    public static final String LOGIN_URL = CTTQ_BASE_URL + "/account/mobile";
-    /**
-     * 基本接口 正式环境UAT
-     */
-    public static final String BASE_URL = CTTQ_BASE_URL + "/microapp/mobile";
 
 
     /**

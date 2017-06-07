@@ -1,5 +1,6 @@
 package com.mobisoft.mbswebplugin.utils;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
@@ -92,7 +93,7 @@ public class UrlUtil {
 	 * @return javascript方法
 	 */
 	public static String getFormatJs(String callBack, String json) {
-		String function = callBack.replace("#result#", json);
+		String function = callBack.replace("#result#", TextUtils.isEmpty(json)?"":json);
 		String json1 = String.format("javascript:%s",function );
 		return json1;
 	}

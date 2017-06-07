@@ -480,10 +480,6 @@ public class HybridWebView extends WebView {
 
         }
         function = function.replace("(val)", "(" + myJsonObject.toString() + ")");
-
-//        String josn = String.format("javascript:" + function);
-//        String josn = String.format("javascript:" + function + "%s)", myJsonObject);
-
 //        Log.i(TAG, "excuteJSFunction()==function:" + function + "   parameter:" + inParameter + "   data:" + data + "   url_josn:" + josn);
         loadUrl(Utils.functionFormat(function, myJsonObject));
     }

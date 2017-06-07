@@ -39,6 +39,11 @@ public class ProxyConfig {
      * 是否https 连接
      */
     private boolean changeHttps;
+    /**
+     * 当前服务器的基本本地址
+     */
+    private String baseUrl;
+
     private DownloadSrcCallback srcCallback;
 
 
@@ -70,6 +75,15 @@ public class ProxyConfig {
      */
     public ProxyConfig setLoadingIc(int loadingIc) {
         this.loadingIc = loadingIc;
+        return this;
+    }
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public ProxyConfig setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
         return this;
     }
 

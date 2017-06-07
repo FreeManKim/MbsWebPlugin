@@ -279,22 +279,6 @@ public class ProxyServer extends Thread {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-//            final String finalUrlString = urlString;
-//            if (finalUrlString.indexOf("/") < 0) {
-//                return false;
-//            }
-//            new Handler(Looper.getMainLooper()).post(new Runnable() {
-//                @Override
-//                public void run() {
-//                    try {
-//                        File file1 = FileCache.getInstance().creatCacheFile(finalUrlString, ProxyConfig.getConfig().getCachePath(), mContext);
-//                        DownLoadSrcTask task = new DownLoadSrcTask(DBdao);
-//                        task.execute(finalUrlString, file1.getAbsolutePath(), "");
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            });
             return false;
         }
 

@@ -8,9 +8,12 @@ import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
-//import com.lzy.okserver.upload.UploadManager;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.mobisoft.mbswebplugin.MbsWeb.HybridWebView;
 import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebPluginContract;
+import com.mobisoft.mbswebplugin.proxy.Setting.ProxyConfig;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,7 +23,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,10 +31,13 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -41,13 +46,17 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import cz.msebera.android.httpclient.Header;
+
+//import com.lzy.okserver.upload.UploadManager;
+
 /**
  * 文件上传工具类
  *
  * @author Fan xuedong
  * @version V1.0
- *  2016年3月3日 下午12:39:21
- * UpLoadUtile上传文件
+ *          2016年3月3日 下午12:39:21
+ *          UpLoadUtile上传文件
  */
 public class UpLoadUtile {
 
@@ -153,16 +162,17 @@ public class UpLoadUtile {
 
     //    朱桂飞 2016/10/8 14:07:58
     public void postFileFile(final Context context, final File file, final String mParamter, final String picFunction, final MbsWebPluginContract.View webView) {
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    sendPost(context, file, mParamter, picFunction, webView);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                try {
+//                    sendPost(context, file, mParamter, picFunction, webView);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }.start();
+        sendPost(context, file, mParamter, picFunction, webView);
     }
 
 
@@ -204,163 +214,226 @@ public class UpLoadUtile {
         if (mParamter != null) {
             try {
                 JSONObject json = new JSONObject(mParamter);
-                url = json.optString("url");
+                String url1 = json.optString("url");
+                url = ProxyConfig.getConfig().getBaseUrl() + url1;
                 Log.e("url", url);
             } catch (JSONException e) {
                 e.printStackTrace();
                 ToastUtil.showShortToast(context, "上传图像失败！");
             }
         }
-        HttpURLConnection uploadConnection = null;
-        DataOutputStream outputStream;
-        String boundary = "********";
-        String CRLF = "\r\n";
-        String Hyphens = "--";
-        int bytesRead, bytesAvailable, bufferSize;
-        int maxBufferSize = 1024 * 1024;
-        byte[] buffer;
-
         try {
-            FileInputStream fileInputStream = new FileInputStream(file);
-            URL url = new URL(this.url);
-            uploadConnection = (HttpURLConnection) url.openConnection();
-            uploadConnection.setDoInput(true);
-            uploadConnection.setDoOutput(true);
-            uploadConnection.setRequestMethod("POST");
-
-            uploadConnection.setRequestProperty("Connection", "Keep-Alive");
-            uploadConnection.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-            uploadConnection.setRequestProperty("uploaded_file", file.getAbsolutePath());
-
-            outputStream = new DataOutputStream(uploadConnection.getOutputStream());
-
-            outputStream.writeBytes(Hyphens + boundary + CRLF);
-
-            outputStream.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";filename=\"" + file.getAbsolutePath() + "\"" + CRLF);
-            outputStream.writeBytes(CRLF);
-
-            bytesAvailable = fileInputStream.available();
-            bufferSize = Math.min(bytesAvailable, maxBufferSize);
-            buffer = new byte[bufferSize];
-            bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-
-            while (bytesRead > 0) {
-                outputStream.write(buffer, 0, bufferSize);
-                bytesAvailable = fileInputStream.available();
-                bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+            if (file == null || !file.exists()) {
+                return;
             }
+            AsyncHttpClient client = new AsyncHttpClient();
+            RequestParams requestParams = new RequestParams();
+            requestParams.put("file", file);
+            client.post(url, requestParams, new AsyncHttpResponseHandler() {
+                @Override
+                public void onStart() {
+                    super.onStart();
 
-            outputStream.writeBytes(CRLF);
-            outputStream.writeBytes(Hyphens + boundary + Hyphens + CRLF);
+                }
 
-            InputStreamReader resultReader = new InputStreamReader(uploadConnection.getInputStream());
-            BufferedReader reader = new BufferedReader(resultReader);
-            String line = "";
-            String response = "";
-            while ((line = reader.readLine()) != null) {
-                response += line;
-            }
+                @Override
+                public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                    if (i == 200) {
+//                        String josn2 = String.format("javascript:" + picFunction + "(" + "'%s')", new String(bytes));
+                        view.loadUrl(UrlUtil.getFormatJs(picFunction,new String(bytes)));
+                        ToastUtil.showShortToast(context, "上传图像成功");
+                    }
 
-            final String finalResponse = response;
-            if (uploadConnection.getResponseCode() == 200) {
-                String josn2 = String.format("javascript:" + picFunction + "(" + "'%s')", finalResponse);
-                view.loadUrl(josn2);
-                Log.e("url", josn2);
-                ToastUtil.showShortToast(context, "上传图像成功");
-            } else {
-                ToastUtil.showShortToast(context, "上传图像失败！");
+                }
 
-            }
+                @Override
+                public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+                    ToastUtil.showShortToast(context, "上传图像失败！");
+                }
+            });
 
-            fileInputStream.close();
-            outputStream.flush();
-            outputStream.close();
-
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+        }
+
+//        Map<String, String> params = new HashMap<>(); params.put("id", "1");
+//        //...如果有其他参数添加到这里
+//         String request = uploadFile(file, url, params, "image");
+
+//        HttpURLConnection uploadConnection = null;
+//        DataOutputStream outputStream;
+//        String boundary = "********";
+//        String CRLF = "\r\n";
+//        String Hyphens = "--";
+//        int bytesRead, bytesAvailable, bufferSize;
+//        int maxBufferSize = 1024 * 1024;
+//        byte[] buffer;
+//
+//        try {
+//            FileInputStream fileInputStream = new FileInputStream(file);
+//            URL url = new URL(this.url);
+//            uploadConnection = (HttpURLConnection) url.openConnection();
+//            uploadConnection.setDoInput(true);
+//            uploadConnection.setDoOutput(true);
+//            uploadConnection.setRequestMethod("POST");
+//
+//            uploadConnection.setRequestProperty("Connection", "Keep-Alive");
+//            uploadConnection.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+//            uploadConnection.setRequestProperty("uploaded_file", file.getAbsolutePath());
+//
+//            outputStream = new DataOutputStream(uploadConnection.getOutputStream());
+//
+//            outputStream.writeBytes(Hyphens + boundary + CRLF);
+//
+//            outputStream.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";filename=\"" + file.getAbsolutePath() + "\"" + CRLF);
+//            outputStream.writeBytes(CRLF);
+//
+//            bytesAvailable = fileInputStream.available();
+//            bufferSize = Math.min(bytesAvailable, maxBufferSize);
+//            buffer = new byte[bufferSize];
+//            bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+//
+//            while (bytesRead > 0) {
+//                outputStream.write(buffer, 0, bufferSize);
+//                bytesAvailable = fileInputStream.available();
+//                bufferSize = Math.min(bytesAvailable, maxBufferSize);
+//                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+//            }
+//
+//            outputStream.writeBytes(CRLF);
+//            outputStream.writeBytes(Hyphens + boundary + Hyphens + CRLF);
+//
+//            InputStreamReader resultReader = new InputStreamReader(uploadConnection.getInputStream());
+//            BufferedReader reader = new BufferedReader(resultReader);
+//            String line = "";
+//            String response = "";
+//            while ((line = reader.readLine()) != null) {
+//                response += line;
+//            }
+//
+//            final String finalResponse = response;
+//            if (uploadConnection.getResponseCode() == 200) {
+//                String josn2 = String.format("javascript:" + picFunction + "(" + "'%s')", finalResponse);
+//                view.loadUrl(josn2);
+//                Log.e("url", josn2);
+//                ToastUtil.showShortToast(context, "上传图像成功");
+//            } else {
+//                ToastUtil.showShortToast(context, "上传图像失败！");
+//
+//            }
+//
+//            fileInputStream.close();
+//            outputStream.flush();
+//            outputStream.close();
+//
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+    }
+
+
+    private static final String TAG = "uploadFile";
+    private static final int TIME_OUT = 10 * 1000;
+    //超时时间
+    private static final String CHARSET = "utf-8";
+    private static final String BOUNDARY = UUID.randomUUID().toString();
+    //边界标识随机生成
+    private static final String PREFIX = "--";
+    private static final String LINE_END = "\r\n";
+    private static final String CONTENT_TYPE = "multipart/form-data";
+    //内容类型
+
+    /**
+     * 上传文件 * @param file 文件 * @param RequestURL post地址 * @param params 除文件外其他参数 * @param uploadFieldName 上传文件key * @return
+     */
+    public static String uploadFile(File file, String RequestURL, Map<String, String> params, String uploadFieldName) {
+        String result = null;
+        try {
+            URL url = new URL(RequestURL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(TIME_OUT);
+            conn.setConnectTimeout(TIME_OUT);
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+            conn.setUseCaches(false);
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Charset", CHARSET);
+            conn.setRequestProperty("connection", "keep-alive");
+            conn.setRequestProperty("Content-Type", CONTENT_TYPE + ";boundary=" + BOUNDARY);
+            DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
+            StringBuffer sb = new StringBuffer();
+            sb.append(getRequestData(params));
+            if (file != null) {
+                sb.append(PREFIX);
+                sb.append(BOUNDARY);
+                sb.append(LINE_END);
+                sb.append("Content-Disposition: form-data; name=\"" + uploadFieldName + "\"; filename=\"" + file.getName() + "\"" + LINE_END);
+                sb.append("Content-Type: application/octet-stream; charset=" + CHARSET + LINE_END);
+                sb.append(LINE_END);
+            }
+            dos.write(sb.toString().getBytes());
+            if (file != null) {
+                InputStream is = new FileInputStream(file);
+                byte[] bytes = new byte[1024];
+                int len = 0;
+                while ((len = is.read(bytes)) != -1) {
+                    dos.write(bytes, 0, len);
+                }
+                is.close();
+                dos.write(LINE_END.getBytes());
+                byte[] end_data = (PREFIX + BOUNDARY + PREFIX + LINE_END).getBytes();
+                dos.write(end_data);
+            }
+            dos.flush();
+            int res = conn.getResponseCode();
+            Log.e(TAG, "response code:" + res);
+            if (res == 200) {
+                Log.e(TAG, "request success");
+                InputStream input = conn.getInputStream();
+                StringBuffer sb1 = new StringBuffer();
+                int ss;
+                while ((ss = input.read()) != -1) {
+                    sb1.append((char) ss);
+                }
+                result = sb1.toString();
+                Log.i(TAG, "result : " + result);
+            } else {
+                Log.e(TAG, "request error");
+            }
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        PostRequest postRequest = OkGo.post(AppConfing.CTTQ_BASE_URL + url)//
-//                .headers("headerKey1", "headerValue1")//
-//                .headers("headerKey2", "headerValue2")//
-//                .params("paramKey1", "paramValue1")//
-//                .params("paramKey2", "paramValue2")//
-//                .params("fileKey", file);
-//        getUploadManager().addTask(file.getAbsolutePath(), postRequest, new UploadListener<String>() {
-//            @Override
-//            public void onProgress(UploadInfo uploadInfo) {
-//
-//            }
-//
-//            @Override
-//            public void onFinish(String result) {
-//                Log.e("oye", "onFinish:" + result);
-//                Log.e("oye", "onSuccess:" + result);
-//                String josn2 = String.format("javascript:" + picFunction + "(" + "'%s')", result);
-//                view.loadUrl(josn2);
-//                Log.e("url", josn2);
-//                ToastUtil.showShortToast(context, "上传图像成功");
-//            }
-//
-//            @Override
-//            public void onError(UploadInfo uploadInfo, String errorMsg, Exception ex) {
-//                Log.e("oye", "onError:" + ex.getMessage());
-//                ToastUtil.showShortToast(context, "上传图像失败！");
-//            }
-//
-//            @Override
-//            public String parseNetworkResponse(Response response) throws Exception {
-//
-//                return null;
-//            }
-//        });
-
-//        HttpURLConnection urlConnection
-
-//        // 这里的URLUtils.UPLOAD_IMG就是我们要访问的路径
-//        RequestParams params = new RequestParams(AppConfing.CTTQ_BASE_URL + url);
-//         // 设为true就是以表单形式上传，否则上传原始文件流
-//        params.setMultipart(true);
-//        // 下面就是请求网络时传递的参数
-//        // params.addQueryStringParameter();
-//        params.addBodyParameter("image_no", "");
-//        // 这里的第一个字段是随便写的，第二个参数是要传递的图盘或者文件，第三个参数是这个图片或者文件的后缀名（由于图片有后缀名因此就传为空）
-//        params.addBodyParameter("file", file, null);
-//        Log.e("url","图片参数："+params.toString());
-//        org.xutils.x.http().post(params, new Callback.CommonCallback<String>() {
-//            @Override
-//            public void onSuccess(String result) {
-//                Log.e("oye", "onSuccess:" + result);
-//                String josn2 = String.format("javascript:" + picFunction + "(" + "'%s')", result);
-//                view.loadUrl(josn2);
-//                Log.e("url", josn2);
-//                ToastUtil.showShortToast(context, "上传图像成功");
-//
-//            }
-//
-//            @Override
-//            public void onError(Throwable ex, boolean isOnCallback) {
-//                Log.e("oye", "onError:" + ex.getMessage());
-//                ToastUtil.showShortToast(context, "上传图像失败！");
-//            }
-//
-//            @Override
-//            public void onCancelled(CancelledException cex) {
-//                Log.e("oye", "onCancelled:" + cex.getMessage());
-//
-//            }
-//
-//            @Override
-//            public void onFinished() {
-//                Log.e("oye", "onFinished:");
-//            }
-//        });
-
+        return result;
     }
+
+    /**
+     * 对post参数进行编码处理 * @param params post参数 * @return
+     */
+    private static StringBuffer getRequestData(Map<String, String> params) {
+        StringBuffer stringBuffer = new StringBuffer();
+        try {
+            for (Map.Entry<String, String> entry : params.entrySet()) {
+                stringBuffer.append(PREFIX);
+                stringBuffer.append(BOUNDARY);
+                stringBuffer.append(LINE_END);
+                stringBuffer.append("Content-Disposition: form-data; name=\"" + entry.getKey() + "\"" + LINE_END);
+                stringBuffer.append(LINE_END);
+                stringBuffer.append(URLEncoder.encode(entry.getValue(), CHARSET));
+                stringBuffer.append(LINE_END);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return stringBuffer;
+    }
+
 
     /**
      * HttpUrlConnection支持所有Https免验证，不建议使用
