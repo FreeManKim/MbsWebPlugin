@@ -191,8 +191,8 @@ public class UpLoadUtile {
             String bytes = null;
             bytes = Base64Util.encodeBase64File(filePath);
             String a = "{" + "\"base64\"" + ":" + "\"" + bytes + "\"" + "," + "\"num\"" + ":" + "\"" + selectPicNum + " \"" + "}";
-            String josn2 = String.format("javascript:" + picFunction + "(" + "'%s')", a);
-            webView.loadUrl(josn2);
+//            String josn2 = String.format("javascript:" + picFunction + "(" + "'%s')", a);
+            webView.loadUrl(UrlUtil.getFormatJs(picFunction,a));
 
 
         } catch (Exception e) {
@@ -215,7 +215,7 @@ public class UpLoadUtile {
             try {
                 JSONObject json = new JSONObject(mParamter);
                 String url1 = json.optString("url");
-                url = ProxyConfig.getConfig().getBaseUrl() + url1;
+                url = ProxyConfig.getConfig().getImageBaseUrl() + url1;
                 Log.e("url", url);
             } catch (JSONException e) {
                 e.printStackTrace();

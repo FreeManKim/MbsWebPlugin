@@ -20,4 +20,7 @@ public interface DownloadCB {
 
     void onUpdateError(Throwable t);
 
+
+    void downloadFile(String url);
+
 }

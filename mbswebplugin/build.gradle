@@ -92,6 +92,8 @@ dependencies {
 
 
     compile 'com.loopj.android:android-async-http:1.4.9'
+    compile 'com.github.chrisbanes.photoview:library:1.2.4'
+
 }
 
 if (project.hasProperty("android")) { // Android libraries
@@ -137,8 +139,8 @@ javadoc {
 // 你只需要把这里的参数修改为自己的库名称即可
 ext {
     siteUrl = 'https://github.com/FreeManKim/MbsWebPlugin'
-    gitUrl = 'https://github.com/FreeManKim/MbsWebPlugin.git'
-    currentVersion = '0.5.6_beat'
+    gitUrl = 'https://gith ub.com/FreeManKim/MbsWebPlugin.git'
+    currentVersion = '0.8.0_beat'
     groupId = 'com.mobisoft.web'
     artifactId = 'webproxy'
     desc = 'Android web proxy'

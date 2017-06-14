@@ -48,6 +48,7 @@ public class CacheService extends Service {
         if (intent != null) {
             String url = intent.getStringExtra("url");
             String cacheDir = intent.getStringExtra("cacheDir");
+            String checkMD5 = intent.getStringExtra("checkMD5");
             //getCacheDir().getAbsolutePath()
             dao = new WebviewCaheDao(getApplicationContext());
             Log.d(TAG, "onStartCommand() executed" + url + "\n" + cacheDir);
@@ -100,7 +101,7 @@ public class CacheService extends Service {
 
                         }
                     } else {
-//                        ToastUtil.showLongToast(this, "下载完成");
+                        new DownLoadSrcTask(dao).executeOnExecutor(customerExecutorService,null , checkMD5, "");
                         break;
                     }
 

@@ -9,5 +9,7 @@
     <!--mbsWebFragment title 字体大小-->
     <dimen name="mbs_title_size">17sp</dimen>
     <dimen name="right_menu_margin">6dp</dimen>
+    <dimen name="pinglun_top">10dp</dimen>
+    <dimen name="pinglun_left">20dp</dimen>
 
 </resources>

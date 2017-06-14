@@ -37,6 +37,7 @@ import com.mobisoft.mbswebplugin.proxy.server.ProxyService;
 import com.mobisoft.mbswebplugin.proxy.server.SettingProxy;
 import com.mobisoft.mbswebplugin.utils.ActivityCollector;
 import com.mobisoft.mbswebplugin.utils.ToastUtil;
+import com.mobisoft.mbswebplugin.utils.UrlUtil;
 import com.mobisoft.mbswebplugin.utils.Utils;
 import com.mobisoft.mbswebplugin.view.ActionSheetDialog;
 import com.umeng.analytics.MobclickAgent;
@@ -257,8 +258,8 @@ public class WebPluginPresenter implements MbsWebPluginContract.Presenter, Recyc
                         @Override
                         public void onClick(int which) {
 //                            ToastUtil.showLongToast(context, item.getName());
-                            String json = String.format("javascript:" + item.getCallback() + "(%s)", "");
-                            mBsWebView.loadUrl(json);
+//                            String json = String.format("javascript:" + item.getCallback() + "(%s)", "");
+                            mBsWebView.loadUrl(UrlUtil.getFormatJs(item.getCallback(),""));
                         }
                     });
         }
@@ -392,8 +393,8 @@ public class WebPluginPresenter implements MbsWebPluginContract.Presenter, Recyc
                      * "(" + "'%s')" ：代表以字符串形势传参
                      */
                     //  String json = String.format("javascript:" + data.getStringExtra("function") + "(%s)", data.getStringExtra("OrganizeBean"));
-                    String json = String.format("javascript:" + data.getStringExtra("function") + "(" + "'%s')", data.getStringExtra("OrganizeBean"));
-                    mBsWebView.loadUrl(json);
+//                    String json = String.format("javascript:" + data.getStringExtra("function") + "(" + "'%s')", data.getStringExtra("OrganizeBean"));
+                    mBsWebView.loadUrl(UrlUtil.getFormatJs(data.getStringExtra("function"),data.getStringExtra("OrganizeBean")));
                 }
                 break;
             case PICK_IMAGE_ACTIVITY_REQUEST_CODE:  // 启动系统相册获取照片
@@ -522,7 +523,8 @@ public class WebPluginPresenter implements MbsWebPluginContract.Presenter, Recyc
                 Bundle extras = data.getExtras();
                 if (extras != null) {
                     String data1 = extras.getString("data");
-                    mBsWebView.loadUrl(String.format("javascript:" + mfunction + "('%s')", data1));
+//                    mBsWebView.loadUrl(String.format("javascript:" + mfunction + "('%s')", data1));
+                    mBsWebView.loadUrl(UrlUtil.getFormatJs(mfunction,data1));
 
                 }
             }

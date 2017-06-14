@@ -22,9 +22,9 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.mobisoft.mbswebplugin.IProxyPortListener;
-import com.mobisoft.mbswebplugin.proxy.tool.FileCache;
 import com.mobisoft.mbswebplugin.proxy.DB.WebviewCaheDao;
 import com.mobisoft.mbswebplugin.proxy.Setting.ProxyConfig;
+import com.mobisoft.mbswebplugin.proxy.tool.FileCache;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -100,8 +100,8 @@ public class ProxyServer extends Thread {
                 String urlString = splitLine[1];
 
                 String httpVersion = splitLine[2];
-
-                if (getCacheSrc(urlString)) {
+                //  判断是否 设置 代理  以及本地是否存在资源文件
+               if (ProxyConfig.getConfig().isOpenProxy() && getCacheSrc(urlString)  ) {
                     return;
                 }
                 URI url = null;

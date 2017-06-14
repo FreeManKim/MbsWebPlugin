@@ -29,7 +29,7 @@ public class GetDatabase extends DoCmdMethod {
             /*工号*/
             String acount = jsonObject.optString("account");
             String valueFromDB = getValueFromDB(context, acount, getkey);
-            String json = UrlUtil.getFormatJavascript(callBack, valueFromDB);
+            String json = UrlUtil.getFormatJs(callBack, valueFromDB);
             webView.loadUrl(json);
         } catch (JSONException e) {
             e.printStackTrace();

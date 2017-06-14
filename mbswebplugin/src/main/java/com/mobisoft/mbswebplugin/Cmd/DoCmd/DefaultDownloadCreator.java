@@ -2,13 +2,21 @@ package com.mobisoft.mbswebplugin.Cmd.DoCmd;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.os.Environment;
 import android.util.Log;
 
 import com.mobisoft.mbswebplugin.base.SafeDialogOper;
+import com.mobisoft.mbswebplugin.proxy.tool.YUtils;
 import com.mobisoft.mbswebplugin.utils.ToastUtil;
 import com.mobisoft.mbswebplugin.utils.Utils;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class DefaultDownloadCreator implements DownloadCB {
     private ProgressDialog dialog;
@@ -30,6 +38,62 @@ public class DefaultDownloadCreator implements DownloadCB {
     public void onUpdateError(Throwable t) {
         SafeDialogOper.safeDismissDialog(dialog);
 
+    }
+
+    @Override
+    public void downloadFile(final String fileUrl) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+//                    String fileUrl = "http://euat.idoutec.cn/prdcpic_dbb/insbuy.apk";
+                    URL url = new URL(fileUrl);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestProperty("Content-Type", "text/html; charset=UTF-8");
+                    connection.setRequestMethod("GET");
+                    connection.setConnectTimeout(10000);
+                    final long contentLength = connection.getContentLength();
+
+                    int responseCode = connection.getResponseCode();
+                    if (responseCode == 200) {
+                        InputStream inputStream = connection.getInputStream();
+                        String fileName = YUtils.getFileName(fileUrl);
+                        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
+                                + File.separator + "Download" + File.separator + "MBS");
+                        if (!file.exists()) {
+                            file.mkdirs();
+                        }
+                        final File fileDown = new File(file.getAbsolutePath() + File.separator + fileName);
+                        FileOutputStream fileOutputStream = new FileOutputStream(fileDown);
+                        byte[] buffer = new byte[1024];
+                        int length = 0;
+                        long offset = 0;
+                        long start = System.currentTimeMillis();
+
+                        while ((length = inputStream.read(buffer)) != -1) {
+                            fileOutputStream.write(buffer, 0, length);
+                            offset += length;
+                            long end = System.currentTimeMillis();
+                            if (end - start > 1000) {
+                                onUpdateProgress(offset, contentLength);
+                            }
+                        }
+
+                        connection.disconnect();
+                        fileOutputStream.close();
+                        connection = null;
+                        onUpdateComplete(fileDown);
+
+                    }
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                    onUpdateError(null);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    onUpdateError(null);
+                }
+            }
+        }).start();
     }
 
     @Override

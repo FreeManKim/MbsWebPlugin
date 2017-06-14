@@ -22,6 +22,7 @@ import com.mobisoft.mbswebplugin.R;
 import com.mobisoft.mbswebplugin.base.AppConfing;
 import com.mobisoft.mbswebplugin.utils.Base64Util;
 import com.mobisoft.mbswebplugin.utils.ToastUtil;
+import com.mobisoft.mbswebplugin.utils.UrlUtil;
 import com.mobisoft.mbswebplugin.utils.Utils;
 import com.mobisoft.mbswebplugin.view.ActionSheetDialog;
 
@@ -160,8 +161,8 @@ public class AlbumOrCamera extends DoCmdMethod implements MbsResultListener {
             Utils.getMainHandler().post(new Runnable() {
                 @Override
                 public void run() {
-                    String josn = String.format("javascript:" + callBack + "(%s)", finalS);
-                    view.loadUrl(josn);
+//                    String josn = String.format("javascript:" + callBack + "(%s)", finalS);
+                    view.loadUrl(UrlUtil.getFormatJs(callBack,finalS));
                     ToastUtil.showLongToast(context.getApplicationContext(), finalS);
                 }
             });

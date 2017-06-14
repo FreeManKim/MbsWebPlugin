@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.mobisoft.mbswebplugin.base.ActivityManager;
 import com.mobisoft.mbswebplugin.base.Recycler;
+import com.mobisoft.mbswebplugin.proxy.DB.WebviewCaheDao;
 import com.mobisoft.mbswebplugin.proxy.Setting.ProxyConfig;
 import com.mobisoft.mbswebplugin.proxy.Work.DefaultCheck;
 import com.mobisoft.mbswebplugin.proxy.Work.DownloadSrcCallback;
@@ -39,6 +40,7 @@ public class CacheManifest extends Thread implements Recycler.Recycleable {
     private String url;
     private String path;
     private DownloadSrcCallback callback;
+    private WebviewCaheDao dao;
 
     public CacheManifest(String path, String url) {
         this.url = ProxyConfig.getConfig().getCacheUrl();
@@ -51,6 +53,7 @@ public class CacheManifest extends Thread implements Recycler.Recycleable {
         this.path = ProxyConfig.getConfig().getCachePath();
         mContext = ActivityManager.get().topActivity();
         callback = ProxyConfig.getConfig().getSrcCallback();
+        dao = new WebviewCaheDao(mContext);
     }
 
     public void execute() {
@@ -99,7 +102,8 @@ public class CacheManifest extends Thread implements Recycler.Recycleable {
                 out.flush();
                 out.close();
                 in.close();
-                if (DefaultCheck.getInstance().check(file1, fileTemp)) {
+                String[] checkMD5 = DefaultCheck.getInstance().checkMD5(file1, fileTemp,dao);
+                if (Boolean.valueOf(checkMD5[0])) {
                     if (callback != null)
                         callback.noNeedUpData();
                     return;
@@ -114,6 +118,7 @@ public class CacheManifest extends Thread implements Recycler.Recycleable {
                 broadcast.putExtra("path", file1.getAbsolutePath());
                 broadcast.putExtra("url", url);
                 broadcast.putExtra("cacheDir", path);
+                broadcast.putExtra("checkMD5",checkMD5[1]);
                 mContext.sendBroadcast(broadcast, PERMISSION);
             } else {
                 String mess = connection.getResponseCode() + " " + connection.getResponseMessage();

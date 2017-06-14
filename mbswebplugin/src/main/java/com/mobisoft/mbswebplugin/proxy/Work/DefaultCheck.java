@@ -33,28 +33,59 @@ public class DefaultCheck implements CheckFile {
     }
 
     @Override
+    public String[] checkMD5(File file, File fileTemp,WebviewCaheDao dao) throws IOException {
+        String[] args = new String[2];
+        String f2 = MD5Util.getFileMD5String(fileTemp);
+        args[1] = f2;
+        if (file.exists()) {
+            String f1 = MD5Util.getFileMD5String(file);
+            Log.e("check", "f2!:" + f2);
+            Log.e("check", "f1!:" + f1);
+            String isFinish = dao.getUrlPath(f2,"checkMD5");
+
+            if (TextUtils.equals(f1, f2) && TextUtils.equals("true",isFinish)) {
+                boolean flag = fileTemp.delete();
+                Log.i("check", "delete!:" + flag);
+                args[0] = String.valueOf(true);
+                return args;
+            } else {
+                file.delete();
+                boolean flag = fileTemp.renameTo(file);
+                Log.i("check", "renameTo:" + flag);
+                args[0] = String.valueOf(false);
+            }
+            return args;
+
+        }
+        args[0] = String.valueOf(false);
+        boolean flag = fileTemp.renameTo(file);
+        Log.e("check", "renameTo2:" + flag);
+        return args;
+    }
+
+    @Override
     public boolean check(File file, File fileTemp) throws IOException {
         if (file.exists()) {
             String f1 = MD5Util.getFileMD5String(file);
             String f2 = MD5Util.getFileMD5String(fileTemp);
-            Log.e("check","f2!:"+f2);
-            Log.e("check","f1!:"+f1);
+            Log.e("check", "f2!:" + f2);
+            Log.e("check", "f1!:" + f1);
 
             if (TextUtils.equals(f1, f2)) {
-                boolean flag =   fileTemp.delete();
+                boolean flag = fileTemp.delete();
 
-                Log.e("check","delete!:"+flag);
+                Log.e("check", "delete!:" + flag);
                 return true;
-            } else{
+            } else {
                 file.delete();
                 boolean flag = fileTemp.renameTo(file);
-                Log.e("check","renameTo:"+flag);
+                Log.e("check", "renameTo:" + flag);
             }
-                return false;
+            return false;
 
         }
         boolean flag = fileTemp.renameTo(file);
-        Log.e("check","renameTo2:"+flag);
+        Log.e("check", "renameTo2:" + flag);
         return false;
     }
 

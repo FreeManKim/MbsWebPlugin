@@ -16,6 +16,16 @@ public class MeunItem  {
 
     /**回掉方法**/
     private String callback;
+    /**是否显示消息按钮*/
+    private boolean isShowMsg;
+
+    public boolean isShowMsg() {
+        return isShowMsg;
+    }
+
+    public void setShowMsg(boolean showMsg) {
+        isShowMsg = showMsg;
+    }
 
     public String getUrl() {
         return url;

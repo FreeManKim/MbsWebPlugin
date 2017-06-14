@@ -2,7 +2,6 @@ package com.mobisoft.mbswebplugin.adapter;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 
 import com.mobisoft.mbswebplugin.Entity.Task;
 import com.mobisoft.mbswebplugin.R;
+import com.mobisoft.mbswebplugin.utils.UrlUtil;
 import com.tencent.smtt.sdk.WebView;
 
 import java.util.List;
@@ -77,9 +77,9 @@ public class TaskAdapter extends BaseAdapter {
         text_task.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("function", function + "==" + list.get(position).getUrl());
-                String josn1 = String.format("javascript:" + function + "(" + "'%s')", list.get(position).getUrl());
-                mWebView.loadUrl(josn1);
+//                Log.e("function", function + "==" + list.get(position).getUrl());
+//                String josn1 = String.format("javascript:" + function + "(" + "'%s')", list.get(position).getUrl());
+                mWebView.loadUrl(UrlUtil.getFormatJs(function,list.get(position).getUrl()));
                 dialog.cancel();
             }
         });

@@ -17,4 +17,6 @@ public interface CheckFile {
     boolean check(File file,File fileTemp) throws IOException;
 
     boolean check(File file, InputStream inputStream) throws IOException;
+
+    String[] checkMD5(File file, File fileTemp,WebviewCaheDao dao)throws IOException;
 }

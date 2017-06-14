@@ -24,7 +24,7 @@ public class GetVersion extends DoCmdMethod {
         try {
             PackageInfo packInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
             final String version = packInfo.versionName;
-            String json = UrlUtil.getFormatJavascript(callBack, version);
+            String json = UrlUtil.getFormatJs(callBack, version);
             webView.loadUrl(json);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();

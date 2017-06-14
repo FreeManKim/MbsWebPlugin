@@ -25,14 +25,12 @@ import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
-import java.util.List;
 import java.util.Map;
 
 import static com.mobisoft.mbswebplugin.utils.UrlUtil.parseUrl;
@@ -484,33 +482,6 @@ public class HybridWebView extends WebView {
         loadUrl(Utils.functionFormat(function, myJsonObject));
     }
 
-    /**
-     * 相册回调方法
-     *
-     * @param function    功能函数
-     * @param inParameter 入参
-     * @param data        数据
-     */
-    public void excuteJSFunction(String function, String inParameter, List<String> data) {
-//        String josn = String.format("javascript:" + function + "(%s)", parameter);
-        JSONObject myJsonObject = null;
-        try {
-            myJsonObject = new JSONObject();
-            //将字符串转换成jsonObject对象
-            JSONArray imageJSONArray = new JSONArray();
-            for (String url : data) {
-                JSONObject image = new JSONObject();
-                image.put("url", url);
-                imageJSONArray.put(image);
-            }
-            myJsonObject.put(inParameter, imageJSONArray);
-        } catch (JSONException e) {
-            Log.e(TAG, e.toString());
-        }
-        String josn = String.format("javascript:" + function + "('%s')", myJsonObject);
-        Log.i(TAG, "excuteJSFunction()==function:" + function + "   parameter:" + inParameter + "   data:" + data + "   url_josn:" + josn);
-        loadUrl(josn);
-    }
 
     /**
      * cheng 城市回掉方法

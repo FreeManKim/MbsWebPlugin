@@ -26,6 +26,7 @@ public class ShowHudMethod extends DoCmdMethod {
             final String action = object.optString("action");
             if (TextUtils.equals("hide", action)) {
                 view.hideHud();
+                return null;
             }
 
             if (TextUtils.isEmpty(content)) {

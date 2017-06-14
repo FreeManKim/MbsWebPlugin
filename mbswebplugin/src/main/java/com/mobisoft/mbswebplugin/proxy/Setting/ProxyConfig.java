@@ -43,13 +43,33 @@ public class ProxyConfig {
      * 当前服务器的基本本地址
      */
     private String baseUrl;
+    /**
+     * 当前图片服务器的基本本地址
+     */
+    private String imageBaseUrl;
+    /**
+     * 是否开启代理服务
+     */
+    private boolean openProxy;
+
 
     private DownloadSrcCallback srcCallback;
+
 
 
     public static void setConfig(ProxyConfig config) {
         ProxyConfig.config = config;
     }
+
+    public boolean isOpenProxy() {
+        return openProxy;
+    }
+
+    public ProxyConfig setOpenProxy(boolean openProxy) {
+        this.openProxy = openProxy;
+        return this;
+    }
+
     /**
      * 设置加载回掉
      *
@@ -75,6 +95,15 @@ public class ProxyConfig {
      */
     public ProxyConfig setLoadingIc(int loadingIc) {
         this.loadingIc = loadingIc;
+        return this;
+    }
+
+    public String getImageBaseUrl() {
+        return imageBaseUrl;
+    }
+
+    public ProxyConfig setImageBaseUrl(String imageBaseUrl) {
+        this.imageBaseUrl = imageBaseUrl;
         return this;
     }
 

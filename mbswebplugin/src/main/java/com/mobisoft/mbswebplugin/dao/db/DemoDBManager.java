@@ -71,11 +71,15 @@ public class DemoDBManager {
      * 删除Webview的数据库
      * @param key  id
      */
-    synchronized public void deletWebviewList(String account, String key) {
+    synchronized public int deletWebviewList(String account, String key) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
+        int n=0;
         if (db.isOpen()) {
-            db.delete(WebViewDao.TABLE_NAME, WebViewDao.COLUMN_ACCOUNT+ " = ?", new String[]{key});
+           n = db.delete(WebViewDao.TABLE_NAME, WebViewDao.COLUMN_KEY+ " = ?", new String[]{key});
         }
+        return n;
+
     }
+
     
 }

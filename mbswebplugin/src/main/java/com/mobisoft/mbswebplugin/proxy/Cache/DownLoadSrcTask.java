@@ -32,7 +32,7 @@ import javax.net.ssl.TrustManager;
  * Description：
  */
 
-public class DownLoadSrcTask extends AsyncTask<String, Integer, String> {
+public class DownLoadSrcTask extends AsyncTask<String, Integer, Boolean> {
     private String TAG = "DownLoadSrcTask";
     private WebviewCaheDao webviewCaheDao;
     private DownloadSrcCallback srcCallback;
@@ -44,8 +44,12 @@ public class DownLoadSrcTask extends AsyncTask<String, Integer, String> {
     }
 
     @Override
-    protected String doInBackground(String... params) {
+    protected Boolean doInBackground(String... params) {
         String cachePath = params[0];
+        if (TextUtils.isEmpty(cachePath)) {
+            webviewCaheDao.saveUrlPath(params[1], "checkMD5", String.valueOf(true));
+            return true;
+        }
         try {
             URL uri = new URL(cachePath);
             Log.i(TAG, "下载：URL:" + cachePath);
@@ -111,7 +115,7 @@ public class DownLoadSrcTask extends AsyncTask<String, Integer, String> {
             }
             output.close();
             uristream.close();
-            return params[0];
+            return false;
         } catch (FileNotFoundException e) {
             webviewCaheDao.deletKey(cachePath);
             e.printStackTrace();
@@ -132,7 +136,7 @@ public class DownLoadSrcTask extends AsyncTask<String, Integer, String> {
             webviewCaheDao.deletKey(cachePath);
             e.printStackTrace();
         }
-        return params[0];
+        return false;
     }
 
     @Override
@@ -143,13 +147,12 @@ public class DownLoadSrcTask extends AsyncTask<String, Integer, String> {
     }
 
     @Override
-    protected void onPostExecute(String s) {
-        if (srcCallback != null && !isFinish) {
-            isFinish = true;
+    protected void onPostExecute(Boolean isFinish) {
+        if (srcCallback != null && isFinish) {
             srcCallback.downLoadFinish();
         }
         int n = webviewCaheDao.getCount();
-        Log.i(TAG, "下载完成路径：" + s + "/// : " + n);
+        Log.i(TAG, "下载完成路径：" + isFinish + "/// : " + n);
     }
 
     /**

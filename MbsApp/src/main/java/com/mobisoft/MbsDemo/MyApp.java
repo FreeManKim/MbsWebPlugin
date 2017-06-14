@@ -35,7 +35,7 @@ public class MyApp extends BaseApp {
         ProxyConfig.getConfig()
                 .setCachePath(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator
                         + "AAA_1")
-                .setCacheUrl("http://test.mobisoft.com.cn/cathay/cache.manifest")
+                .setCacheUrl("http://cathy.mobisoft.com.cn/cathay/cache.manifest")
                 .setChangeHttps(false)
                 .setPORT(8183)
                 .setDownloadSrcCallback(new DefaultDownloadSacCallback())

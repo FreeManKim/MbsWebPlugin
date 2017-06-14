@@ -48,8 +48,13 @@ public class WebViewDao {
 
 	}
 
-	public void deleteWebviewList(String account, String key){
-		DemoDBManager.getInstance().deletWebviewList(account,key);
+	/**
+	 * 根绝key删除某一个值
+	 * @param account account 为空不用传递
+	 * @param key
+	 */
+	public int deleteWebviewList(String account, String key){
+		 return DemoDBManager.getInstance().deletWebviewList(account,key);
 	}
 	/**
 	 *
@@ -67,4 +72,5 @@ public class WebViewDao {
 	public String getWebviewValuejson(String key) {
 	   return DemoDBManager.getInstance().getWebviewJson(key);
 	}
+
 }

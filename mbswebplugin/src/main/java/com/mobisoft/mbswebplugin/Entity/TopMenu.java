@@ -12,6 +12,19 @@ public class TopMenu {
     List<MeunItem> item;
 
     boolean showMsg;
+    /**
+     * 显示类型  HORIZONTAL 水平显示，VERTICAL ：垂直显示
+     * 默认 VERTICAL
+     */
+    String orientation;
+
+    public String getOrientation() {
+        return orientation;
+    }
+
+    public void setOrientation(String orientation) {
+        this.orientation = orientation;
+    }
 
     public boolean isShowMsg() {
         return showMsg;

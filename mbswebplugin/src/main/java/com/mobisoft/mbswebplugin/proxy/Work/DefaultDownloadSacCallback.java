@@ -1,5 +1,7 @@
 package com.mobisoft.mbswebplugin.proxy.Work;
 
+import android.util.Log;
+
 import com.mobisoft.mbswebplugin.base.ActivityManager;
 import com.mobisoft.mbswebplugin.utils.ToastUtil;
 import com.mobisoft.mbswebplugin.utils.Utils;
@@ -14,6 +16,7 @@ public class DefaultDownloadSacCallback implements DownloadSrcCallback {
     @Override
     public void downLoadFinish() {
         ToastUtil.showShortToast(ActivityManager.get().topActivity(), "资源文件更新完毕");
+        Log.i("downLoad","downLoadFinish");
 
 
     }
@@ -27,6 +30,7 @@ public class DefaultDownloadSacCallback implements DownloadSrcCallback {
                 ToastUtil.showShortToast(ActivityManager.get().topActivity(), "开始更新资源文件");
             }
         });
+        Log.i("downLoad","downLoadStart");
 
     }
 
@@ -39,6 +43,7 @@ public class DefaultDownloadSacCallback implements DownloadSrcCallback {
 
             }
         });
+        Log.i("downLoad","downLoadFailure");
 
     }
 
@@ -50,5 +55,7 @@ public class DefaultDownloadSacCallback implements DownloadSrcCallback {
                 ToastUtil.showShortToast(ActivityManager.get().topActivity(), "服务端与本地文件一致无需缓存");
             }
         });
+        Log.i("downLoad","noNeedUpData");
+
     }
 }

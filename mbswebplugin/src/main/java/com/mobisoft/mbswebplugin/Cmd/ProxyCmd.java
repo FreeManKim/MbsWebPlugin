@@ -12,8 +12,10 @@ import com.mobisoft.mbswebplugin.Cmd.DoCmd.GetDatabase;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.GetLocalFile;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.GetNetworkStatus;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.GetVersion;
+import com.mobisoft.mbswebplugin.Cmd.DoCmd.ImageBrowse;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.Logout;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.OpenBrowser;
+import com.mobisoft.mbswebplugin.Cmd.DoCmd.OpenCache;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.OpenContacts;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.PlayVideo;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.RecvMessage;
@@ -27,6 +29,7 @@ import com.mobisoft.mbswebplugin.Cmd.DoCmd.SetRightMenuMethod;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.SetTimeMethod;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.SetTitle;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.ShowHudMethod;
+import com.mobisoft.mbswebplugin.Cmd.DoCmd.ShowInPutWindows;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.ShowTipsMethod;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.ShowToast;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.UploadFile;
@@ -106,6 +109,9 @@ public class ProxyCmd {
         hashmap.put(CMD.cmd_cellphone, Cellphone.class.getName());
         hashmap.put(CMD.cmd_openBrowser, OpenBrowser.class.getName());
         hashmap.put(CMD.cmd_getImage, AlbumOrCamera.class.getName());
+        hashmap.put(CMD.cmd_placeholder, ShowInPutWindows.class.getName());
+        hashmap.put(CMD.cmd_ImageBrowse, ImageBrowse.class.getName());
+        hashmap.put(CMD.cmd_OpenProxy, OpenCache.class.getName());
     }
 
     /**

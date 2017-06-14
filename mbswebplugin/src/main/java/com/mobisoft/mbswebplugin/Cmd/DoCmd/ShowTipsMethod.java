@@ -10,6 +10,7 @@ import com.mobisoft.mbswebplugin.Cmd.CmdrBuilder;
 import com.mobisoft.mbswebplugin.Cmd.DoCmdMethod;
 import com.mobisoft.mbswebplugin.MbsWeb.HybridWebView;
 import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebPluginContract;
+import com.mobisoft.mbswebplugin.utils.UrlUtil;
 import com.mobisoft.mbswebplugin.view.AlertDialog;
 
 import org.json.JSONException;
@@ -116,8 +117,8 @@ public class ShowTipsMethod extends DoCmdMethod {
                         } else if (TextUtils.equals(confirm, "close")) {// 关闭 mAlertDialog
 
                         } else {
-                            String json = String.format("javascript:" + confirm + "(%s)", "");
-                            webView.loadUrl(json);
+//                            String json = String.format("javascript:" + confirm + "(%s)", "");
+                            webView.loadUrl(UrlUtil.getFormatJs(confirm,""));
                         }
                     }
                 });

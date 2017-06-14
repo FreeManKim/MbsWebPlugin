@@ -151,6 +151,19 @@ public class CMD {
      */
     public final static String cmd_getImage = "getimage";//获取图像，需要用户选择相册、相机
 
+    /***
+     * 显示输入框
+     */
+    public final static String cmd_placeholder = "placeholder";//显示输入框
+    /***
+     * 打开图片浏览页面
+     */
+    public final static String cmd_ImageBrowse = "browseimage";//显示输入框
+    /**
+     *  是否使用缓存页面
+     */
+    public final static String cmd_OpenProxy = "openproxy";//是否使用缓存数据
+
 
     /**
      * 搜索界面

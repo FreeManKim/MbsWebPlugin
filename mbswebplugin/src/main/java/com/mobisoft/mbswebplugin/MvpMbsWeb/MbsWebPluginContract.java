@@ -81,10 +81,7 @@ public interface MbsWebPluginContract {
          */
         void TopMenuClick(List<MeunItem> list, int position);
 
-        /**
-         * 设置顶部菜单
-         */
-        void setTopRightMenu();
+
 
         /**
          * 设置title菜单
@@ -95,6 +92,7 @@ public interface MbsWebPluginContract {
          * 设置标题栏背景色
          */
         void setTitleBg(String color);
+
         /**
          * 设置标题字体颜色色
          */
@@ -121,9 +119,13 @@ public interface MbsWebPluginContract {
          * @param json js返回的Menu数据
          */
         void setTopAndRightMenu(String json);
-
+        /**
+         * 设置顶部菜单
+         */
+        void setTopRightMenuList();
         /**
          * 是否显示 右上角菜单
+         *
          * @param isShow
          */
         void setRightMenuText(boolean isShow);
@@ -157,6 +159,13 @@ public interface MbsWebPluginContract {
          * @param resId
          */
         void setNavigationIcon(int resId);
+
+        /**
+         * 显示输入框
+         * @param param
+         * @param callBack
+         */
+        void showInputWindow(String param, String callBack);
     }
 
     interface Presenter extends BasePresenter {
