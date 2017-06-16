@@ -79,9 +79,9 @@ dependencies {
     compile files('libs/picasso-2.5.2.jar')
     compile files('libs/fastjson-1.2.23.jar')
     compile files('libs/tbs_sdk_thirdapp_v3.1.0.1034_43100_sharewithdownload_obfs_20170301_182143.jar')
-    compile 'com.android.support:appcompat-v7:25.3.0'
-    compile 'com.android.support:support-v4:25.3.0'
-    provided 'com.android.support:recyclerview-v7:25.3.0'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:support-v4:25.3.1'
+    provided 'com.android.support:recyclerview-v7:25.3.1'
 
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
@@ -93,6 +93,10 @@ dependencies {
 
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.github.chrisbanes.photoview:library:1.2.4'
+
+    compile 'com.werb.pickphotoview:pickphotoview:0.1.5'  // Last Version
+    compile 'com.google.code.gson:gson:2.8.0'
+
 
 }
 
@@ -140,7 +144,7 @@ javadoc {
 ext {
     siteUrl = 'https://github.com/FreeManKim/MbsWebPlugin'
     gitUrl = 'https://gith ub.com/FreeManKim/MbsWebPlugin.git'
-    currentVersion = '0.8.0_beat'
+    currentVersion = '0.8.7_beat'
     groupId = 'com.mobisoft.web'
     artifactId = 'webproxy'
     desc = 'Android web proxy'

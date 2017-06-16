@@ -25,10 +25,11 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.mobisoft.mbswebplugin.Cmd.DoCmd.DefaultDownloadCreator;
+import com.mobisoft.mbswebplugin.Cmd.Working.DefaultDownloadCreator;
 import com.mobisoft.mbswebplugin.R;
 import com.mobisoft.mbswebplugin.utils.ToastUtil;
 import com.mobisoft.mbswebplugin.view.ActionSheetDialog;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.io.BufferedOutputStream;
@@ -114,6 +115,29 @@ public class ImagePagerActivity extends Activity {
         viewPager.setCurrentItem(startPos);
 
         addGuideView(guideGroup, 1, imgUrls);
+        final Picasso picasso = Picasso.with(this);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+//                picasso.resumeTag("PhotoTag");
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                if (state == ViewPager.SCROLL_STATE_IDLE) {
+                    picasso.resumeTag("PhotoTag");
+                } else {
+                    picasso.pauseTag("PhotoTag");
+                }
+
+            }
+        });
     }
 
     private void addGuideView(LinearLayout guideGroup, int startPos, ArrayList<String> imgUrls) {
@@ -160,7 +184,7 @@ public class ImagePagerActivity extends Activity {
         public Object instantiateItem(ViewGroup container, final int position) {
             View view = inflater.inflate(R.layout.item_pager_image, container, false);
             if (view != null) {
-                PhotoView imageView = (PhotoView) view.findViewById(R.id.image);
+                final PhotoView imageView = (PhotoView) view.findViewById(R.id.image);
                 final ImageView smallImageView = new ImageView(context);
                 FrameLayout.LayoutParams layoutParams = null;
                 layoutParams = new FrameLayout.LayoutParams(144, 144);
@@ -181,7 +205,19 @@ public class ImagePagerActivity extends Activity {
                 Picasso.with(context)
                         .load(imgurl)
                         .placeholder(R.drawable.ic_placeholder)
-                        .into(imageView);
+                        .tag("PhotoTag")
+                        .into(imageView, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                loading.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onError() {
+
+                            }
+                        });
+
 
                 container.addView(view, 0);
                 imageView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
@@ -311,4 +347,10 @@ public class ImagePagerActivity extends Activity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Picasso.with(this).cancelTag("PhotoTag");
+
+    }
 }

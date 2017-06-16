@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -16,6 +17,8 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.mobisoft.mbswebplugin.Cmd.DoCmdMethod;
+import com.mobisoft.mbswebplugin.Cmd.Working.DefaultUploadCreator;
+import com.mobisoft.mbswebplugin.Cmd.Working.UploadCB;
 import com.mobisoft.mbswebplugin.MbsWeb.HybridWebView;
 import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsRequestPermissionsListener;
 import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsResultListener;
@@ -24,11 +27,14 @@ import com.mobisoft.mbswebplugin.utils.ToastUtil;
 import com.mobisoft.mbswebplugin.utils.UpLoadUtile;
 import com.mobisoft.mbswebplugin.utils.Utils;
 import com.mobisoft.mbswebplugin.view.ActionSheetDialog;
+import com.werb.pickphotoview.PickPhotoView;
+import com.werb.pickphotoview.util.PickConfig;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.List;
 
 import static com.mobisoft.mbswebplugin.base.AppConfing.CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE;
 import static com.mobisoft.mbswebplugin.base.AppConfing.NICK_REQUEST_CAMERA_CODE;
@@ -42,6 +48,7 @@ import static com.mobisoft.mbswebplugin.base.AppConfing.PICK_IMAGE_ACTIVITY_REQU
  */
 
 public class UploadFile extends DoCmdMethod implements MbsResultListener {
+    private static final int REQUEST_CODE_CROP_IMAGE = 0x776;
     private Context context;
     private String cmd;
     /**
@@ -57,6 +64,10 @@ public class UploadFile extends DoCmdMethod implements MbsResultListener {
      */
     private String picFileFullName;
     private Activity context1;
+    private boolean isCrop;
+    private UploadCB uploadCB;
+    private Uri cropImageUri;
+    private File outCropFile;
 
     @Override
     public String doMethod(HybridWebView webView, final Context context, MbsWebPluginContract.View view, MbsWebPluginContract.Presenter presenter, String cmd, String params, String callBack) {
@@ -66,20 +77,25 @@ public class UploadFile extends DoCmdMethod implements MbsResultListener {
         this.mParamter = params;
         this.callBack = callBack;
         context1 = (Activity) context;
+        uploadCB = new DefaultUploadCreator();
+        uploadCB.create(context1, view);
+
 //        ((MbsWebActivity) context).setResult(this);
         presenter.setResultListener(UploadFile.this);
         JSONObject json = null;
         try {
             json = new JSONObject(params);
-            final String type = json.optString("type");
+            isCrop = json.optBoolean("isCrop", false);
+            final int photoSize = json.optInt("size", 1);
+            final int pickPhotoCount = json.optInt("pickPhotoCount", 1);
             presenter.setMbsRequestPermissionsResultListener(new MbsRequestPermissionsListener() {
                 @Override
                 public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-                    if(requestCode==200){
-                        if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                            getPic(type);
-                        }else {
-                            ToastUtil.showShortToast(context,"缺少相关权限无法使此功能！");
+                    if (requestCode == 200) {
+                        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                            getPic(pickPhotoCount);
+                        } else {
+                            ToastUtil.showShortToast(context, "缺少相关权限无法使此功能！");
                         }
                     }
                 }
@@ -94,16 +110,59 @@ public class UploadFile extends DoCmdMethod implements MbsResultListener {
                     };
                     ActivityCompat.requestPermissions(context1, permission, 200);
                 } else {
-                    getPic(type);                }
+//                    getPic(null);
+                    getPic(pickPhotoCount);
+
+                }
 
             } else {
-                getPic(type);
+//                getPic(null);
+                getPic(pickPhotoCount);
+
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * @param pickPhotoCount
+     */
+    private void getPic(final int pickPhotoCount) {
+        new ActionSheetDialog(context)
+                .builder()
+                .setCancelable(false)
+                .setCanceledOnTouchOutside(false)
+                .addSheetItem("拍照", ActionSheetDialog.SheetItemColor.Blue,
+                        new ActionSheetDialog.OnSheetItemClickListener() {
+                            @Override
+                            public void onClick(int which) {
+                                takePhoto();
+//                                uploadCB.onUploadStart(pickPhotoCount);
+
+                            }
+                        })
+                .addSheetItem("相册", ActionSheetDialog.SheetItemColor.Blue,
+                        new ActionSheetDialog.OnSheetItemClickListener() {
+                            @Override
+                            public void onClick(int which) {
+                                new PickPhotoView.Builder((Activity) context)
+                                        .setPickPhotoSize(pickPhotoCount)   //select max size
+                                        .setShowCamera(false)   //is show camera
+                                        .setSpanCount(3)       //SpanCount
+                                        .setLightStatusBar(true)  // custom theme
+                                        .setStatusBarColor("#ffffff")   // custom statusBar
+                                        .setToolbarColor("#ffffff")   // custom toolbar
+                                        .setToolbarIconColor("#000000")   // custom toolbar icon
+                                        .start();
+//                                uploadCB.onUploadStart(pickPhotoCount);
+
+                            }
+                        }).show();
+
+
     }
 
     @Override
@@ -114,10 +173,10 @@ public class UploadFile extends DoCmdMethod implements MbsResultListener {
                 if (uri != null) {
                     String realPath = Utils.getRealPathFromURI((Activity) context, uri);
 
-                    String compress = UpLoadUtile.getInstance().compress(context, realPath);
+                    String compress = UpLoadUtile.getInstance().compress(context, realPath, 100);
                     File f = new File(compress);
                     UpLoadUtile.getInstance().postFileFile(
-                            context, f, mParamter, callBack, view);
+                            context, f, mParamter, callBack, uploadCB);
 
                 } else {
                     Log.e("TAG", "从相册获取图片失败");
@@ -130,76 +189,124 @@ public class UploadFile extends DoCmdMethod implements MbsResultListener {
                     ToastUtil.showShortToast(context, "相机故障，请重试");
                     return;
                 }
+
                 Log.d("TAG", "图片的本地路径是：" + picFileFullName);
-                String compress = UpLoadUtile.getInstance().compress(context, picFileFullName);
-                File f = new File(compress);
-                UpLoadUtile.getInstance().postFileFile(
-                        context, f, mParamter, callBack, view);
+                if (isCrop) {
+                    cropImage();
+                } else {
+                    uploadCB.onUploadStart(1);
+                    String compress = UpLoadUtile.getInstance().compress(context, picFileFullName, 100);
+                    File f = new File(compress);
+                    UpLoadUtile.getInstance().postFileFile(
+                            context, f, mParamter, callBack, uploadCB);
+                }
+
+
+                break;
+            case REQUEST_CODE_CROP_IMAGE: // 裁剪数据
+//                Uri uri2 = data.getData();
+
+//                String compress = UpLoadUtile.getInstance().compress(context, outCropFile.getAbsolutePath(), 100);
+//                File f = new File(compress);
+                uploadCB.onUploadStart(1);
+
+                if (outCropFile.exists()) {
+                    UpLoadUtile.getInstance().postFileFile(
+                            context, outCropFile, mParamter, callBack, uploadCB);
+                } else {
+                    uploadCB.onUploadComplete(null);
+
+                }
+
+
+                break;
+            case PickConfig.PICK_PHOTO_DATA:
+                if (data == null) {
+                    uploadCB.onUploadComplete(null);
+                    return;
+                }
+                List<String> selectPaths = (List<String>) data.getSerializableExtra(PickConfig.INTENT_IMG_LIST_SELECT);
+
+                if (isCrop && selectPaths.size() == 1) {
+                    picFileFullName = selectPaths.get(0);
+                    cropImage();
+
+                } else {
+                    uploadCB.onUploadStart(selectPaths.size());
+
+                    UpLoadUtile.getInstance().postFileFile(
+                            context, selectPaths, uploadCB, mParamter, callBack);
+                }
+
+                break;
+            case 0:
+                uploadCB.onUploadComplete("");
                 break;
             default:
                 break;
         }
     }
 
+    /**
+     * 裁剪图片
+     */
+    private void cropImage() {
+        Uri uri1 = Uri.fromFile(new File(picFileFullName));
+        File cropName = Environment
+                .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        outCropFile = new File(cropName, System.currentTimeMillis() + ".jpg");
+
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        //可以选择图片类型，如果是*表明所有类型的图片
+        intent.setDataAndType(uri1, "image/*");
+        // 下面这个crop = true是设置在开启的Intent中设置显示的VIEW可裁剪
+        intent.putExtra("crop", "true");
+        // aspectX aspectY 是宽高的比例，这里设置的是正方形（长宽比为1:1）
+//        intent.putExtra("aspectX", 1);
+//        intent.putExtra("aspectY", 1);
+        // outputX outputY 是裁剪图片宽高
+//        intent.putExtra("outputX", 800);
+//        intent.putExtra("outputY", 800);
+        //裁剪时是否保留图片的比例，这里的比例是1:1
+        intent.putExtra("scale", true);
+        //是否是圆形裁剪区域，设置了也不一定有效
+        //intent.putExtra("circleCrop", true);
+        //设置输出的格式
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(outCropFile));
+        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+
+        intent = Intent.createChooser(intent, "裁剪图片");
+
+
+        context1.startActivityForResult(intent, REQUEST_CODE_CROP_IMAGE);
+    }
 
 
     /**
      * @param type
      */
     public void getPic(String type) {
-        if (type.equals("1")) {
-            new ActionSheetDialog(context)
-                    .builder()
-                    .setCancelable(false)
-                    .setCanceledOnTouchOutside(false)
-                    .addSheetItem("拍照", ActionSheetDialog.SheetItemColor.Blue,
-                            new ActionSheetDialog.OnSheetItemClickListener() {
-                                @Override
-                                public void onClick(int which) {
-//                                    uploadType = "picture";
-                                    takePhoto();
-                                }
-                            })
-                    .addSheetItem("相册", ActionSheetDialog.SheetItemColor.Blue,
-                            new ActionSheetDialog.OnSheetItemClickListener() {
-                                @Override
-                                public void onClick(int which) {
-//                                    uploadType = "picture";
-                                    selPhoto();
-                                }
-                            }).show();
-        } else if (type.equals("2")) {
-            new ActionSheetDialog(context)
-                    .builder()
-                    .setCancelable(false)
-                    .setCanceledOnTouchOutside(false)
-                    .addSheetItem("拍照", ActionSheetDialog.SheetItemColor.Blue,
-                            new ActionSheetDialog.OnSheetItemClickListener() {
-                                @Override
-                                public void onClick(int which) {
-//                                    uploadType = "picture";
-                                    takePhoto();
+        new ActionSheetDialog(context)
+                .builder()
+                .setCancelable(false)
+                .setCanceledOnTouchOutside(false)
+                .addSheetItem("拍照", ActionSheetDialog.SheetItemColor.Blue,
+                        new ActionSheetDialog.OnSheetItemClickListener() {
+                            @Override
+                            public void onClick(int which) {
+                                takePhoto();
 
-                                }
-                            })
-                    .addSheetItem("相册", ActionSheetDialog.SheetItemColor.Blue,
-                            new ActionSheetDialog.OnSheetItemClickListener() {
-                                @Override
-                                public void onClick(int which) {
-//                                    uploadType = "picture";
-                                    selPhoto();
-                                }
-                            })
-                    .addSheetItem("语音", ActionSheetDialog.SheetItemColor.Blue,
-                            new ActionSheetDialog.OnSheetItemClickListener() {
-                                @Override
-                                public void onClick(int which) {
-//                                    uploadType = "speech";
-//                                    startActivity(new Intent(WebAppActivity.this, RecordActivity2.class));
-//                                    registerBroadcastReceiver();
-                                }
-                            }).show();
-        }
+                            }
+                        })
+                .addSheetItem("相册", ActionSheetDialog.SheetItemColor.Blue,
+                        new ActionSheetDialog.OnSheetItemClickListener() {
+                            @Override
+                            public void onClick(int which) {
+                                selPhoto();
+                            }
+                        }).show();
 
     }
 

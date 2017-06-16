@@ -7,7 +7,7 @@ import com.mobisoft.mbswebplugin.proxy.Work.DownloadSrcCallback;
 /**
  * Author：Created by fan.xd on 2017/3/17.
  * Email：fang.xd@mobisoft.com.cn
- * Description：
+ * Description：ProxyConfig 代理库的基本配置；
  */
 
 public class ProxyConfig {

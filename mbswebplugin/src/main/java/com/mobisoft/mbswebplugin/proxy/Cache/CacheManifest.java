@@ -114,12 +114,13 @@ public class CacheManifest extends Thread implements Recycler.Recycleable {
                 }
                 Intent broadcast = new Intent();
                 broadcast.setClass(mContext, CacheBroadcast.class);
-//                broadcast.setAction("com.mobisoft.loachtml.Cache.CacheBroadcast");
+                broadcast.setAction(mContext.getPackageName());
                 broadcast.putExtra("path", file1.getAbsolutePath());
                 broadcast.putExtra("url", url);
                 broadcast.putExtra("cacheDir", path);
                 broadcast.putExtra("checkMD5",checkMD5[1]);
-                mContext.sendBroadcast(broadcast, PERMISSION);
+//                mContext.sendBroadcast(broadcast, PERMISSION);
+                mContext.sendBroadcast(broadcast);
             } else {
                 String mess = connection.getResponseCode() + " " + connection.getResponseMessage();
                 if (callback != null)

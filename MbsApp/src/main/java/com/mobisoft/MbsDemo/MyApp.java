@@ -35,8 +35,10 @@ public class MyApp extends BaseApp {
         ProxyConfig.getConfig()
                 .setCachePath(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator
                         + "AAA_1")
-                .setCacheUrl("http://cathy.mobisoft.com.cn/cathay/cache.manifest")
+                .setCacheUrl("http://nikegcuat.mobisoft.com.cn:81/mobile/cache.manifest")
                 .setChangeHttps(false)
+//                .setImageBaseUrl("http://test.mobisoft.com.cn:8180")
+                .setImageBaseUrl("http://nikegcuat.mobisoft.com.cn:81")
                 .setPORT(8183)
                 .setDownloadSrcCallback(new DefaultDownloadSacCallback())
         .setBaseUrl("http://test.mobisoft.com.cn:8180");

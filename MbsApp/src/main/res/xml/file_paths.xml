@@ -2,5 +2,7 @@
 <resources>
     <paths>
         <external-path path="" name="camera_photos" />
+        <external-path name="pick_camera" path="DCIM/Camera" />
+
     </paths>
 </resources>

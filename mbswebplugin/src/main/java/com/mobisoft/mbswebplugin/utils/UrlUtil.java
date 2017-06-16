@@ -103,7 +103,6 @@ public class UrlUtil {
             newFunction = callBack.replace("#result#", TextUtils.isEmpty(json) ? "" : json);
         } else if (callBack.endsWith("(")) {
             newFunction = callBack.substring(0, callBack.length() - 1);
-
         } else {
             String json2 = String.format("javascript:" + newFunction + "('%s')", json);
             return json2;

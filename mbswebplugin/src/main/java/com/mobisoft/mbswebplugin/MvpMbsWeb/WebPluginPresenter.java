@@ -31,7 +31,6 @@ import com.mobisoft.mbswebplugin.base.Recycler;
 import com.mobisoft.mbswebplugin.helper.CoreConfig;
 import com.mobisoft.mbswebplugin.helper.FunctionConfig;
 import com.mobisoft.mbswebplugin.helper.ThemeConfig;
-import com.mobisoft.mbswebplugin.proxy.Cache.CacheManifest;
 import com.mobisoft.mbswebplugin.proxy.Setting.ProxyConfig;
 import com.mobisoft.mbswebplugin.proxy.server.ProxyService;
 import com.mobisoft.mbswebplugin.proxy.server.SettingProxy;
@@ -220,7 +219,8 @@ public class WebPluginPresenter implements MbsWebPluginContract.Presenter, Recyc
             receiveBroadCast = new ReceiveBroadCast(actionName, callback);
             IntentFilter filter = new IntentFilter();
             filter.addAction(actionName); // 只有持有相同的action的接受者才能接收此广播 receiveMessage
-            mActivity.registerReceiver(receiveBroadCast, filter, CacheManifest.PERMISSION, null);
+//            mActivity.registerReceiver(receiveBroadCast, filter, CacheManifest.PERMISSION, null);
+            mActivity.registerReceiver(receiveBroadCast, filter);
         }
     }
 
@@ -259,7 +259,7 @@ public class WebPluginPresenter implements MbsWebPluginContract.Presenter, Recyc
                         public void onClick(int which) {
 //                            ToastUtil.showLongToast(context, item.getName());
 //                            String json = String.format("javascript:" + item.getCallback() + "(%s)", "");
-                            mBsWebView.loadUrl(UrlUtil.getFormatJs(item.getCallback(),""));
+                            mBsWebView.loadUrl(UrlUtil.getFormatJs(item.getCallback(), ""));
                         }
                     });
         }
@@ -394,13 +394,13 @@ public class WebPluginPresenter implements MbsWebPluginContract.Presenter, Recyc
                      */
                     //  String json = String.format("javascript:" + data.getStringExtra("function") + "(%s)", data.getStringExtra("OrganizeBean"));
 //                    String json = String.format("javascript:" + data.getStringExtra("function") + "(" + "'%s')", data.getStringExtra("OrganizeBean"));
-                    mBsWebView.loadUrl(UrlUtil.getFormatJs(data.getStringExtra("function"),data.getStringExtra("OrganizeBean")));
+                    mBsWebView.loadUrl(UrlUtil.getFormatJs(data.getStringExtra("function"), data.getStringExtra("OrganizeBean")));
                 }
                 break;
             case PICK_IMAGE_ACTIVITY_REQUEST_CODE:  // 启动系统相册获取照片
             case CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE:// 拍照 拍照
             default:
-                if (resultCode == RESULT_OK && resultListener != null) {
+                if (resultListener != null) {
                     resultListener.onActivityResult(mActivity, mBsWebView, requestCode, resultCode, data);
                 }
                 break;
@@ -524,7 +524,7 @@ public class WebPluginPresenter implements MbsWebPluginContract.Presenter, Recyc
                 if (extras != null) {
                     String data1 = extras.getString("data");
 //                    mBsWebView.loadUrl(String.format("javascript:" + mfunction + "('%s')", data1));
-                    mBsWebView.loadUrl(UrlUtil.getFormatJs(mfunction,data1));
+                    mBsWebView.loadUrl(UrlUtil.getFormatJs(mfunction, data1));
 
                 }
             }

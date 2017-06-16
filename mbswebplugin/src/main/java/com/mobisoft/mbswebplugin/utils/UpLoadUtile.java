@@ -5,16 +5,18 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.mobisoft.mbswebplugin.Cmd.Working.UploadCB;
 import com.mobisoft.mbswebplugin.MbsWeb.HybridWebView;
-import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebPluginContract;
 import com.mobisoft.mbswebplugin.proxy.Setting.ProxyConfig;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,6 +38,8 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -63,6 +67,8 @@ public class UpLoadUtile {
 
     private static UpLoadUtile mLoad;
     private String url;
+    private ArrayList<String> listImages;
+    private JSONArray jsonArray;
 
     /**
      * OKGo 上传文件
@@ -101,7 +107,10 @@ public class UpLoadUtile {
     /**
      * 图片压缩
      */
-    public String compress(Context context, String srcPath) {
+    public String compress(Context context, String srcPath, int photoSize) {
+        if (photoSize <= 0) {
+            photoSize = 100;
+        }
         DisplayMetrics dm;
         String mypath = null;
         String path = Environment.getExternalStorageDirectory() + File.separator + context.getPackageName().toString() + File.separator + "NikeHead"
@@ -132,12 +141,15 @@ public class UpLoadUtile {
         }
         opts.inSampleSize = size;
         bitmap = BitmapFactory.decodeFile(srcPath, opts);
+        if (bitmap == null) {
+            return srcPath;
+        }
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         int quality = 80;
         bitmap.compress(Bitmap.CompressFormat.JPEG, quality, baos);
         System.out.println(baos.toByteArray().length);
 
-        while (baos.toByteArray().length > 100 * 1024) {
+        while (baos.toByteArray().length > photoSize * 1024) {
             baos.reset();
             bitmap.compress(Bitmap.CompressFormat.JPEG, quality, baos);
             quality -= 10;
@@ -161,18 +173,108 @@ public class UpLoadUtile {
     }
 
     //    朱桂飞 2016/10/8 14:07:58
-    public void postFileFile(final Context context, final File file, final String mParamter, final String picFunction, final MbsWebPluginContract.View webView) {
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                try {
-//                    sendPost(context, file, mParamter, picFunction, webView);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }.start();
-        sendPost(context, file, mParamter, picFunction, webView);
+    public void postFileFile(final Context context, final File file, final String mParamter, final String picFunction, final UploadCB uploadCB) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (listImages != null) {
+                    listImages.clear();
+                } else {
+                    listImages = new ArrayList<>();
+
+                }
+                jsonArray = new JSONArray();
+
+                if (!TextUtils.isEmpty(mParamter)) {
+                    try {
+                        JSONObject json = new JSONObject(mParamter);
+                        String url1 = json.optString("url");
+                        final int pickPhotoCount = json.optInt("pickPhotoCount", 1);
+//                uploadCB.onUploadStart(pickPhotoCount);
+                        url = ProxyConfig.getConfig().getImageBaseUrl() + url1;
+                        Utils.getMainHandler().post(new Runnable() {
+                            @Override
+                            public void run() {
+                                sendPost(file, url, picFunction, uploadCB);
+                            }
+                        });
+
+                        Log.e("url", url);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        uploadCB.onUploadFinish("上传图像失败！");
+                    }
+                } else {
+                    uploadCB.onUploadFinish("参数为空上传图像失败！");
+
+                }
+            }
+        }).start();
+
+    }
+
+    //    朱桂飞 2016/10/8 14:07:58
+
+    /**
+     * @param context
+     * @param imagePaths
+     * @param uploadCB
+     * @param ares
+     */
+    public void postFileFile(final Context context, final List<String> imagePaths, final UploadCB uploadCB, final String... ares) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final int size = imagePaths.size();
+
+                if (listImages != null) {
+                    listImages.clear();
+                } else {
+                    listImages = new ArrayList<>();
+                }
+                jsonArray = new JSONArray();
+
+                if (!TextUtils.isEmpty(ares[0])) {
+                    try {
+                        JSONObject json = new JSONObject(ares[0]);
+                        String url1 = json.optString("url");
+                        int photoSize = json.optInt("size");
+//                        final int pickPhotoCount = json.optInt("pickPhotoCount", 1);
+//                uploadCB.onUploadStart(pickPhotoCount);
+                        final String imageUrl = ProxyConfig.getConfig().getImageBaseUrl() + url1;
+                        for (int i = 0; i < size; i++) {
+                            String compress = UpLoadUtile.getInstance().compress(context, imagePaths.get(i), photoSize);
+                            final File compressFile = new File(compress);
+                            final int finalI = i;
+                            Utils.getMainHandler().post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (finalI == size - 1) {
+                                        sendPost(compressFile, imageUrl, ares[1], uploadCB);
+                                    } else {
+                                        sendPost(compressFile, imageUrl, null, uploadCB);
+                                    }
+                                }
+                            });
+                            uploadCB.onUploadProgress(i, size);
+                            Log.e("url", imageUrl);
+
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        uploadCB.onUploadFinish("上传图像失败！");
+//                ToastUtil.showShortToast(context, "上传图像失败！");
+                    }
+                } else {
+//            ToastUtil.showShortToast(context, "参数为空上传图像失败！");
+                    uploadCB.onUploadFinish("参数为空上传图像失败！");
+
+                }
+            }
+        }).start();
+
+
     }
 
 
@@ -192,7 +294,7 @@ public class UpLoadUtile {
             bytes = Base64Util.encodeBase64File(filePath);
             String a = "{" + "\"base64\"" + ":" + "\"" + bytes + "\"" + "," + "\"num\"" + ":" + "\"" + selectPicNum + " \"" + "}";
 //            String josn2 = String.format("javascript:" + picFunction + "(" + "'%s')", a);
-            webView.loadUrl(UrlUtil.getFormatJs(picFunction,a));
+            webView.loadUrl(UrlUtil.getFormatJs(picFunction, a));
 
 
         } catch (Exception e) {
@@ -201,35 +303,26 @@ public class UpLoadUtile {
 
     }
 
+
     /**
      * 上传照片
      *
-     * @param context     环境
      * @param file        文件
-     * @param mParamter   js返回参数
+     * @param imageUrl    js返回参数
      * @param picFunction 回掉方法
-     * @param view
+     * @param uploadCB
      */
-    public void sendPost(final Context context, File file, String mParamter, final String picFunction, final MbsWebPluginContract.View view) {
-        if (mParamter != null) {
-            try {
-                JSONObject json = new JSONObject(mParamter);
-                String url1 = json.optString("url");
-                url = ProxyConfig.getConfig().getImageBaseUrl() + url1;
-                Log.e("url", url);
-            } catch (JSONException e) {
-                e.printStackTrace();
-                ToastUtil.showShortToast(context, "上传图像失败！");
-            }
-        }
+    public void sendPost(File file, String imageUrl, final String picFunction, final UploadCB uploadCB) {
         try {
             if (file == null || !file.exists()) {
+                uploadCB.onUploadComplete(null);
+
                 return;
             }
             AsyncHttpClient client = new AsyncHttpClient();
             RequestParams requestParams = new RequestParams();
             requestParams.put("file", file);
-            client.post(url, requestParams, new AsyncHttpResponseHandler() {
+            client.post(imageUrl, requestParams, new AsyncHttpResponseHandler() {
                 @Override
                 public void onStart() {
                     super.onStart();
@@ -239,16 +332,50 @@ public class UpLoadUtile {
                 @Override
                 public void onSuccess(int i, Header[] headers, byte[] bytes) {
                     if (i == 200) {
-//                        String josn2 = String.format("javascript:" + picFunction + "(" + "'%s')", new String(bytes));
-                        view.loadUrl(UrlUtil.getFormatJs(picFunction,new String(bytes)));
-                        ToastUtil.showShortToast(context, "上传图像成功");
+                        try {
+                            JSONObject image = new JSONObject(new String(bytes));
+                            jsonArray.put(image);
+                            if (!TextUtils.isEmpty(picFunction)) {
+                                JSONObject jsonObject = new JSONObject();
+                                jsonObject.put("images", jsonArray);
+                                uploadCB.onUploadComplete(UrlUtil.getFormatJs(picFunction, jsonObject.toString()));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            uploadCB.onUploadError("上传图像失败:" + e.getMessage());
+
+                        }
+
+                    } else {
+                        if (!TextUtils.isEmpty(picFunction)) {
+                            uploadCB.onUploadFinish("上传图像失败!");
+                        }
                     }
 
                 }
 
                 @Override
                 public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-                    ToastUtil.showShortToast(context, "上传图像失败！");
+//                    ToastUtil.showShortToast(context, "上传图像失败！");
+//                    if (throwable != null)
+//                        uploadCB.onUploadError("上传图像失败!" + throwable.getMessage());
+//                    else if (bytes != null)
+//                        uploadCB.onUploadError("上传图像失败:" + new String(bytes));
+
+                    if (!TextUtils.isEmpty(picFunction)) {
+                        if (jsonArray.length() <= 0) {
+                            uploadCB.onUploadFinish("上传图像失败");
+                            return;
+                        }
+                        JSONObject jsonObject = new JSONObject();
+                        try {
+                            jsonObject.put("images", jsonArray);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        uploadCB.onUploadComplete(UrlUtil.getFormatJs(picFunction, jsonObject.toString()));
+                    }
+
                 }
             });
 

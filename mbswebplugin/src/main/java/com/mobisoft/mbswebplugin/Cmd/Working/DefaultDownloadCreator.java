@@ -1,4 +1,4 @@
-package com.mobisoft.mbswebplugin.Cmd.DoCmd;
+package com.mobisoft.mbswebplugin.Cmd.Working;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -52,6 +52,7 @@ public class DefaultDownloadCreator implements DownloadCB {
                     connection.setRequestProperty("Content-Type", "text/html; charset=UTF-8");
                     connection.setRequestMethod("GET");
                     connection.setConnectTimeout(10000);
+                    connection.setUseCaches(false);
                     final long contentLength = connection.getContentLength();
 
                     int responseCode = connection.getResponseCode();

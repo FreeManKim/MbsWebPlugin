@@ -1,4 +1,4 @@
-package com.mobisoft.mbswebplugin.Cmd.DoCmd;
+package com.mobisoft.mbswebplugin.Cmd.Working;
 
 import android.app.Activity;
 
