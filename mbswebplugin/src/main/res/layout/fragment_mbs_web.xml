@@ -64,7 +64,7 @@
                 android:ellipsize="end"
                 android:gravity="center"
                 android:singleLine="true"
-                android:text="正在加载..."
+                android:text="@string/loading"
                 android:textColor="@color/mbs_web_plugin_title_color"
                 android:textSize="@dimen/mbs_title_size"
                 android:textStyle="bold" />

@@ -936,7 +936,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
         } else { // 隐藏
             img_right.setVisibility(View.INVISIBLE);
             tv_head_right.setVisibility(GONE);
-            tv_head_right.setText("菜单");
+            tv_head_right.setText(R.string.menu);
         }
         ll_right.setClickable(true);
     }
@@ -1114,7 +1114,9 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
             if (parent != null) {
                 parent.removeView(mWebViewExten);
             }
-            presenter.onDestroy();
+            if (presenter != null) {
+                presenter .onDestroy();
+            }
             mWebViewExten.removeAllViews();
             mWebViewExten.destroy();
             super.onDestroy();

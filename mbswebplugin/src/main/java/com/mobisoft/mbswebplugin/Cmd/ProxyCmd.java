@@ -88,6 +88,7 @@ public class ProxyCmd {
         hashmap.put(CMD.cmd_sendMessage, SendMessageMethod.class.getName());
         hashmap.put(CMD.cmd_recvMessage, RecvMessage.class.getName());
         hashmap.put(CMD.cmd_pagetips, ShowTipsMethod.class.getName());
+        hashmap.put(CMD.cmd_confirm, ShowTipsMethod.class.getName());
         hashmap.put(CMD.cmd_uploadFile, UploadFile.class.getName());
         hashmap.put(CMD.cmd_logout, Logout.class.getName());
         hashmap.put(CMD.cmd_forbidRefresh, ForbidRefresh.class.getName());

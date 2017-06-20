@@ -149,9 +149,10 @@ public class Utils {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_CALL);
+        intent.setAction(Intent.ACTION_DIAL);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
         intent.setData(Uri.parse("tel:" + phoneNumber));
         context.startActivity(intent);
     }

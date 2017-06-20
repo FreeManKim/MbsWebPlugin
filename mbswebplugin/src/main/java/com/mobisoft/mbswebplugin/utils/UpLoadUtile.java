@@ -14,6 +14,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.mobisoft.mbswebplugin.Cmd.Working.UploadCB;
 import com.mobisoft.mbswebplugin.MbsWeb.HybridWebView;
+import com.mobisoft.mbswebplugin.R;
 import com.mobisoft.mbswebplugin.proxy.Setting.ProxyConfig;
 
 import org.json.JSONArray;
@@ -69,6 +70,7 @@ public class UpLoadUtile {
     private String url;
     private ArrayList<String> listImages;
     private JSONArray jsonArray;
+    private int index;
 
     /**
      * OKGo 上传文件
@@ -174,6 +176,7 @@ public class UpLoadUtile {
 
     //    朱桂飞 2016/10/8 14:07:58
     public void postFileFile(final Context context, final File file, final String mParamter, final String picFunction, final UploadCB uploadCB) {
+        index = 0;
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -189,23 +192,21 @@ public class UpLoadUtile {
                     try {
                         JSONObject json = new JSONObject(mParamter);
                         String url1 = json.optString("url");
-                        final int pickPhotoCount = json.optInt("pickPhotoCount", 1);
-//                uploadCB.onUploadStart(pickPhotoCount);
                         url = ProxyConfig.getConfig().getImageBaseUrl() + url1;
                         Utils.getMainHandler().post(new Runnable() {
                             @Override
                             public void run() {
-                                sendPost(file, url, picFunction, uploadCB);
+                                sendPost(file, url, picFunction, uploadCB, 1);
                             }
                         });
 
                         Log.e("url", url);
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        uploadCB.onUploadFinish("上传图像失败！");
+                        uploadCB.onUploadFinish(context.getString(R.string.upload_farlure));
                     }
                 } else {
-                    uploadCB.onUploadFinish("参数为空上传图像失败！");
+                    uploadCB.onUploadFinish(R.string.upload_param_is_null);
 
                 }
             }
@@ -222,6 +223,7 @@ public class UpLoadUtile {
      * @param ares
      */
     public void postFileFile(final Context context, final List<String> imagePaths, final UploadCB uploadCB, final String... ares) {
+        index = 0;
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -249,11 +251,8 @@ public class UpLoadUtile {
                             Utils.getMainHandler().post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if (finalI == size - 1) {
-                                        sendPost(compressFile, imageUrl, ares[1], uploadCB);
-                                    } else {
-                                        sendPost(compressFile, imageUrl, null, uploadCB);
-                                    }
+                                    sendPost(compressFile, imageUrl, ares[1], uploadCB, size);
+
                                 }
                             });
                             uploadCB.onUploadProgress(i, size);
@@ -261,14 +260,16 @@ public class UpLoadUtile {
 
 
                         }
+
+
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        uploadCB.onUploadFinish("上传图像失败！");
+                        uploadCB.onUploadFinish(context.getString(R.string.upload_farlure));
 //                ToastUtil.showShortToast(context, "上传图像失败！");
                     }
                 } else {
 //            ToastUtil.showShortToast(context, "参数为空上传图像失败！");
-                    uploadCB.onUploadFinish("参数为空上传图像失败！");
+                    uploadCB.onUploadFinish(R.string.upload_param_is_null);
 
                 }
             }
@@ -311,8 +312,9 @@ public class UpLoadUtile {
      * @param imageUrl    js返回参数
      * @param picFunction 回掉方法
      * @param uploadCB
+     * @param size
      */
-    public void sendPost(File file, String imageUrl, final String picFunction, final UploadCB uploadCB) {
+    public void sendPost(File file, String imageUrl, final String picFunction, final UploadCB uploadCB, final int size) {
         try {
             if (file == null || !file.exists()) {
                 uploadCB.onUploadComplete(null);
@@ -331,24 +333,27 @@ public class UpLoadUtile {
 
                 @Override
                 public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                    index++;
                     if (i == 200) {
                         try {
                             JSONObject image = new JSONObject(new String(bytes));
                             jsonArray.put(image);
-                            if (!TextUtils.isEmpty(picFunction)) {
+                            if (index == size) {
                                 JSONObject jsonObject = new JSONObject();
                                 jsonObject.put("images", jsonArray);
                                 uploadCB.onUploadComplete(UrlUtil.getFormatJs(picFunction, jsonObject.toString()));
+                            } else {
+                                uploadCB.onUpLoadCallBack(new String(bytes));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            uploadCB.onUploadError("上传图像失败:" + e.getMessage());
+                            uploadCB.onUploadError(R.string.upload_farlure + e.getMessage());
 
                         }
 
                     } else {
                         if (!TextUtils.isEmpty(picFunction)) {
-                            uploadCB.onUploadFinish("上传图像失败!");
+                            uploadCB.onUploadFinish(R.string.upload_farlure);
                         }
                     }
 
@@ -356,15 +361,10 @@ public class UpLoadUtile {
 
                 @Override
                 public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-//                    ToastUtil.showShortToast(context, "上传图像失败！");
-//                    if (throwable != null)
-//                        uploadCB.onUploadError("上传图像失败!" + throwable.getMessage());
-//                    else if (bytes != null)
-//                        uploadCB.onUploadError("上传图像失败:" + new String(bytes));
-
-                    if (!TextUtils.isEmpty(picFunction)) {
+                    index++;
+                    if (index == size) {
                         if (jsonArray.length() <= 0) {
-                            uploadCB.onUploadFinish("上传图像失败");
+                            uploadCB.onUploadFinish(R.string.upload_farlure);
                             return;
                         }
                         JSONObject jsonObject = new JSONObject();

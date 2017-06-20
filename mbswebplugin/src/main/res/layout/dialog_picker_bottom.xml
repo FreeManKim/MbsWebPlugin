@@ -27,7 +27,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="18dip"
                 android:gravity="center_vertical"
-                android:text="选择日期"
+                android:text="@string/pick_data"
                 android:textColor="#000000"
                 android:textSize="18sp" />
 
@@ -39,7 +39,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dip"
                 android:gravity="center"
-                android:text="确认"
+                android:text="@string/que_ren"
                 android:textSize="16sp" />
         </RelativeLayout>
 

@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.mobisoft.mbswebplugin.Cmd.DoCmdMethod;
 import com.mobisoft.mbswebplugin.MbsWeb.HybridWebView;
 import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebPluginContract;
+import com.mobisoft.mbswebplugin.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,10 +31,10 @@ public class ShowHudMethod extends DoCmdMethod {
             }
 
             if (TextUtils.isEmpty(content)) {
-                view.showHud(action, "正在加载...");
+                view.showHud(action, context.getString(R.string.loading));
 
             } else {
-                if (content.contains("完成")) {
+                if (content.contains(context.getString(R.string.wancheng))) {
                     view.showHud(action, content);
                 }
 //                    ((WebAppActivity) context).handler.sendEmptyMessage(1);
@@ -41,7 +42,7 @@ public class ShowHudMethod extends DoCmdMethod {
             }
 
             if ("show".equals(action)) {
-                view.showHud(action, "正在加载...");
+                view.showHud(action, context.getString(R.string.wancheng));
             }
 //            ((WebAppActivity) context).mProgressDialog.show();
 

@@ -73,7 +73,7 @@
                         android:textSize="17sp"
                         android:singleLine="true"
                         android:ellipsize = "end"
-                        android:text="正在加载..."/>
+                        android:text="@string/loading"/>
                     <ImageView
                         android:id="@+id/iv_head_title_menu"
                         android:layout_width="30dp"

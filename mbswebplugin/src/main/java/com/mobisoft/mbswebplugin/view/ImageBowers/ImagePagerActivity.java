@@ -233,7 +233,7 @@ public class ImagePagerActivity extends Activity {
 
                                 .setCancelable(false)
                                 .setCanceledOnTouchOutside(false)
-                                .addSheetItem("保存到本地", ActionSheetDialog.SheetItemColor.Blue,
+                                .addSheetItem(getString(R.string.save_local), ActionSheetDialog.SheetItemColor.Blue,
                                         new ActionSheetDialog.OnSheetItemClickListener() {
                                             @Override
                                             public void onClick(int which) {
@@ -241,7 +241,7 @@ public class ImagePagerActivity extends Activity {
 
                                             }
                                         })
-                                .addSheetItem("复制链接", ActionSheetDialog.SheetItemColor.Blue,
+                                .addSheetItem(getString(R.string.copy_linke), ActionSheetDialog.SheetItemColor.Blue,
                                         new ActionSheetDialog.OnSheetItemClickListener() {
                                             @Override
                                             public void onClick(int which) {
@@ -315,7 +315,7 @@ public class ImagePagerActivity extends Activity {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 downloadCreator.downloadFile(iamgeUrl);
             } else {
-                ToastUtil.showLongToast(this, "缺少读写SD卡权限！无法进行相关操作！");
+                ToastUtil.showLongToast(this, getString(R.string.lack_sd_permiss));
             }
         }
     }

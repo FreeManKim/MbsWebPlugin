@@ -10,6 +10,7 @@ import com.mobisoft.mbswebplugin.Cmd.CmdrBuilder;
 import com.mobisoft.mbswebplugin.Cmd.DoCmdMethod;
 import com.mobisoft.mbswebplugin.MbsWeb.HybridWebView;
 import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebPluginContract;
+import com.mobisoft.mbswebplugin.R;
 import com.mobisoft.mbswebplugin.utils.UrlUtil;
 import com.mobisoft.mbswebplugin.view.AlertDialog;
 
@@ -47,19 +48,19 @@ public class ShowTipsMethod extends DoCmdMethod {
             final String cancel = object.optString("no_action");
 
             if (TextUtils.isEmpty(title)) {
-                mAlertDialog.setTitle("温馨提示");
+                mAlertDialog.setTitle(context.getString(R.string.wen_xin_tips));
             } else {
                 mAlertDialog.setTitle(title);
             }
 
             if (TextUtils.isEmpty(content)) {
-                mAlertDialog.setTitle("这是一个警告！");
+                mAlertDialog.setTitle(context.getString(R.string.jing_gao));
             } else {
                 mAlertDialog.setMsg(content);
             }
 
             if (!TextUtils.isEmpty(confirm))
-                mAlertDialog.setPositiveButton("确认", new View.OnClickListener() {
+                mAlertDialog.setPositiveButton(context.getString(R.string.que_ren), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // 回调js方法
@@ -124,7 +125,7 @@ public class ShowTipsMethod extends DoCmdMethod {
                 });
 
             if (!TextUtils.isEmpty(cancel)) {
-                mAlertDialog.setNegativeButton("取消", new View.OnClickListener() {
+                mAlertDialog.setNegativeButton(context.getString(R.string.cancel), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 //                        ToastUtil.showLongToast(WebAppActivity.this, "取消！");

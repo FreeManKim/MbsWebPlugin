@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
-import com.mobisoft.mbswebplugin.view.LockPattern.LockPatternUtils;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 import com.tencent.smtt.sdk.QbSdk;
@@ -12,7 +11,6 @@ import com.tencent.smtt.sdk.QbSdk;
 
 public class BaseApp extends Application {
 	public static BaseApp mInstance;
-	private LockPatternUtils mLockPatternUtils;
 
 	public static RefWatcher getRefWatcher(Context context) {
 		BaseApp application = (BaseApp) context.getApplicationContext();
@@ -25,7 +23,6 @@ public class BaseApp extends Application {
 	public void onCreate() {
 		super.onCreate();
 		mInstance = this;
-		mLockPatternUtils = new LockPatternUtils(this);
 		refWatcher = LeakCanary.install(this);
 //		ActivityManager.get().registerSelf(getApplicationContext());
 		QbSdk.PreInitCallback cb = new QbSdk.PreInitCallback() {
@@ -48,7 +45,4 @@ public class BaseApp extends Application {
 
 	}
 
-	public LockPatternUtils getLockPatternUtils() {
-		return mLockPatternUtils;
-	}
 }

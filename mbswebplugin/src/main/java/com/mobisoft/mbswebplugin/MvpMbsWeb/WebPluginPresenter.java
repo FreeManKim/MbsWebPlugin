@@ -48,6 +48,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -88,7 +89,8 @@ public class WebPluginPresenter implements MbsWebPluginContract.Presenter, Recyc
      * activity打开方式
      */
     protected String isTransitionMode = "RIGHT"; // activity打开方式
-    private ReceiveBroadCast receiveBroadCast;
+//    private ReceiveBroadCast receiveBroadCast;
+    private HashMap<String, ReceiveBroadCast> receiveBroadCastList;
     private MbsRequestPermissionsListener permissionsResultListener;
 
     public WebPluginPresenter(@NonNull MbsWebPluginContract.View mbsWebView,
@@ -185,9 +187,15 @@ public class WebPluginPresenter implements MbsWebPluginContract.Presenter, Recyc
     @Override
     public void onDestroy() {
         //解除 广播 receiveBroadCast
-        if (receiveBroadCast != null) {
-            mActivity.unregisterReceiver(receiveBroadCast);
+        if (receiveBroadCastList != null && receiveBroadCastList.size() > 0) {
+            for (ReceiveBroadCast b : receiveBroadCastList.values()) {
+
+                mActivity.unregisterReceiver(b);
+            }
         }
+//        if (receiveBroadCast != null) {
+//            mActivity.unregisterReceiver(receiveBroadCast);
+//        }
         SettingProxy.revertBackProxy(mBsWebView.getWebView(), mActivity.getApplication().getClass().getName());
         Recycler.release(this);
     }
@@ -199,7 +207,8 @@ public class WebPluginPresenter implements MbsWebPluginContract.Presenter, Recyc
         mBsWebView = null;
         cls = null;
         bundle = null;
-        receiveBroadCast = null;
+//        receiveBroadCast = null;
+
         resultListener = null;
     }
 
@@ -215,13 +224,27 @@ public class WebPluginPresenter implements MbsWebPluginContract.Presenter, Recyc
 
     @Override
     public void registerBroadcastReceiver(String actionName, String callback) {
-        if (receiveBroadCast == null) {
-            receiveBroadCast = new ReceiveBroadCast(actionName, callback);
+
+//        if (receiveBroadCast == null) {
+//            receiveBroadCast = new ReceiveBroadCast(actionName, callback);
+//            IntentFilter filter = new IntentFilter();
+//            filter.addAction(actionName); // 只有持有相同的action的接受者才能接收此广播 receiveMessage
+////            mActivity.registerReceiver(receiveBroadCast, filter, CacheManifest.PERMISSION, null);
+//            mActivity.registerReceiver(receiveBroadCast, filter);
+//        }
+        if (receiveBroadCastList == null) {
+            receiveBroadCastList = new HashMap<>();
+        }
+        if (!receiveBroadCastList.containsKey(actionName)) {
+            ReceiveBroadCast receiveBroadCast = new ReceiveBroadCast(actionName, callback);
             IntentFilter filter = new IntentFilter();
             filter.addAction(actionName); // 只有持有相同的action的接受者才能接收此广播 receiveMessage
 //            mActivity.registerReceiver(receiveBroadCast, filter, CacheManifest.PERMISSION, null);
             mActivity.registerReceiver(receiveBroadCast, filter);
+            receiveBroadCastList.put(actionName, receiveBroadCast);
         }
+
+
     }
 
     /**
@@ -248,7 +271,6 @@ public class WebPluginPresenter implements MbsWebPluginContract.Presenter, Recyc
 
         ActionSheetDialog mActionSheetDialog = new ActionSheetDialog(context);
         mActionSheetDialog.builder()
-                .setTitle("请选择操作")
                 .setCancelable(false)
                 .setCanceledOnTouchOutside(false);
 

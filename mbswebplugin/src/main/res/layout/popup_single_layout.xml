@@ -12,7 +12,7 @@
         android:padding="5dp"
         android:gravity="center"
         android:textSize="18dp"
-        android:text="请选择" />
+        android:text="@string/plase_chose" />
 
     <ListView
         android:id="@+id/lv_single_selection"

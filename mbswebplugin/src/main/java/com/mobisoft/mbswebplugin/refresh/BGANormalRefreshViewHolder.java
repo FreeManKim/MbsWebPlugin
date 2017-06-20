@@ -39,9 +39,9 @@ public class BGANormalRefreshViewHolder extends BGARefreshViewHolder {
     private RotateAnimation mUpAnim;
     private RotateAnimation mDownAnim;
 
-    private String mPullDownRefreshText = "下拉刷新";
-    private String mReleaseRefreshText = "释放更新";
-    private String mRefreshingText = "加载中...";
+    private String mPullDownRefreshText = mContext.getString(R.string.pull_to_refresh);
+    private String mReleaseRefreshText = mContext.getString(R.string.release_to_refresh);
+    private String mRefreshingText = mContext.getString(R.string.loading);
 
     /**
      * @param context

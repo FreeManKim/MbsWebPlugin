@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebPluginContract;
+import com.mobisoft.mbswebplugin.R;
 import com.mobisoft.mbswebplugin.base.SafeDialogOper;
 import com.mobisoft.mbswebplugin.utils.ToastUtil;
 import com.mobisoft.mbswebplugin.utils.Utils;
@@ -74,11 +75,35 @@ public class DefaultUploadCreator implements UploadCB {
     }
 
     @Override
+    public void onUploadError(Integer error) {
+        if (error<=0)
+            ToastUtil.showShortToast(activity.getApplicationContext(), error);
+        else
+            ToastUtil.showShortToast(activity.getApplicationContext(), error);
+
+    }
+
+    @Override
+    public void onUploadFinish(Integer message) {
+        Utils.getMainHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                SafeDialogOper.safeDismissDialog(dialog);
+            }
+        });
+
+
+        if (message>0) {
+            ToastUtil.showShortToast(activity.getApplicationContext(), message);
+        }
+    }
+
+    @Override
     public void onUploadError(String error) {
         if (!TextUtils.isEmpty(error))
             ToastUtil.showShortToast(activity.getApplicationContext(), error);
         else
-            ToastUtil.showShortToast(activity.getApplicationContext(), "上传影像失败！");
+            ToastUtil.showShortToast(activity.getApplicationContext(), activity.getString(R.string.upload_farlure));
 
     }
 
@@ -98,4 +123,11 @@ public class DefaultUploadCreator implements UploadCB {
 
 
     }
+
+    @Override
+    public void onUpLoadCallBack(String imageInfo) {
+
+    }
+
+
 }

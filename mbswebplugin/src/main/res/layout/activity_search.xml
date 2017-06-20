@@ -45,9 +45,9 @@
                     android:layout_marginLeft="5dp"
                     android:background="@color/color_white"
                     android:focusable="true"
-                    android:hint="请输入关键字"
+                    android:hint="@string/plase_input"
                     android:imeOptions="actionSearch"
-                    android:imeActionLabel="搜索"
+                    android:imeActionLabel="@string/searcher"
                     android:inputType="text"
                     android:singleLine="true"
                     android:textColorHint="#888888"
@@ -64,7 +64,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="取消"
+                    android:text="@string/cancel"
                     android:textColor="@color/color_white"
                     android:textSize="15dp" />
             </LinearLayout>

@@ -4,7 +4,6 @@
 
     <string name="head">这里是HeadView</string>
     <string name="pull_to_refresh">下拉刷新</string>
-    <string name="release_to_refresh">释放立即刷新</string>
     <string name="refreshing">正在刷新...</string>
     <string name="refresh_succeed">刷新成功</string>
     <string name="refresh_fail">刷新失败</string>
@@ -15,26 +14,10 @@
     <string name="load_fail">加载失败</string>
 
 
-    <string name="lockscreen_access_pattern_start">"开始绘制图案"</string>
-    <string name="lockscreen_access_pattern_cleared">"图案已清除"</string>
-    <string name="lockscreen_access_pattern_cell_added">"已添加单元格"</string>
-    <string name="lockscreen_access_pattern_detected">"图案绘制完成"</string>
-    <string name="lockpattern_retry_button_text">"重试"</string>
-    <string name="lockpattern_continue_button_text">"继续"</string>
-    <string name="lockpattern_confirm_button_text">"确认"</string>
-    <string name="lockpattern_recording_intro_header">"绘制解锁图案"</string>
-    <string name="lockpattern_settings_help_how_to_record">"如何绘制解锁图案"</string>
-    <string name="lockpattern_recording_incorrect_too_short">"至少连接3个点，请重试"</string>
-    <string name="lockpattern_pattern_entered_header">"图案已记录"</string>
-    <string name="lockpattern_need_to_confirm">"请再次绘制解锁图案"</string>
-    <string name="lockpattern_need_to_unlock_wrong">"与上次输入不一致，请重试"</string>
-    <string name="lockpattern_pattern_confirmed_header">"确认保存新解锁图案"</string>
-    <string name="lockpattern_recording_inprogress">"完成后松开手指"</string>
-    <string name="gesture_password_guide_text">你可以创建一个解锁图案，这样他人在借用你的手机时，将无法打开应用。</string>
-    <string name="gesture_password_guide_creat_btn">创建手势密码</string>
+
+    <string name="que_ren">"确认"</string>
     <string name="typeWeb">pageWeb</string><!--web返回页面-->
     <string name="typeWebActivty">activity</string>
-    <string name="string_read_sd_k">天信需要访问sd卡！</string>
     <string name="no_action">no_action</string><!--兼容 错误单词 no_ation-->
     <string name="no_ation">no_ation</string><!--兼容 错误单词 no_ation-->
     <string name="yes_action">yes_action</string>
@@ -44,8 +27,38 @@
     <string name="tishi">提示</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="getImage_error">获取图片异常！</string>
-    <string name="send">发送</string><!--activity返回页面-->
+    <string name="send">发送</string>
+    <string name="menu">菜单</string>
+    <string name="download_finish">已经下载至：</string>
+    <string name="cmd_error_message">当前 cmd 命令：%s 没有被定义!</string>
+    <string name="sure">确定</string>
+    <string name="cmd_error_title">cmd命令提示</string>
+    <string name="save_local">保存到本地</string>
+    <string name="copy_linke">复制链接</string>
+    <string name="lack_sd_permiss">缺少读写SD卡权限！无法进行相关操作！</string>
+    <string name="lack_camera_permiss">缺少读写相机权限！无法进行相关操作！</string>
+    <string name="continue_the_last_play">继续上次播放！</string>
+    <string name="voice">声音：</string>
+    <string name="brightness">亮度：</string>
+    <string name="play_finish">播放结束！</string>
+    <string name="net_not_use">当前网络不可用！</string>
+    <string name="load_failure">加载视频失败！</string>
+    <string name="wancheng">完成</string>
+    <string name="wen_xin_tips">温馨提示</string>
+    <string name="jing_gao">警告！</string>
+    <string name="camera_failure">相机故障，请重试</string>
+    <string name="vrop_image">裁剪图片</string>
+    <string name="taker_photo">拍照</string>
+    <string name="taker_album">相册</string>
+    <string name="upload_farlure">上传影像失败！</string>
+    <string name="upload_param_is_null">参数为空上传图像失败！</string>
+    <string name="close">关闭</string>
+    <string name="title">标题</string>
+    <string name="searcher">搜索</string>
+    <string name="plase_input">请输入关键字</string>
+    <string name="pick_data">选择日期</string>
+    <string name="plase_chose">请选择</string>
+    <string name="release_to_refresh">释放更新</string><!--activity返回页面-->
 
 </resources>

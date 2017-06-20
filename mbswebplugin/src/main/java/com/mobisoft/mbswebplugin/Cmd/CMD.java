@@ -46,6 +46,7 @@ public class CMD {
      * pagetips -- 显示showTips
      **/
     public final static String cmd_pagetips = "showtips"; // 确认的提示框
+    public final static String cmd_confirm = "confirm"; // 确认的提示框
     /**
      * 禁止刷新
      */

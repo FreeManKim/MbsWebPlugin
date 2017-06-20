@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.os.Environment;
 import android.util.Log;
 
+import com.mobisoft.mbswebplugin.R;
 import com.mobisoft.mbswebplugin.base.SafeDialogOper;
 import com.mobisoft.mbswebplugin.proxy.tool.YUtils;
 import com.mobisoft.mbswebplugin.utils.ToastUtil;
@@ -121,7 +122,7 @@ public class DefaultDownloadCreator implements DownloadCB {
             public void run() {
                 SafeDialogOper.safeDismissDialog(dialog);
                 if (null != file)
-                    ToastUtil.showShortToast(activity, "已经下载至：" + file.getAbsolutePath());
+                    ToastUtil.showShortToast(activity, activity.getString(R.string.download_finish) + file.getAbsolutePath());
                 activity = null;
             }
         });

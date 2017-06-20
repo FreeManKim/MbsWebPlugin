@@ -23,6 +23,7 @@ import com.mobisoft.mbswebplugin.MbsWeb.HybridWebView;
 import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsRequestPermissionsListener;
 import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsResultListener;
 import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebPluginContract;
+import com.mobisoft.mbswebplugin.R;
 import com.mobisoft.mbswebplugin.utils.ToastUtil;
 import com.mobisoft.mbswebplugin.utils.UpLoadUtile;
 import com.mobisoft.mbswebplugin.utils.Utils;
@@ -95,7 +96,7 @@ public class UploadFile extends DoCmdMethod implements MbsResultListener {
                         if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                             getPic(pickPhotoCount);
                         } else {
-                            ToastUtil.showShortToast(context, "缺少相关权限无法使此功能！");
+                            ToastUtil.showShortToast(context, context.getString(R.string.lack_camera_permiss));
                         }
                     }
                 }
@@ -135,7 +136,8 @@ public class UploadFile extends DoCmdMethod implements MbsResultListener {
                 .builder()
                 .setCancelable(false)
                 .setCanceledOnTouchOutside(false)
-                .addSheetItem("拍照", ActionSheetDialog.SheetItemColor.Blue,
+                .addSheetItem(
+                        context.getString(R.string.taker_photo), ActionSheetDialog.SheetItemColor.Blue,
                         new ActionSheetDialog.OnSheetItemClickListener() {
                             @Override
                             public void onClick(int which) {
@@ -144,7 +146,7 @@ public class UploadFile extends DoCmdMethod implements MbsResultListener {
 
                             }
                         })
-                .addSheetItem("相册", ActionSheetDialog.SheetItemColor.Blue,
+                .addSheetItem(context.getString(R.string.taker_album), ActionSheetDialog.SheetItemColor.Blue,
                         new ActionSheetDialog.OnSheetItemClickListener() {
                             @Override
                             public void onClick(int which) {
@@ -186,7 +188,7 @@ public class UploadFile extends DoCmdMethod implements MbsResultListener {
                 Log.e("TAG", "获取图片成功，本地路径是：" + picFileFullName);
                 //发送图片
                 if (TextUtils.isEmpty(picFileFullName)) {
-                    ToastUtil.showShortToast(context, "相机故障，请重试");
+                    ToastUtil.showShortToast(context, context.getString(R.string.camera_failure));
                     return;
                 }
 
@@ -277,7 +279,7 @@ public class UploadFile extends DoCmdMethod implements MbsResultListener {
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(outCropFile));
         intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
 
-        intent = Intent.createChooser(intent, "裁剪图片");
+        intent = Intent.createChooser(intent, context.getString(R.string.vrop_image));
 
 
         context1.startActivityForResult(intent, REQUEST_CODE_CROP_IMAGE);
@@ -292,7 +294,7 @@ public class UploadFile extends DoCmdMethod implements MbsResultListener {
                 .builder()
                 .setCancelable(false)
                 .setCanceledOnTouchOutside(false)
-                .addSheetItem("拍照", ActionSheetDialog.SheetItemColor.Blue,
+                .addSheetItem(context.getString(R.string.taker_photo), ActionSheetDialog.SheetItemColor.Blue,
                         new ActionSheetDialog.OnSheetItemClickListener() {
                             @Override
                             public void onClick(int which) {
@@ -300,7 +302,7 @@ public class UploadFile extends DoCmdMethod implements MbsResultListener {
 
                             }
                         })
-                .addSheetItem("相册", ActionSheetDialog.SheetItemColor.Blue,
+                .addSheetItem(context.getString(R.string.taker_album), ActionSheetDialog.SheetItemColor.Blue,
                         new ActionSheetDialog.OnSheetItemClickListener() {
                             @Override
                             public void onClick(int which) {

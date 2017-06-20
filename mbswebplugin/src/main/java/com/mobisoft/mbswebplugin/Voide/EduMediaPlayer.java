@@ -79,7 +79,7 @@ public class EduMediaPlayer extends Activity implements MediaListerHelper.Comple
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
                 if (getIntent().getIntExtra("currentTime", 0) > 0) {
-                    ToastUtil.showShortToast(EduMediaPlayer.this, "继续上次播放！");
+                    ToastUtil.showShortToast(EduMediaPlayer.this, getString(R.string.continue_the_last_play));
                     mMediaPlayer.seekTo(getIntent().getIntExtra("currentTime", 0));
 
                     Log.e("tag", mSurfacesView.getWidth() + "==" + mSurfacesView.getHeight());
@@ -258,12 +258,12 @@ public class EduMediaPlayer extends Activity implements MediaListerHelper.Comple
                 case 5:
                     if (TipsView.getVisibility() == View.GONE)
                         TipsView.setVisibility(View.VISIBLE);
-                    TipsView.setText("声音：" + value);
+                    TipsView.setText(getString(R.string.voice) + value);
                     break;
                 case 6:
                     if (TipsView.getVisibility() == View.GONE)
                         TipsView.setVisibility(View.VISIBLE);
-                    TipsView.setText("亮度：" + value);
+                    TipsView.setText(getString(R.string.brightness) + value);
                     break;
 //				case 4:
 //					if(TipsView.getVisibility() == View.GONE)
@@ -417,20 +417,20 @@ public class EduMediaPlayer extends Activity implements MediaListerHelper.Comple
                     mMediaPlayer.prepareAsync();// 进行缓冲处理(异步的方式去缓冲) prepare()方法阻塞主线程
                     probar.setVisibility(View.VISIBLE);
                 } else {
-                    Toast.makeText(mContext, "播放结束！", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, R.string.play_finish, Toast.LENGTH_SHORT).show();
                     finish();
                 }
             } else {
-                Toast.makeText(mContext, "当前网络不可用！", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, R.string.net_not_use, Toast.LENGTH_LONG).show();
             }
         } catch (IOException ex) {
             ex.printStackTrace();
             Log.e("报错：", ex.getMessage() + ";" + ex.getClass());
-            Toast.makeText(mContext, "加载视频失败！", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, R.string.load_failure, Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             e.printStackTrace();
             Log.e("报错：", e.getMessage() + ";" + e.getClass());
-            Toast.makeText(mContext, "加载视频失败！", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, R.string.load_failure, Toast.LENGTH_LONG).show();
         }
     }
 
