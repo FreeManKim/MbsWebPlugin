@@ -1,8 +1,14 @@
 package com.mobisoft.MbsDemo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,11 +18,13 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,7 +54,9 @@ import com.mobisoft.mbswebplugin.utils.FileUtils;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import static com.mobisoft.MbsDemo.cmd.aliPayAuth.APPID;
@@ -55,7 +65,8 @@ import static com.mobisoft.MbsDemo.cmd.aliPayAuth.RSA2_PRIVATE;
 import static com.mobisoft.MbsDemo.cmd.aliPayAuth.RSA_PRIVATE;
 import static com.mobisoft.MbsDemo.cmd.aliPayAuth.TARGET_ID;
 
-public class ScrollingActivity extends AppCompatActivity implements View.OnClickListener {
+public class ScrollingActivity extends AppCompatActivity implements View.OnClickListener, LocationListener {
+    private static final String TAG = "ScrollingActivity";
     private Button btn_html;
     private Button btn_location;
     private KeepLiveReceiver receiver;
@@ -65,9 +76,9 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     private Button btn_nwe;
     private Button btn_register;
     private TestReceiver testReceiver;
-//    public static final String INDEX_URL = "http://euat.idoutec.cn/HyTestDdemo/index.html";
+    //    public static final String INDEX_URL = "http://euat.idoutec.cn/HyTestDdemo/index.html";
     public static final String INDEX_URL = "http://test.mobisoft.com.cn/hytest/index.html";
-//    public static final String INDEX_URL = " http://test.mobisoft.com.cn/cathay/agent/agent.html";
+    //    public static final String INDEX_URL = " http://test.mobisoft.com.cn/cathay/agent/agent.html";
 //    public static final String INDEX_URL = "http://nikegcuat.mobisoft.com.cn:81/mobile/login.html";
     private Button btn_pull_sheet;
     private BGABanner banner_guide_content;
@@ -77,6 +88,8 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
     private Button btn_tab;
     private final int SDK_AUTH_FLAG = 2;
     private MBSMsgView tipView;
+    private Button btn_loaction;
+    private LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -249,6 +262,14 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
                         }).show();
             }
         });
+        btn_loaction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v, "什么都没有", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                getLocationManger();
+            }
+        });
         btn_tab.setOnClickListener(this);
         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) tipView.getLayoutParams();
         DisplayMetrics dm = tipView.getResources().getDisplayMetrics();
@@ -269,6 +290,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         btn_catch = (Button) findViewById(R.id.btn_down);
         join_us = (Button) findViewById(R.id.btn_join_us);
         btn_nwe = (Button) findViewById(R.id.btn_new);
+        btn_loaction = (Button) findViewById(R.id.btn_loaction);
         btn_register = (Button) findViewById(R.id.btn_register);
         btn_pull_sheet = (Button) findViewById(R.id.btn_pull_sheet);
         btn_tab = (Button) findViewById(R.id.btn_tab);
@@ -414,7 +436,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
 
         String privateKey = rsa2 ? RSA2_PRIVATE : RSA_PRIVATE;
         String sign = OrderInfoUtil2_0.getSign(authInfoMap, privateKey, rsa2);
-        final String authInfo = info + "&" + sign;
+        final String authInfo ="biz_type=openservice&scope=kuaijie&product_id=APP_FAST_LOGIN&auth_type=AUTHACCOUNT&apiname=com.alipay.account.auth&sign_type=RSA2&pid=2088621584316433&app_id=2017060507422765&app_name=mc&target_id=kkkkk091125&sign=L%2FOrHdWXO2HdCZP5GTImLCkyd4TODuXsgKROHH78Yk1fTz6APQXwlvePfdM1DcX1zdougdoEOQ1QaYXflUgHkL1mn6%2BlsLqRHP24BhSR167sgQ3x8fGhGkMAbfs9klJFuFUR%2FwAlmmf8ADlAGsr%2FrapMo6j12UYVd%2FzQvrsIW0OPWoicDadZ29V%2BOHslO9dtqbisqtGrFWTqIoEdaQuNnaVc12Waci0MFauMM9tO9Y8lIY9sYfYTrV53w92S6TJmgMF3OYzamMkRkcCbpNMGCMMrfwWRMOMylSkCgwphTNXMcJ7vOEIcYuq6NV2mRjWBJOavTKUCUYk7Hiq8EJzWUA%3D%3D";
         Runnable authRunnable = new Runnable() {
 
             @Override
@@ -434,6 +456,88 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         // 必须异步调用
         Thread authThread = new Thread(authRunnable);
         authThread.start();
+
+    }
+
+
+    /**
+     * 获取定位
+     *
+     */
+    private void getLocationManger() {
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        startLocation(locationManager);
+    }
+
+    /**
+     * 定位
+     *
+     * @param locationManager
+     */
+    private void startLocation(LocationManager locationManager) {
+        try {
+            Location location;
+            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (location == null) {
+                Log.d(TAG, "onCreate.location = null");
+                location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            }
+            Log.d(TAG, "onCreate.location = " + location);
+            updateView(location);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 5, this);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 3000, 5, this);
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void onLocationChanged(Location location) {
+        updateView(location);
+    }
+
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                &&
+                ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+
+        } else {
+            Location location = locationManager.getLastKnownLocation(provider);
+            Log.d(TAG, "onProviderDisabled.location = " + location);
+            updateView(location);
+        }
+    }
+
+    private void updateView(Location location) {
+        Geocoder gc = new Geocoder(this);
+        List<Address> addresses = null;
+        String msg = "";
+        Log.d(TAG, "updateView.location = " + location);
+        if (location != null) {
+            try {
+                addresses = gc.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                Log.d(TAG, "updateView.addresses = " + addresses);
+                if (addresses.size() > 0) {
+                    msg += addresses.get(0).getAdminArea().substring(0, 2);
+                    msg += " " + addresses.get(0).getLocality().substring(0, 2);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 }
