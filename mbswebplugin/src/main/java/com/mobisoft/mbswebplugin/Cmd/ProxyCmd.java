@@ -13,12 +13,14 @@ import com.mobisoft.mbswebplugin.Cmd.DoCmd.GetLocalFile;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.GetNetworkStatus;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.GetVersion;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.ImageBrowse;
+import com.mobisoft.mbswebplugin.Cmd.DoCmd.Location;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.Logout;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.OpenBrowser;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.OpenCache;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.OpenContacts;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.PlayVideo;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.RecvMessage;
+import com.mobisoft.mbswebplugin.Cmd.DoCmd.RouterApp;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.SendEmail;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.SendMessageMethod;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.SetBottomMenu;
@@ -113,6 +115,8 @@ public class ProxyCmd {
         hashmap.put(CMD.cmd_placeholder, ShowInPutWindows.class.getName());
         hashmap.put(CMD.cmd_ImageBrowse, ImageBrowse.class.getName());
         hashmap.put(CMD.cmd_OpenProxy, OpenCache.class.getName());
+        hashmap.put(CMD.cmd_Location, Location.class.getName());
+        hashmap.put(CMD.cmd_OpenApp, RouterApp.class.getName());
     }
 
     /**

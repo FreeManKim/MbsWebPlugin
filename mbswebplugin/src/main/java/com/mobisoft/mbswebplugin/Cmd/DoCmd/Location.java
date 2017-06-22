@@ -1,10 +1,39 @@
 package com.mobisoft.mbswebplugin.Cmd.DoCmd;
 
-import android.content.Context;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.util.Log;
+
+import com.alibaba.fastjson.JSON;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.mobisoft.mbswebplugin.Cmd.DoCmdMethod;
+import com.mobisoft.mbswebplugin.Entity.AddressComponent;
+import com.mobisoft.mbswebplugin.Entity.LocationMap;
 import com.mobisoft.mbswebplugin.MbsWeb.HybridWebView;
+import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsRequestPermissionsListener;
+import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsResultListener;
 import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebPluginContract;
+import com.mobisoft.mbswebplugin.utils.ToastUtil;
+import com.mobisoft.mbswebplugin.utils.UrlUtil;
+
+import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
+
+import static com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebFragment.TAG;
 
 /**
  * Author：Created by fan.xd on 2017/3/3.
@@ -12,12 +41,164 @@ import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebPluginContract;
  * Description： 获取当前位置经纬度
  */
 
-public class Location extends DoCmdMethod {
-    @Override
-    public String doMethod(HybridWebView webView, Context context, MbsWebPluginContract.View view, MbsWebPluginContract.Presenter presenter, String cmd, String params, String callBack) {
+/**
+ * Author：Created by fan.xd on 2017/6/16.
+ * Email：fang.xd@mobisoft.com.cn
+ * Description：
+ */
 
-        //TODO 获取当前位置经纬度 待实现
+public class Location extends DoCmdMethod implements MbsResultListener, LocationListener {
+
+    public static final int REQUEST_CODE_LOCTION = 0X654;
+    private LocationManager locationManager;
+    private Context mContext;
+    private MbsWebPluginContract.View presenterView;
+    private String callBack;
+
+    @Override
+    public String doMethod(HybridWebView hybridWebView, Context context, MbsWebPluginContract.View view, MbsWebPluginContract.Presenter presenter, String s, String s1, String s2) {
+        presenter.setResultListener(this);
+        mContext = context;
+        presenterView = view;
+        callBack = s2;
+        locationManager = (LocationManager)mContext.getSystemService(Context.LOCATION_SERVICE);
+        if (!(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))) {
+            ToastUtil.showShortToast(context, "请打开网络或GPS定位功能!");
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            ((Activity) context).startActivityForResult(intent, REQUEST_CODE_LOCTION);
+        } else {
+
+
+            if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                String[] permission = new String[]{
+                        android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION
+                };
+                ActivityCompat.requestPermissions((Activity) mContext, permission, 200);
+            } else {
+                getLocationManger(context);
+
+            }
+            presenter.setMbsRequestPermissionsResultListener(new MbsRequestPermissionsListener() {
+                @Override
+                public void onRequestPermissionsResult(int requestCode, @NonNull String[] strings, @NonNull int[] grantResults) {
+                    if (requestCode == 200) {
+                        if (grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                                grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                            getLocationManger(mContext);
+
+                        } else {
+                            ToastUtil.showShortToast(mContext, "缺少相关权限无法使此功能！");
+                        }
+                    }
+                }
+            });
+
+
+        }
+
 
         return null;
     }
+
+    /**
+     * 获取定位
+     *
+     * @param context
+     */
+    private void getLocationManger(Context context) {
+        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+
+        startLocation(locationManager);
+    }
+
+    /**
+     * 定位
+     *
+     * @param locationManager
+     */
+    private void startLocation(LocationManager locationManager) {
+        try {
+            android.location.Location location;
+            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (location == null) {
+                Log.d(TAG, "onCreate.location = null");
+                location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            }
+            Log.d(TAG, "onCreate.location = " + location);
+            updateView(location);
+//            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 5, this);
+//            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 3000, 5, this);
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onActivityResult(Context context, MbsWebPluginContract.View view, int requestCode, int resultCode, Intent intent) {
+        switch (requestCode) {
+            case REQUEST_CODE_LOCTION:
+                startLocation(locationManager);
+                break;
+        }
+    }
+
+    @Override
+    public void onLocationChanged(android.location.Location location) {
+        updateView(location);
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                &&
+                ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+
+        } else {
+            android.location.Location location = locationManager.getLastKnownLocation(provider);
+            Log.d(TAG, "onProviderDisabled.location = " + location);
+            updateView(location);
+        }
+
+    }
+
+    private void updateView(android.location.Location location) {
+        Geocoder gc = new Geocoder(mContext);
+        List<Address> addresses = null;
+        String msg = "";
+        Log.d(TAG, "updateView.location = " + location);
+        if (location != null) {
+//                location.getLatitude(), location.getLongitude();
+            String url = String.format("http://restapi.amap.com/v3/geocode/regeo?key=b11808c6d42b56091cb79705d0a3929a&location=%s,%s", location.getLongitude(), location.getLatitude());
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.get(url, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                    LocationMap locationMap = JSON.parseObject(new String(responseBody), LocationMap.class);
+                    AddressComponent component = locationMap.getRegeocode().getAddressComponent();
+                    presenterView.loadUrl(UrlUtil.getFormatJs(callBack, JSON.toJSON(component).toString()));
+
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                }
+            });
+
+        }
+    }
 }
+

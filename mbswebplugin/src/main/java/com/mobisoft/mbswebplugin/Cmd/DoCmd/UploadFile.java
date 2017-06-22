@@ -197,7 +197,14 @@ public class UploadFile extends DoCmdMethod implements MbsResultListener {
                     cropImage();
                 } else {
                     uploadCB.onUploadStart(1);
-                    String compress = UpLoadUtile.getInstance().compress(context, picFileFullName, 100);
+                    JSONObject json = null;
+                    try {
+                        json = new JSONObject(mParamter);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    int photoSize = json.optInt("size",100);
+                    String compress = UpLoadUtile.getInstance().compress(context, picFileFullName, photoSize);
                     File f = new File(compress);
                     UpLoadUtile.getInstance().postFileFile(
                             context, f, mParamter, callBack, uploadCB);

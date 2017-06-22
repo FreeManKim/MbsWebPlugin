@@ -42,7 +42,7 @@ public class ShowHudMethod extends DoCmdMethod {
             }
 
             if ("show".equals(action)) {
-                view.showHud(action, context.getString(R.string.wancheng));
+                view.showHud(action, context.getString(R.string.loading));
             }
 //            ((WebAppActivity) context).mProgressDialog.show();
 

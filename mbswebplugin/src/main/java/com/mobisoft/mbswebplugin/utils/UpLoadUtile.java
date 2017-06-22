@@ -147,7 +147,7 @@ public class UpLoadUtile {
             return srcPath;
         }
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        int quality = 80;
+        int quality = 100;
         bitmap.compress(Bitmap.CompressFormat.JPEG, quality, baos);
         System.out.println(baos.toByteArray().length);
 

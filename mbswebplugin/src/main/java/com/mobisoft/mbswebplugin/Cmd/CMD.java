@@ -119,7 +119,7 @@ public class CMD {
     /**
      * 获取位置
      */
-    public final static String cmd_initLocation = "initlocation";// 获取位置
+    public final static String cmd_Location = "location";// 获取位置
     /*
      *  * cmd_db_get
      */
@@ -171,6 +171,10 @@ public class CMD {
      */
     public final static String cmd_setSearchBar = "setSearchBar";// 搜索界面
 
+    /**
+     * 启动app
+     */
+    public final static String cmd_OpenApp = "openapp";// 获取位置
 
     /*************************分割线***************************/
 
