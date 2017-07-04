@@ -21,6 +21,8 @@ public interface UploadCB {
     void onUploadProgress(int current, int total);
 
     void onUploadError(String error);
+
+
     void onUploadError(Integer error);
 
     void onUploadFinish(String message);

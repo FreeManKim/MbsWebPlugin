@@ -174,7 +174,7 @@ public class CMD {
     /**
      * 启动app
      */
-    public final static String cmd_OpenApp = "openapp";// 获取位置
+    public final static String cmd_OpenApp = "openapp";// 启动app
 
     /*************************分割线***************************/
 

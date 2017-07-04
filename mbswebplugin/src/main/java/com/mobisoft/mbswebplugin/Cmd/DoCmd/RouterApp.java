@@ -53,7 +53,7 @@ public class RouterApp extends DoCmdMethod {
                 mAlertDialog.setPositiveButton(context.getString(R.string.que_ren), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("uumobile://yongche/123123123")));
+                        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(scheme)));
 
                     }
                 });

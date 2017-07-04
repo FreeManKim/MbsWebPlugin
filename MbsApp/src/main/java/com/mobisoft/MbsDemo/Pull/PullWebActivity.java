@@ -19,7 +19,7 @@ public class PullWebActivity extends AppCompatActivity implements BGARefreshLayo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pull_web);
         webView = (HybridWebView) findViewById(R.id.webViewExten_01);
-        webView.loadUrl("https://elearning.mobisoft.com.cn/mobile/my.html");
+        webView.loadUrl("http://cathy.mobisoft.com.cn/cathay/login/login.html?action=nextPage");
         mRefreshLayout = (BGARefreshLayout) findViewById(R.id.refreshLayout);
         mRefreshLayout.setDelegate(this);
         BGAMoocStyleRefreshViewHolder moocStyleRefreshViewHolder = new BGAMoocStyleRefreshViewHolder(getApplicationContext(), false);

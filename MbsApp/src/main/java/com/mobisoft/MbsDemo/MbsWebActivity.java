@@ -520,8 +520,8 @@
 //    }
 //
 //    @Override
-//    protected String getValueFromDB(String account, String key) {
-//        return super.getValueFromDB(account, key);
+//    protected String deleteFromDB(String account, String key) {
+//        return super.deleteFromDB(account, key);
 //    }
 //    /***
 //     * 检查并app版本是否需要更新

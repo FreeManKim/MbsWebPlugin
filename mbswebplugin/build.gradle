@@ -96,6 +96,8 @@ dependencies {
 
     compile 'com.werb.pickphotoview:pickphotoview:0.1.5'  // Last Version
     compile 'com.google.code.gson:gson:2.8.0'
+//    compile 'top.zibin:Luban:1.1.1'
+    compile 'com.contrarywind:Android-PickerView:3.2.5'
 
 
 }
@@ -144,7 +146,7 @@ javadoc {
 ext {
     siteUrl = 'https://github.com/FreeManKim/MbsWebPlugin'
     gitUrl = 'https://gith ub.com/FreeManKim/MbsWebPlugin.git'
-    currentVersion = '0.9.3_beat'
+    currentVersion = '0.9.8_beat'
     groupId = 'com.mobisoft.web'
     artifactId = 'webproxy'
     desc = 'Android web proxy'

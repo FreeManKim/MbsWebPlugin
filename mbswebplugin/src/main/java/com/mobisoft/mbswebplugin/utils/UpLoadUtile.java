@@ -192,11 +192,14 @@ public class UpLoadUtile {
                     try {
                         JSONObject json = new JSONObject(mParamter);
                         String url1 = json.optString("url");
+                        final String filename = json.optString("filename");
+                        final String buz_no = json.optString("buz_no");
+                        final String type = json.optString("type");
                         url = ProxyConfig.getConfig().getImageBaseUrl() + url1;
                         Utils.getMainHandler().post(new Runnable() {
                             @Override
                             public void run() {
-                                sendPost(file, url, picFunction, uploadCB, 1);
+                                sendPost(file, url, picFunction, uploadCB, 1, filename, buz_no, type);
                             }
                         });
 
@@ -241,6 +244,9 @@ public class UpLoadUtile {
                         JSONObject json = new JSONObject(ares[0]);
                         String url1 = json.optString("url");
                         int photoSize = json.optInt("size");
+                        final String filename = json.optString("filename");
+                        final String buz_no = json.optString("buz_no");
+                        final String type = json.optString("type");
 //                        final int pickPhotoCount = json.optInt("pickPhotoCount", 1);
 //                uploadCB.onUploadStart(pickPhotoCount);
                         final String imageUrl = ProxyConfig.getConfig().getImageBaseUrl() + url1;
@@ -251,7 +257,7 @@ public class UpLoadUtile {
                             Utils.getMainHandler().post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    sendPost(compressFile, imageUrl, ares[1], uploadCB, size);
+                                    sendPost(compressFile, imageUrl, ares[1], uploadCB, size,filename,buz_no,type);
 
                                 }
                             });
@@ -307,14 +313,16 @@ public class UpLoadUtile {
 
     /**
      * 上传照片
-     *
-     * @param file        文件
+     *  @param file        文件
      * @param imageUrl    js返回参数
      * @param picFunction 回掉方法
      * @param uploadCB
      * @param size
+     * @param filename
+     * @param buz_no
+     * @param type
      */
-    public void sendPost(File file, String imageUrl, final String picFunction, final UploadCB uploadCB, final int size) {
+    public void sendPost(File file, String imageUrl, final String picFunction, final UploadCB uploadCB, final int size, String filename, String buz_no, String type) {
         try {
             if (file == null || !file.exists()) {
                 uploadCB.onUploadComplete(null);
@@ -324,6 +332,9 @@ public class UpLoadUtile {
             AsyncHttpClient client = new AsyncHttpClient();
             RequestParams requestParams = new RequestParams();
             requestParams.put("file", file);
+            requestParams.put("filename", filename);
+            requestParams.put("buz_no", buz_no);
+            requestParams.put("type",type);
             client.post(imageUrl, requestParams, new AsyncHttpResponseHandler() {
                 @Override
                 public void onStart() {

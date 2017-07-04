@@ -160,7 +160,6 @@ public class DatePickerDialog extends BaseDialog implements
         wvDay.setCyclic(true);
         wvDay.setViewAdapter(mDaydapter);
         wvDay.setCurrentItem(currentDay - 1);
-
         wvYear.addChangingListener(new OnWheelChangedListener() {
 
             @Override
@@ -178,6 +177,7 @@ public class DatePickerDialog extends BaseDialog implements
                 wvMonth.setVisibleItems(5);
                 wvMonth.setViewAdapter(mMonthAdapter);
                 wvMonth.setCurrentItem(0);
+
             }
         });
 
