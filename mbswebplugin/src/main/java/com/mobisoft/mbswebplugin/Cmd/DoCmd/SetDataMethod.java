@@ -9,6 +9,7 @@ import com.bigkoo.pickerview.TimePickerView;
 import com.mobisoft.mbswebplugin.Cmd.DoCmdMethod;
 import com.mobisoft.mbswebplugin.MbsWeb.HybridWebView;
 import com.mobisoft.mbswebplugin.MvpMbsWeb.MbsWebPluginContract;
+import com.mobisoft.mbswebplugin.utils.UrlUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,13 +38,15 @@ public class SetDataMethod extends DoCmdMethod {
     private TimePickerView.Builder newBuilder;
     private String callBack;
     private HybridWebView webView;
+    private MbsWebPluginContract.View view;
 
     @Override
     public String doMethod(HybridWebView webView, Context context, MbsWebPluginContract.View view, MbsWebPluginContract.Presenter presenter, String cmd, String params, String callBack) {
 //        Utils.getTimePickerDialog( webView, context, Utils.DATA_SELECT_DATA, callBack, params);
         this.context = context;
         this.webView = webView;
-        this. callBack= callBack;
+        this.view = view;
+        this.callBack = callBack;
         JSONObject jsonObject = null;
 
         try {
@@ -75,8 +78,16 @@ public class SetDataMethod extends DoCmdMethod {
             @Override
             public void onTimeSelect(Date date, View v) {//选中事件回调
                 // 这里回调过来的v,就是show()方法里面所添加的 View 参数，如果show的时候没有添加参数，v则为null
-                webView.excuteJSFunction(callBack, IN_PARAMETER_FOR_DATE, getTime(date));
+//                webView.excuteJSFunction(callBack, IN_PARAMETER_FOR_DATE, getTime(date));
+                JSONObject myJsonObject = null;
+                try {
+                    //将字符串转换成jsonObject对象
+                    myJsonObject = new JSONObject();
+                    myJsonObject.put(IN_PARAMETER_FOR_DATE,getTime(date));
+                    view.loadUrl(UrlUtil.getFormatJs(callBack, myJsonObject.toString()));
+                } catch (JSONException e) {
 
+                }
             }
         })
                 //年月日时分秒 的显示与否，不设置则默认全部显示
@@ -95,19 +106,19 @@ public class SetDataMethod extends DoCmdMethod {
         if (!TextUtils.isEmpty(startDate)) {
             String[] dates = startDate.split("-");
 
-            startDates.set(Integer.valueOf(dates[0]), Integer.valueOf(dates[1])-1, Integer.valueOf(dates[2]));
-        }else {
-            startDates.set(1970,0,1);
+            startDates.set(Integer.valueOf(dates[0]), Integer.valueOf(dates[1]) - 1, Integer.valueOf(dates[2]));
+        } else {
+            startDates.set(1970, 0, 1);
         }
         Calendar endDates = Calendar.getInstance();
 
         if (!TextUtils.isEmpty(endDate)) {
             String[] dates = endDate.split("-");
-            endDates.set(Integer.valueOf(dates[0]), Integer.valueOf(dates[1])-1, Integer.valueOf(dates[2]));
-        }else {
-            startDates.set(2100,0,1);
+            endDates.set(Integer.valueOf(dates[0]), Integer.valueOf(dates[1]) - 1, Integer.valueOf(dates[2]));
+        } else {
+            startDates.set(2100, 0, 1);
         }
-        newBuilder.setRangDate(startDates,endDates);
+        newBuilder.setRangDate(startDates, endDates);
         pvTime = newBuilder.build();
 
     }
