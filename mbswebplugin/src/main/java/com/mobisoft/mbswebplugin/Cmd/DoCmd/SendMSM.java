@@ -14,10 +14,10 @@ import com.mobisoft.mbswebplugin.utils.Utils;
 /**
  * Author：Created by fan.xd on 2017/4/27.
  * Email：fang.xd@mobisoft.com.cn
- * Description： 打电话
+ * Description： 发短信
  */
 
-public class Cellphone extends DoCmdMethod implements MbsRequestPermissionsListener{
+public class SendMSM extends DoCmdMethod implements MbsRequestPermissionsListener{
     private String params;
     private Context context;
     private MbsWebPluginContract.Presenter presenter;
@@ -28,7 +28,7 @@ public class Cellphone extends DoCmdMethod implements MbsRequestPermissionsListe
         this.params = params;
         this.presenter = presenter;
         presenter.setMbsRequestPermissionsResultListener(this);
-        Utils.getPhone(context, params);
+        Utils.getSMS(context, params);
 
 
 
@@ -37,8 +37,8 @@ public class Cellphone extends DoCmdMethod implements MbsRequestPermissionsListe
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(permissions[0]== Manifest.permission.CALL_PHONE && grantResults[0]== PackageManager.PERMISSION_GRANTED){
-            Utils.cellPhone(context, params);
+        if(permissions[0]== Manifest.permission.SEND_SMS && grantResults[0]== PackageManager.PERMISSION_GRANTED){
+            Utils.doSendSMSTo(context, params);
             presenter.setMbsRequestPermissionsResultListener(null);
 
         }

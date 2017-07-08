@@ -127,8 +127,9 @@ public class UpLoadUtile {
         float hh = dm.heightPixels;
         float ww = dm.widthPixels;
         BitmapFactory.Options opts = new BitmapFactory.Options();
-        opts.inJustDecodeBounds = true;
         Bitmap bitmap = BitmapFactory.decodeFile(srcPath, opts);
+
+        opts.inJustDecodeBounds = true;
         opts.inJustDecodeBounds = false;
         int w = opts.outWidth;
         int h = opts.outHeight;
@@ -144,8 +145,10 @@ public class UpLoadUtile {
         opts.inSampleSize = size;
         bitmap = BitmapFactory.decodeFile(srcPath, opts);
         if (bitmap == null) {
+            Log.e("UploadUtil", "bitmap is  null  srcPath is \n " + srcPath);
             return srcPath;
         }
+//        bitmap = FileUtils.createWatermark(context,bitmap,"@国泰那些事",0);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         int quality = 100;
         bitmap.compress(Bitmap.CompressFormat.JPEG, quality, baos);
@@ -158,6 +161,7 @@ public class UpLoadUtile {
             System.out.println(baos.toByteArray().length);
         }
         try {
+
             mypath = path + System.currentTimeMillis() + ".jpg";
             baos.writeTo(new FileOutputStream(mypath));
 
@@ -195,11 +199,12 @@ public class UpLoadUtile {
                         final String filename = json.optString("filename");
                         final String buz_no = json.optString("buz_no");
                         final String type = json.optString("type");
+                        final String waterMark = json.optString("waterMark");
                         url = ProxyConfig.getConfig().getImageBaseUrl() + url1;
                         Utils.getMainHandler().post(new Runnable() {
                             @Override
                             public void run() {
-                                sendPost(file, url, picFunction, uploadCB, 1, filename, buz_no, type);
+                                sendPost(context, file, url, picFunction, uploadCB, 1, filename, buz_no, type, waterMark);
                             }
                         });
 
@@ -247,7 +252,7 @@ public class UpLoadUtile {
                         final String filename = json.optString("filename");
                         final String buz_no = json.optString("buz_no");
                         final String type = json.optString("type");
-//                        final int pickPhotoCount = json.optInt("pickPhotoCount", 1);
+                        final String waterMark = json.optString("waterMark");
 //                uploadCB.onUploadStart(pickPhotoCount);
                         final String imageUrl = ProxyConfig.getConfig().getImageBaseUrl() + url1;
                         for (int i = 0; i < size; i++) {
@@ -257,7 +262,7 @@ public class UpLoadUtile {
                             Utils.getMainHandler().post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    sendPost(compressFile, imageUrl, ares[1], uploadCB, size,filename,buz_no,type);
+                                    sendPost(context, compressFile, imageUrl, ares[1], uploadCB, size, filename, buz_no, type, waterMark);
 
                                 }
                             });
@@ -313,7 +318,9 @@ public class UpLoadUtile {
 
     /**
      * 上传照片
-     *  @param file        文件
+     *
+     * @param context
+     * @param file        文件
      * @param imageUrl    js返回参数
      * @param picFunction 回掉方法
      * @param uploadCB
@@ -321,8 +328,9 @@ public class UpLoadUtile {
      * @param filename
      * @param buz_no
      * @param type
+     * @param waterMark   水印
      */
-    public void sendPost(File file, String imageUrl, final String picFunction, final UploadCB uploadCB, final int size, String filename, String buz_no, String type) {
+    public void sendPost(Context context, File file, String imageUrl, final String picFunction, final UploadCB uploadCB, final int size, String filename, String buz_no, String type, String waterMark) {
         try {
             if (file == null || !file.exists()) {
                 uploadCB.onUploadComplete(null);
@@ -331,10 +339,22 @@ public class UpLoadUtile {
             }
             AsyncHttpClient client = new AsyncHttpClient();
             RequestParams requestParams = new RequestParams();
-            requestParams.put("file", file);
+            File file1 = null;
+            String name = file.getParent()+System.currentTimeMillis()+".jpg";
+            if (!TextUtils.isEmpty(waterMark)) {
+                Bitmap bitmap = BitmapFactory.decodeStream(new FileInputStream(file));
+                Bitmap bitmap1 = FileUtils.createWatermark(context, bitmap, waterMark, 0);
+                FileUtils.saveBitmap2file(bitmap1,name);
+                file1 = new File(name);
+                requestParams.put("file", file1);
+            }else {
+                requestParams.put("file", file);
+            }
+
             requestParams.put("filename", filename);
             requestParams.put("buz_no", buz_no);
-            requestParams.put("type",type);
+            requestParams.put("type", type);
+            requestParams.put("waterMark", waterMark);
             client.post(imageUrl, requestParams, new AsyncHttpResponseHandler() {
                 @Override
                 public void onStart() {

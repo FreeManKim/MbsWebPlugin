@@ -141,6 +141,10 @@ public class CMD {
      * 打电话的命令
      */
     public final static String cmd_cellphone = "cellphone";// 打电话的命令
+    /**
+     * 发送短信命令
+     */
+    public final static String cmd_sendMSM = "sendmsm";// 发送短信命令
 
     /**
      * 打开手机自带浏览器

@@ -31,6 +31,7 @@ import com.mobisoft.mbswebplugin.data.TimePickerDialog;
 import com.mobisoft.mbswebplugin.view.ActionSheetDialog;
 import com.mobisoft.mbswebplugin.view.area.CharacterPickerWindow;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -133,14 +134,33 @@ public class Utils {
             cellPhone(context, paramter);
         }
     }
-
+    /**
+     * 封装打电话的方法
+     *
+     * @param context
+     * @param paramter
+     */
+    public static void getSMS(Context context, String paramter) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)// 大于6.0 权限检查
+        {
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.SEND_SMS)
+                    == PackageManager.PERMISSION_GRANTED) {
+                doSendSMSTo(context, paramter);
+            } else {
+                // Ask for one permission
+                ((Activity) context).requestPermissions(new String[]{Manifest.permission.SEND_SMS}, PERMISSIONS_REQUEST_CODE);
+            }
+        } else {
+            doSendSMSTo(context, paramter);
+        }
+    }
     /**
      * 拨打电话
      *
      * @param context
      * @param paramter
      */
-    private static void cellPhone(Context context, String paramter) {
+    public static void cellPhone(Context context, String paramter) {
         JSONObject mJSONObject = null;
         String phoneNumber = null;
         try {
@@ -156,7 +176,37 @@ public class Utils {
         intent.setData(Uri.parse("tel:" + phoneNumber));
         context.startActivity(intent);
     }
+    /**
+     * @param context
+     * @param paramter
+     * 短信
+     */
+    public static void doSendSMSTo(Context context, String paramter){
+        JSONObject mJSONObject = null;
+        JSONArray phoneNumber = null;
+        String message = null;
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+            mJSONObject = new JSONObject(paramter);
+            phoneNumber = mJSONObject.getJSONArray("phoneNum");
+            message = mJSONObject.getString("message");
+            int length = phoneNumber.length();
+            for (int i = 0; i < length; i++) {
+                stringBuilder.append(phoneNumber.get(i));
+                if(i==length-1){
+                }else {
+                    stringBuilder.append(";");
+                }
 
+            }
+            Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:"+stringBuilder.toString()));
+            intent.putExtra("sms_body", message);
+            context.startActivity(intent);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
     /**
      * 解析H5返回图片张数
      */

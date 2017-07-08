@@ -22,6 +22,7 @@ import com.mobisoft.mbswebplugin.Cmd.DoCmd.PlayVideo;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.RecvMessage;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.RouterApp;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.SendEmail;
+import com.mobisoft.mbswebplugin.Cmd.DoCmd.SendMSM;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.SendMessageMethod;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.SetBottomMenu;
 import com.mobisoft.mbswebplugin.Cmd.DoCmd.SetDataMethod;
@@ -110,6 +111,7 @@ public class ProxyCmd {
         hashmap.put(CMD.cmd_db_get, dbGet.class.getName());
         hashmap.put(CMD.cmd_db_set, dbSet.class.getName());
         hashmap.put(CMD.cmd_cellphone, Cellphone.class.getName());
+        hashmap.put(CMD.cmd_cellphone, SendMSM.class.getName());
         hashmap.put(CMD.cmd_openBrowser, OpenBrowser.class.getName());
         hashmap.put(CMD.cmd_getImage, AlbumOrCamera.class.getName());
         hashmap.put(CMD.cmd_placeholder, ShowInPutWindows.class.getName());
