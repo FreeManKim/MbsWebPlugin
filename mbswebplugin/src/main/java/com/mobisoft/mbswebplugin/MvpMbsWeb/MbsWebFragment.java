@@ -197,7 +197,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
     /***
      * 下拉刷新 延时取消刷新（等待initpage方法执行结束）
      */
-    public static final int DELAY_MILLIS = 200;
+    public static final int DELAY_MILLIS = 400;
     /**
      * TYPE_WEB 按返回键的类型 调用web View.goback()方法
      */
@@ -430,6 +430,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
                     bgaRefreshLayout.beginRefreshing();
 //                    bgaRefreshLayout.setRefreshing(true);// 刷新
                     urlTitle = mWebViewExten.getTitle();
+//                    mWebViewExten.loadUrl(urlStr);
                     mWebViewExten.reload();
                     break;
                 case 3:// 关闭当前 页面
@@ -471,6 +472,16 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
                                 .doMethod();
                     }
                     break;
+                case 6:
+                    firstComeIn = true;
+                    bgaRefreshLayout.beginRefreshing();
+//                    bgaRefreshLayout.setRefreshing(true);// 刷新
+                    urlTitle = mWebViewExten.getTitle();
+//                    mWebViewExten.loadUrl(urlStr);
+                    String json2 = String.format("javascript:initPage(" + "'%s')", "");
+                    Log.e(ContentValues.TAG, json2);
+                    loadUrl(json2);
+                    break;
                 default:
                     break;
             }
@@ -507,6 +518,10 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
     private Button btn_send;
     private Animation mShowAction;
     private Animation mHiddenAction;
+    /**
+     * 返回事件
+     */
+    private String backEvent;
 
     public MbsWebFragment() {
         // Required empty public constructor
@@ -1069,6 +1084,14 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
      * @param type TYPE_WEB（调用web View.goback()）,TYPE_ACTIVITY(调用this.finish())
      */
     private void onFinish(final String type) {
+//        if(!TextUtils.isEmpty(backEvent)){
+//            switch (backEvent){
+//                case "GoHome":
+//                    presenter.onHomePage("GoHome","GoHome");
+//                    break;
+//            }
+//            return;
+//        }
         if (Build.VERSION.SDK_INT >= 19)
             mWebViewExten.evaluateJavascript("closeAllQuestion('true')", new ValueCallback<String>() {
 
@@ -1098,6 +1121,11 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
                 handler.sendMessage(message);
             }
         }
+    }
+
+    @Override
+    public void setBackEvent(String event) {
+        this.backEvent = event;
     }
 
     @Override
@@ -1280,8 +1308,8 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
         else return;
 
         /** 初始化工号*/
-        String json = String.format("javascript:initaccount(" + "'%s')", accountStr);
-        loadUrl(json);
+//        String json = String.format("javascript:initaccount(" + "'%s')", accountStr);
+//        loadUrl(json);
         /**初始化页面，调js函数必须调用*/
         String json2 = String.format("javascript:initPage(" + "'%s')", "");
         Log.e(ContentValues.TAG, json2);
@@ -1293,6 +1321,11 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
     @Override
     public boolean onLightweightPage(String url, String action) {
         return presenter.onLightweightPage(url, action);
+    }
+
+    @Override
+    public void onHrefLocation(boolean isNew) {
+        firstComeIn = isNew;
     }
 
     @Override
@@ -1312,7 +1345,9 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
 
     @Override
     public void reload() {
-        handler.sendEmptyMessage(1);
+        Message  message = new Message();
+        message.what=6;
+        handler.sendMessageDelayed(message,200);
     }
 
 

@@ -37,7 +37,9 @@ public class SendMSM extends DoCmdMethod implements MbsRequestPermissionsListene
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(permissions[0]== Manifest.permission.SEND_SMS && grantResults[0]== PackageManager.PERMISSION_GRANTED){
+        if(permissions[0].equals(Manifest.permission.SEND_SMS)
+                &&
+                grantResults[0]== PackageManager.PERMISSION_GRANTED){
             Utils.doSendSMSTo(context, params);
             presenter.setMbsRequestPermissionsResultListener(null);
 

@@ -539,7 +539,7 @@ public class WebPluginPresenter implements MbsWebPluginContract.Presenter, Recyc
             String actionName = data.getAction();
             String function = data.getStringExtra("function");
 
-            Log.e("12345", "actionName" + actionName + "function" + mfunction);
+            Log.e(TAG, "actionName" + actionName + "function" + mfunction);
             if (TextUtils.equals(mActionName, actionName)) {
                 // 得到广播中得到的数据，并显示出来
                 Bundle extras = data.getExtras();

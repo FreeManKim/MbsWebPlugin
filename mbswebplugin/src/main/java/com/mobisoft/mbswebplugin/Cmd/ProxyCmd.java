@@ -111,7 +111,7 @@ public class ProxyCmd {
         hashmap.put(CMD.cmd_db_get, dbGet.class.getName());
         hashmap.put(CMD.cmd_db_set, dbSet.class.getName());
         hashmap.put(CMD.cmd_cellphone, Cellphone.class.getName());
-        hashmap.put(CMD.cmd_cellphone, SendMSM.class.getName());
+        hashmap.put(CMD.cmd_sendMSM, SendMSM.class.getName());
         hashmap.put(CMD.cmd_openBrowser, OpenBrowser.class.getName());
         hashmap.put(CMD.cmd_getImage, AlbumOrCamera.class.getName());
         hashmap.put(CMD.cmd_placeholder, ShowInPutWindows.class.getName());
@@ -154,6 +154,7 @@ public class ProxyCmd {
 //        if (className != null) {
 //
 //        }
+
         try {
             Class doCmdMethod = Class.forName(className);
             return doCmdMethod;

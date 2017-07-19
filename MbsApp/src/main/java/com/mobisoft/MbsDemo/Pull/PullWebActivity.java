@@ -85,4 +85,9 @@ public class PullWebActivity extends AppCompatActivity implements BGARefreshLayo
     public boolean onLightweightPage(String url, String action) {
         return false;
     }
+
+    @Override
+    public void onHrefLocation(boolean isNew) {
+
+    }
 }

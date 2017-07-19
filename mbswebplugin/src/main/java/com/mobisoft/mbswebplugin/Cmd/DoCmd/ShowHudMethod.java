@@ -32,19 +32,9 @@ public class ShowHudMethod extends DoCmdMethod {
 
             if (TextUtils.isEmpty(content)) {
                 view.showHud(action, context.getString(R.string.loading));
-
-            } else {
-                if (content.contains(context.getString(R.string.wancheng))) {
-                    view.showHud(action, content);
-                }
-//                    ((WebAppActivity) context).handler.sendEmptyMessage(1);
-//                ((WebAppActivity) context).mProgressDialog.setMessage(content);
+            } else  {
+                view.showHud(action, content);
             }
-
-            if ("show".equals(action)) {
-                view.showHud(action, context.getString(R.string.loading));
-            }
-//            ((WebAppActivity) context).mProgressDialog.show();
 
         } catch (JSONException e) {
             e.printStackTrace();

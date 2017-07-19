@@ -81,8 +81,6 @@ public interface MbsWebPluginContract {
          */
         void TopMenuClick(List<MeunItem> list, int position);
 
-
-
         /**
          * 设置title菜单
          */
@@ -166,6 +164,12 @@ public interface MbsWebPluginContract {
          * @param callBack
          */
         void showInputWindow(String param, String callBack);
+
+        /**
+         * 点击返回按钮  拦截 事件
+         * @param event
+         */
+        void setBackEvent(String event);
     }
 
     interface Presenter extends BasePresenter {

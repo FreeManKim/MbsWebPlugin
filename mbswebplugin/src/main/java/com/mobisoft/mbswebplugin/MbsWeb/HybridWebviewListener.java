@@ -64,4 +64,10 @@ public interface HybridWebviewListener {
      * @param action
      */
     boolean onLightweightPage(String url, String action);
+
+    /**
+     *跳转新地址
+     * @param isNew 是否调用initPage();
+     */
+    void onHrefLocation(boolean isNew);
 }

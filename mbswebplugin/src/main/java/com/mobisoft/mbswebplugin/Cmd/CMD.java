@@ -180,6 +180,12 @@ public class CMD {
      */
     public final static String cmd_OpenApp = "openapp";// 启动app
 
+
+    /**
+     * 关闭页面
+     */
+    public final static String action_self = "self";// 关闭页面
+
     /*************************分割线***************************/
 
 

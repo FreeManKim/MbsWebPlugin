@@ -251,6 +251,9 @@ public class HybridWebView extends WebView {
                             } else if (TextUtils.equals(value, CMD.action_hideNavigation)) {// 加载轻量级webView
                                 listener.onLightweightPage(url, value);
                                 return true;
+                            }else if(TextUtils.equals(value,CMD.action_self)){
+                                listener.onHrefLocation(true);
+                                return false;
                             } else {
                                 return listener.onNextPage(url, value);
                             }
@@ -287,7 +290,9 @@ public class HybridWebView extends WebView {
                         if (listener != null) {
                             if (value.equals(CMD.action_closePage)) {
                                 listener.onClosePage(url, value);
-                            } else if (value.equals(CMD.action_closePageAndRefresh)) {
+                            }else if(TextUtils.equals(value,CMD.action_self)){
+                                listener.onHrefLocation(true);
+                            }  else if (value.equals(CMD.action_closePageAndRefresh)) {
                                 //  listener.onClosePage(url, value);
                                 listener.onClosePageReturnMain(url, value);   //禁用返回自动下拉刷新，解决卡死问题
                             } else if (TextUtils.equals(value, CMD.action_localPage)) {// 本页面跳转

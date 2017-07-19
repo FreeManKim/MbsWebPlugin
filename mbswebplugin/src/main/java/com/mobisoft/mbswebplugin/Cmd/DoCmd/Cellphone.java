@@ -37,7 +37,7 @@ public class Cellphone extends DoCmdMethod implements MbsRequestPermissionsListe
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(permissions[0]== Manifest.permission.CALL_PHONE && grantResults[0]== PackageManager.PERMISSION_GRANTED){
+        if(permissions[0].equals(Manifest.permission.CALL_PHONE) && grantResults[0]== PackageManager.PERMISSION_GRANTED){
             Utils.cellPhone(context, params);
             presenter.setMbsRequestPermissionsResultListener(null);
 
