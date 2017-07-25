@@ -432,6 +432,12 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
                     urlTitle = mWebViewExten.getTitle();
 //                    mWebViewExten.loadUrl(urlStr);
                     mWebViewExten.reload();
+//                    String json1 = String.format("javascript:initPage(" + "'%s')", "");
+//                    Log.e(ContentValues.TAG, json1);
+//                    loadUrl(json1);
+//                    Message message = new Message();
+//                    message.what=2;
+//                    handler.sendMessageDelayed(message,800);
                     break;
                 case 3:// 关闭当前 页面
                     boolean falg = (boolean) msg.obj;
@@ -1005,6 +1011,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
         listMenuItem.clear();
         TopMenu menu = Utils.json2entity(json, TopMenu.class);
         showTipView(tipView, menu.isShowMsg());
+//        UnreadMsgUtils.show(tipView,89);
 
         /**当返回菜单数组为空 隐藏菜单*/
         if (menu == null || menu.getItem() == null || menu.getItem().size() == 0) {

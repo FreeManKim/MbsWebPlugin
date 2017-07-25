@@ -39,17 +39,37 @@ public class ActivityCollector {
      * 移除Activity
      * @param index
      */
-    public static void clearTask(int index){
-        for (int i = 0; i <activities.size() ; i++) {
-            for (int j = 1; j <= index; j++) {
-                if(i==j){
-                    activities.get(activities.size()-1-i).finish();
-                    activities.remove(activities.size()-1-i);
+//    public static void clearTask(int index){
+//        for (int i = 0; i <activities.size() ; i++) {
+//            for (int j = 1; j <= index; j++) {
+//                if(i==j){
+//                    activities.get(activities.size()-1-i).finish();
+//                    activities.remove(activities.size()-1-i);
+//                }
+//            }
+//        }
+//    }
+
+    public static void clearTask(int index) {
+        List<Activity> activities = ActivityCollector.activities;
+        if (index > activities.size() && activities.size() > 1) {
+            for (int i = 1; i < activities.size() - 1; i++) {
+                ((Activity) activities.get(i)).finish();
+                activities.remove(i);
+                i--;
+            }
+        } else {
+            for (int i = 0; i < activities.size(); ++i) {
+                for (int j = 1; j <= index; ++j) {
+                    int size = activities.size();
+                    if (i == j) {
+                        ((Activity) activities.get(size - 1 - i)).finish();
+                        activities.remove(size - 1 - i);
+                        break;
+                    }
                 }
             }
         }
-        Log.i("LLL","activities= clearTask size = " + activities.size()
-                + "/index /"+index);
     }
     /**
      * 销毁全被Activity

@@ -12,6 +12,7 @@ public class TopMenu {
     List<MeunItem> item;
 
     boolean showMsg;
+    String msgNum;
     /**
      * 显示类型  HORIZONTAL 水平显示，VERTICAL ：垂直显示
      * 默认 VERTICAL
@@ -40,5 +41,13 @@ public class TopMenu {
 
     public void setItem(List<MeunItem> item) {
         this.item = item;
+    }
+
+    public String getMsgNum() {
+        return msgNum;
+    }
+
+    public void setMsgNum(String msgNum) {
+        this.msgNum = msgNum;
     }
 }
