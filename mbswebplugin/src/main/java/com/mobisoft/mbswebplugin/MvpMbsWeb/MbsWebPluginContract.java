@@ -170,6 +170,12 @@ public interface MbsWebPluginContract {
          * @param event
          */
         void setBackEvent(String event);
+
+        /**
+         * 局部刷新
+         * @param isRefreshInitPage
+         */
+        void setRefreshStyle(boolean isRefreshInitPage);
     }
 
     interface Presenter extends BasePresenter {

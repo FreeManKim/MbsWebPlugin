@@ -31,7 +31,7 @@
     <string name="send">发送</string>
     <string name="menu">菜单</string>
     <string name="download_finish">已经下载至：</string>
-    <string name="cmd_error_message">当前 cmd 命令：%s 没有被定义!</string>
+    <string name="cmd_error_message">当前 cmd 命令：%s 出现异常!</string>
     <string name="sure">确定</string>
     <string name="cmd_error_title">cmd命令提示</string>
     <string name="save_local">保存到本地</string>

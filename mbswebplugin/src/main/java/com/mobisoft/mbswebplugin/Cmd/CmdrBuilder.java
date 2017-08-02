@@ -124,7 +124,7 @@ public class CmdrBuilder {
             MobclickAgent.reportError(mContext,e);
             ErrorMethod errorMethod = new ErrorMethod();
 
-            var = errorMethod.doMethod(mWebView, mContext,contractView,presenter, mCmd, parameter, function);
+            var = errorMethod.doMethod(mWebView, mContext,contractView,presenter, mCmd, parameter+"\n 错误日志："+e.getMessage(), function);
             return var;
         }
 

@@ -124,7 +124,7 @@ public class ShowTipsMethod extends DoCmdMethod {
                     }
                 });
 
-            if (!TextUtils.isEmpty(cancel)) {
+            if (!TextUtils.isEmpty( cancel)) {
                 mAlertDialog.setNegativeButton(context.getString(R.string.cancel), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

@@ -39,8 +39,7 @@ public class HybridWebApp {
         return new HybridWebApp(coreConfig);
     }
 
-    public void startWebActivity(Context context, Class mclass) {
-
+    public void startWebActivity(Context context, Class mclass, Bundle bundle) {
 
         Intent intent = new Intent(context, mclass);
         intent.putExtra(AppConfing.URL, mCoreConfig.getUrl());
@@ -73,7 +72,8 @@ public class HybridWebApp {
         /**
          * mvp模式下的改进方法
          */
-        Bundle bundle = new Bundle();
+        if (bundle == null)
+            bundle = new Bundle();
         bundle.putString(AppConfing.URL, mCoreConfig.getUrl());
         bundle.putString(AppConfing.ACCOUNT, mCoreConfig.getAccount());
         bundle.putInt(AppConfing.ANIMRES, mCoreConfig.getAnimRes());
@@ -104,6 +104,12 @@ public class HybridWebApp {
 
         context.startActivity(intent);
     }
+
+    public void startWebActivity(Context context, Class mclass) {
+        startWebActivity(context, mclass, null);
+
+    }
+
     public void startHomeActivity(Context context, Class mclass) {
 
 
@@ -224,7 +230,6 @@ public class HybridWebApp {
 //        mWebAppFragment.setArguments(mBundle);
 //        return mWebAppFragment;
 //    }
-
     public static CoreConfig getCoreConfig() {
         return mCoreConfig;
     }

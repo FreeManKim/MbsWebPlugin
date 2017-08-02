@@ -657,6 +657,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mWebViewExten.setLayoutParams(params);
         bgaRefreshLayout.addWebView(mWebViewExten);
+        bgaRefreshLayout.setPullDownRefreshEnable(false);
 //        mWebViewExten = (HybridWebView) inflate.findViewById(R.id.webViewExten);
         mWebViewExten.setListener(this);
         this.loadUrl(urlStr);
@@ -1011,7 +1012,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
         listMenuItem.clear();
         TopMenu menu = Utils.json2entity(json, TopMenu.class);
         showTipView(tipView, menu.isShowMsg());
-//        UnreadMsgUtils.show(tipView,89);
+//        UnreadMsgUtils.show(tipView, Integer.parseInt(menu.getMsgNum()));
 
         /**当返回菜单数组为空 隐藏菜单*/
         if (menu == null || menu.getItem() == null || menu.getItem().size() == 0) {
@@ -1099,6 +1100,7 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
 //            }
 //            return;
 //        }
+        mWebViewExten.loadUrl(UrlUtil.getFormatJs("goBack",""));
         if (Build.VERSION.SDK_INT >= 19)
             mWebViewExten.evaluateJavascript("closeAllQuestion('true')", new ValueCallback<String>() {
 
@@ -1133,6 +1135,11 @@ public class MbsWebFragment extends Fragment implements MbsWebPluginContract.Vie
     @Override
     public void setBackEvent(String event) {
         this.backEvent = event;
+    }
+
+    @Override
+    public void setRefreshStyle(boolean isRefreshInitPage) {
+
     }
 
     @Override
