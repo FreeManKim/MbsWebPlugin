@@ -53,6 +53,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".MbsWebActivityTest"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyNoActionBar"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -65,7 +70,7 @@
             android:name=".LitsViewActivity.ListActivity"
             android:label="@string/app_name" />
         <activity android:name=".LocationActivity" />
-        <activity android:name=".NewActivity"></activity>
+        <activity android:name=".NewActivity" />
 
         <!-- 高德地图 -->
         <meta-data
@@ -110,9 +115,8 @@
         <activity
             android:name=".ScrollingActivity"
             android:label="@string/title_activity_scrolling"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
-        </activity>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.mobisoft.mbsDemo.fileProvider"
@@ -122,6 +126,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <activity android:name="com.mobisoft.WebActivity"></activity>
     </application>
 
 </manifest>

@@ -39,10 +39,10 @@ import com.mobisoft.ActionTopDialog;
 import com.mobisoft.MbsDemo.LitsViewActivity.ListActivity;
 import com.mobisoft.MbsDemo.Loaction.KeepLiveReceiver;
 import com.mobisoft.MbsDemo.Loaction.KeepLiveService;
-import com.mobisoft.MbsDemo.Pull.PullWebActivity;
 import com.mobisoft.MbsDemo.alipay.AuthResult;
 import com.mobisoft.MbsDemo.alipay.OrderInfoUtil2_0;
 import com.mobisoft.Reciver.TestReceiver;
+import com.mobisoft.WebActivity;
 import com.mobisoft.bannerlibrary.BGABanner;
 import com.mobisoft.mbsmsgview.MBSMsgView;
 import com.mobisoft.mbswebplugin.MbsWeb.HybridWebApp;
@@ -81,6 +81,7 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
 //    public static final String INDEX_URL = "http://cathy.mobisoft.com.cn/cathay/login/login.html?action=nextPage";
     //    public static final String INDEX_URL = " http://test.mobisoft.com.cn/cathay/agent/agent.html";
 //    public static final String INDEX_URL = "http://nikegcuat.mobisoft.com.cn:81/mobile/login.html";
+public static final String INDEX_URL_TEST = "http://cathy.mobisoft.com.cn/cathay/agent/test.html?action=nextPage";
     private Button btn_pull_sheet;
     private BGABanner banner_guide_content;
     private AppBarLayout app_bar;
@@ -208,7 +209,24 @@ public class ScrollingActivity extends AppCompatActivity implements View.OnClick
         btn_refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openActivity(PullWebActivity.class);
+//                openActivity(PullWebActivity.class);
+                openActivity(WebActivity.class);
+//                FunctionConfig functionConfig = new FunctionConfig.Builder()
+//                        .setIsLeftIconShow(true)
+//                        .build();
+//
+//                ThemeConfig.Builder builder = new ThemeConfig.Builder();
+//                builder.settitleBgColor(0);
+//                ThemeConfig themeConfig = builder.build();
+//                com.mobisoft.mbswebplugin.helper.CoreConfig coreConfig =
+//                        new com.mobisoft.mbswebplugin.helper.CoreConfig.Builder(
+//                                ScrollingActivity.this, themeConfig, functionConfig)
+//                                .setURL(INDEX_URL_TEST)
+//                                .setAccount("8100458")//
+//                                .setNoAnimcation(false)
+//                                .build();
+//                HybridWebApp.init(coreConfig).startWebActivity(ScrollingActivity.this,MbsWebActivityTest.class);
+
             }
         });
         btn_html.setOnClickListener(new View.OnClickListener() {

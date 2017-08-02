@@ -19,7 +19,7 @@ android {
         }
     }
     sourceSets {
-        main{
+        main {
             jniLibs.srcDirs = ['libs']
         }
     }
@@ -30,8 +30,6 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:design:25.0.0'
-    testCompile 'junit:junit:4.12'
     //    compile 'com.squareup.leakcanary:leakcanary-android:1.5'
     //    compile 'com.google.code.gson:gson:2.7'
     // 相册相关
@@ -43,16 +41,18 @@ dependencies {
     //    compile 'com.github.CarGuo:RecordWave:v1.1.0'
     compile project(':amaplibrary')
     compile project(':commonlibrary')
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
     compile project(':searchlibrary')
     compile project(':bannerlibrary')
     //    compile 'com.mobisoft.view:bannerlibrary:0.0.2@aar'
     //
     compile files('libs/alipaySingle-20170510.jar')
 
+    compile 'com.android.support:design:25.0.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
+    testCompile 'junit:junit:4.12'
 }
-repositories{
-    flatDir{
+repositories {
+    flatDir {
         dirs 'libs'
     }
 }
